@@ -428,7 +428,7 @@ const names=['아이슬란드','노르웨이','캐나다','알래스카'];
 const subtitles=['검은 화산암과 푸른 빙하 호수','피오르와 붉은 어촌 마을','눈 덮인 침엽수 숲과 얼음 호수','툰드라와 거대한 설산'];
 // Region preference survives page refresh on the same device.
 let current=0;
-try {const savedRegion=Number(localStorage.getItem('aurura-region-v1'));if(Number.isInteger(savedRegion)&&savedRegion>=0&&savedRegion<4)current=savedRegion;} catch(e){}
+try {const savedRegion=Number(localStorage.getItem('aurura-region-v1'));if(savedRegion===0||savedRegion===2)current=savedRegion;} catch(e){}
 // Release old region-only GPU assets when moving between regions.
 function disposeRegion(){
  lakeReflections.length=0;
@@ -631,11 +631,27 @@ function artScene(region){
 // The 1x1m source tile is repeated across a broad lake; a soft shoreline opacity mask
 // makes the lake boundary blend into the existing 3D snowfield.
 const icelandIceLakeGroup=new THREE.Group();scene.add(icelandIceLakeGroup);
-const iceLakeCenter={x:-205,z:75},iceLakeWidth=116,iceLakeDepth=88,iceLakeSurfaceY=.57;
+const iceLakeCenter={x:-205,z:75},iceLakeWidth=173,iceLakeDepth=133,iceLakeSurfaceY=.57;
 // Reference-based terrain: forest-enclosed frozen lake + later a meandering dark-water gap.
 // Ice floor stays sourced from the uploaded real GLB; shoreline and water geometry are handcrafted.
-const icelandWaterZones=[{x:-205,z:75,rx:56,rz:42},{x:60,z:160,rx:100,rz:27}];
+const icelandWaterZones=[{x:-205,z:75,rx:86,rz:66},{x:60,z:160,rx:100,rz:27}];
 let iceLakeLoaded=false;
+
+// Aurora-light shimmer on the real ice-floor mesh and water courses.
+// Shader layer is purely optical: the uploaded GLB remains the actual lake surface.
+const lakeLightUniforms={uTime:{value:0},uActive:{value:0},uA:{value:new THREE.Color(0x48e5c7)},uB:{value:new THREE.Color(0x9585ed)}};
+const lakeLightMaterial=new THREE.ShaderMaterial({uniforms:lakeLightUniforms,
+ vertexShader:`varying vec3 vWorld; void main(){vec4 w=modelMatrix*vec4(position,1.);vWorld=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}`,
+ fragmentShader:`precision mediump float;varying vec3 vWorld;uniform float uTime;uniform float uActive;uniform vec3 uA;uniform vec3 uB;
+ void main(){float wave=sin(vWorld.x*.12+sin(vWorld.z*.06+uTime*.15)*4.+uTime*.28);
+ float wave2=sin(vWorld.z*.085-vWorld.x*.045+uTime*.19);
+ float ribbon=pow(max(0.,.48+.30*wave+.24*wave2),2.1);
+ float bright=.035+uActive*(.07+.24*ribbon);
+ vec3 tint=mix(uA,uB,.45+.40*sin(vWorld.x*.036+vWorld.z*.03+uTime*.21));
+ gl_FragColor=vec4(tint,bright);}`,
+ transparent:true,depthWrite:false,depthTest:true,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,fog:false});
+const lakeLightOverlay=new THREE.Group();scene.add(lakeLightOverlay);
+
 const iceLakeMaskCanvas=document.createElement('canvas');iceLakeMaskCanvas.width=iceLakeMaskCanvas.height=256;
 const iceMaskCtx=iceLakeMaskCanvas.getContext('2d');
 const iceMaskImg=iceMaskCtx.createImageData(256,256);
@@ -663,21 +679,40 @@ new GLTFLoader().load('./ice_floor.glb',gltf=>{
   if(!o.isMesh)return;
   const m=o.material.clone();
   if(m.map){m.map=m.map.clone();m.map.wrapS=m.map.wrapT=THREE.RepeatWrapping;
-   m.map.repeat.set(11,9);m.map.needsUpdate=true;}
-  m.alphaMap=iceLakeAlphaMap;m.transparent=true;m.opacity=.95;
-  m.depthWrite=true;m.side=THREE.DoubleSide;m.roughness=.32;
+   m.map.repeat.set(16,13);m.map.needsUpdate=true;}
+  m.alphaMap=iceLakeAlphaMap;m.transparent=true;m.opacity=.98;
+  m.depthWrite=true;m.side=THREE.DoubleSide;m.roughness=.21;
+  if(m.color)m.color.setHex(0xb2eef0);
+  if(m.isMeshStandardMaterial){m.emissive.setHex(0x1b545b);m.emissiveIntensity=.24;}
   m.needsUpdate=true;o.material=m;
   o.receiveShadow=true;o.castShadow=false;
  });
- icelandIceLakeGroup.add(lake);iceLakeLoaded=true;
+ icelandIceLakeGroup.add(lake);
+ const reflective=lake.clone(true);
+ reflective.traverse(o=>{if(o.isMesh){o.material=lakeLightMaterial;o.renderOrder=6;}});
+ // A slight lift avoids z-fighting but uses the exact same surface topology.
+ reflective.position.y+=.018;
+ lakeLightOverlay.add(reflective);
+ iceLakeLoaded=true;
  console.info('Real textured ice_floor.glb loaded: broad Iceland ice lake');
 },undefined,err=>console.warn('ice_floor.glb failed to load beside index.html',err));
 // TWO REFERENCE LANDSCAPES (no flat circle 'lake' placeholder).
 const referenceLandscapeGroup=new THREE.Group();scene.add(referenceLandscapeGroup);
-const refWaterMat=new THREE.MeshPhysicalMaterial({color:0x183f47,roughness:.22,metalness:.19,transparent:true,opacity:.96,clearcoat:.6,clearcoatRoughness:.15,side:THREE.DoubleSide});
+const refWaterMat=new THREE.MeshPhysicalMaterial({color:0x3e96a9,emissive:0x08363e,emissiveIntensity:.48,roughness:.12,metalness:.24,transparent:true,opacity:.98,clearcoat:.9,clearcoatRoughness:.08,side:THREE.DoubleSide});
+const waterCourseUniforms={uTime:{value:0},uActive:{value:0}};
+const waterCourseMaterial=new THREE.ShaderMaterial({uniforms:waterCourseUniforms,
+ vertexShader:`varying vec3 vP;void main(){vP=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(vP,1.);}`,
+ fragmentShader:`precision mediump float;varying vec3 vP;uniform float uTime;uniform float uActive;
+ void main(){float a=sin(vP.x*.13+vP.z*.07+uTime*.45);float b=sin(vP.x*.027-vP.z*.09-uTime*.29);
+ float gleam=pow(max(0.,a*.5+b*.5),3.);vec3 deep=vec3(.045,.26,.36);
+ vec3 turquoise=vec3(.20,.67,.74);vec3 purple=vec3(.45,.34,.63);
+ vec3 c=mix(deep,turquoise,.51+.22*a+.10*b);
+ c+=uActive*(.13+.31*gleam)*mix(turquoise,purple,.4+.35*b);
+ gl_FragColor=vec4(c,.97);}`,
+ transparent:true,depthWrite:true,side:THREE.DoubleSide,fog:false});
 const refIceRimMat=new THREE.MeshStandardMaterial({color:0xc9e7ed,roughness:.75,side:THREE.DoubleSide});
 const refSnowMat=new THREE.MeshStandardMaterial({color:0xe5f0f5,roughness:1,side:THREE.DoubleSide});
-function makeWaterPath(points,widths,level,mat=refWaterMat){
+function makeWaterPath(points,widths,level,mat=waterCourseMaterial){
  const verts=[],uvs=[],faces=[],n=points.length;
  for(let i=0;i<n;i++){
   const p=points[i],q0=points[Math.max(0,i-1)],q1=points[Math.min(n-1,i+1)];
@@ -783,7 +818,7 @@ function mountainBlocks(x,z){
 }
 const icelandMountainStatus={loaded:false,failed:false};
 const mountainLoadIndicator=document.createElement('div');
-mountainLoadIndicator.style.cssText='position:fixed;left:10px;top:66px;z-index:1200;background:rgba(12,25,39,.80);border:1px solid #82b6cb;border-radius:10px;padding:6px 10px;color:#eefaff;font-size:12px;pointer-events:none;';
+mountainLoadIndicator.style.cssText='position:fixed;left:10px;top:230px;z-index:1200;background:rgba(12,25,39,.80);border:1px solid #82b6cb;border-radius:10px;padding:6px 10px;color:#eefaff;font-size:12px;pointer-events:none;';
 mountainLoadIndicator.textContent='🏔️ 설산 모델 불러오는 중…';
 document.body.appendChild(mountainLoadIndicator);
 new GLTFLoader().load('./mountain-peak.glb',gltf=>{
@@ -810,7 +845,7 @@ new GLTFLoader().load('./mountain-peak.glb',gltf=>{
  console.info('Iceland mountain-peak.glb loaded: '+icelandMountainSpots.length+' peaks');
 },undefined,err=>{
  icelandMountainStatus.failed=true;
- mountainLoadIndicator.textContent='⚠️ 설산 GLB 로딩 실패 — mountain-peak.glb 파일 위치 확인';
+ mountainLoadIndicator.textContent='⚠️ 설산 로딩 오류: '+(err?.message||String(err)).slice(0,90);
  mountainLoadIndicator.style.borderColor='#f89e9e';
  console.warn('mountain-peak.glb failed to load. Keep it next to index.html',err);
 });
@@ -899,7 +934,7 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 },undefined,err=>console.warn('Snow-field GLB could not be loaded; procedural terrain remains.',err));
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowCellX=NaN;icelandSnowCellZ=NaN;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display=i===0?'block':'none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display=i===0?'block':'none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
@@ -1635,6 +1670,25 @@ dogModelLoader.load('./winter_puppy.glb',gltf=>{
 // Iceland integration: broad, sky-sized aurora curtains with reliable distant directional glow.
 // The visual canopy tracks the player while pointing toward the scheduled aurora location.
 // Its transparent additive sheets don't rely on depth testing against distant mountains.
+
+// Panoramic borealis glow: gently moving cyan/violet bands across the SKY itself.
+// It sits far behind terrain and is visible before the brighter aurora curtains.
+const auroraSkyDomeUniforms={uTime:{value:0},uActive:{value:0},uMint:{value:new THREE.Color(0x48d9c1)},uViolet:{value:new THREE.Color(0x897ade)}};
+const auroraSkyDome=new THREE.Mesh(new THREE.SphereGeometry(680,40,18),
+ new THREE.ShaderMaterial({uniforms:auroraSkyDomeUniforms,
+ vertexShader:`varying vec3 vD;void main(){vD=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+ fragmentShader:`precision mediump float;varying vec3 vD;uniform float uTime;uniform float uActive;uniform vec3 uMint;uniform vec3 uViolet;
+ void main(){vec3 d=normalize(vD);float az=atan(d.z,d.x);
+ float wind=sin(az*3.6+sin(az*5.+uTime*.08)*.7+uTime*.085);
+ float curtain=smoothstep(.06,.35,d.y)*(1.-smoothstep(.59,.90,d.y));
+ float ridge=exp(-pow((d.y-(.28+.12*wind))/.27,2.));
+ float bands=.45+.55*sin(az*7.-uTime*.10+sin(az*2.+uTime*.07));
+ float alpha=uActive*curtain*ridge*(.035+.14*bands);
+ vec3 c=mix(uMint,uViolet,.45+.37*sin(az*2.2-uTime*.09+d.y*5.));
+ gl_FragColor=vec4(c,alpha);}`,
+ transparent:true,depthWrite:false,depthTest:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,fog:false}));
+auroraSkyDome.frustumCulled=false;auroraSkyDome.renderOrder=5;scene.add(auroraSkyDome);
+
 const aurora=[];
 const auroraSky=new THREE.Group();scene.add(auroraSky);
 const auroraVertex=`
@@ -1656,11 +1710,11 @@ const auroraFragment=`
  varying vec2 vUv;varying float vWave;
  void main(){
   float x=vUv.x,y=vUv.y;
-  float strands=.66+.34*pow(sin(x*145.0+sin(x*21.0+uTime*.16)*5.0),2.0);
+  float strands=.43+.57*pow(sin(x*145.0+sin(x*21.0+uTime*.16)*5.0),2.0);
   float lower=smoothstep(0.0,.19,y);
   float upper=1.0-smoothstep(.67,1.0,y);
   float side=smoothstep(.0,.09,x)*(1.0-smoothstep(.91,1.0,x));
-  float shimmer=.82+.18*sin(x*16.0+y*5.0+uTime*.26);
+  float shimmer=.79+.21*sin(x*16.0+y*5.0+uTime*.26);
   float alpha=uOpacity*strands*lower*upper*side*shimmer*vWave;
   vec3 tint=mix(uGreen,uPurple,smoothstep(.34,.91,y)*(.62+.38*sin(x*12.0+uTime*.12)));
   gl_FragColor=vec4(tint*1.23,alpha);
@@ -1991,7 +2045,7 @@ function applyAuroraPalette(region,slot){
  const palette=auroraPalette(region,slot);
  aurora.forEach((mesh,i)=>{
   mesh.material.uniforms.uGreen.value.setHex(palette.colors[i%palette.colors.length]);
-  mesh.material.uniforms.uPurple.value.setHex(region===0?0xb28bff:palette.colors[(i+2)%palette.colors.length]);
+  mesh.material.uniforms.uPurple.value.setHex(region===0?0xb69df9:palette.colors[(i+2)%palette.colors.length]);
  });
  glowMats.forEach((mat,i)=>mat.color.setHex(palette.colors[(i+1)%palette.colors.length]));
  appliedPaletteRegion=region;appliedPaletteSlot=slot;
@@ -2038,10 +2092,19 @@ function updateAuroraVisibility(t){
  auroraSky.rotation.y=facing;
  auroraHaze.rotation.y=facing;
  const pulse=.93+.07*Math.sin(t*.35);
+ auroraSkyDome.position.copy(camera.position);
+ auroraSkyDomeUniforms.uTime.value=t;
+ auroraSkyDomeUniforms.uActive.value=activeSky?(current===0?1:.70):0;
+ lakeLightUniforms.uTime.value=t;
+ lakeLightUniforms.uActive.value=activeSky?(current===0?1:.7):0;
+ waterCourseUniforms.uTime.value=t;
+ waterCourseUniforms.uActive.value=activeSky?(current===0?1:.7):0;
+ if(current===0){refWaterMat.color.setHex(activeSky?0x54a5ad:0x3889a0);refWaterMat.emissiveIntensity=activeSky?.68:.35;}
+
  for(let i=0;i<aurora.length;i++){
   const mesh=aurora[i],u=mesh.material.uniforms;
   u.uTime.value=t+i*.67;
-  u.uOpacity.value=activeSky?(current===0?.45:.34)*pulse*(1-.07*i):0;
+  u.uOpacity.value=activeSky?(current===0?.55:.38)*pulse*(1-.06*i):0;
   mesh.visible=activeSky;
  }
  auroraHaze.visible=activeSky;
@@ -2180,8 +2243,8 @@ function renderNavigationMap(){
  const homeText=document.getElementById('mapHomeText');if(homeText)homeText.textContent=campDirection();
 }
 function openNavigationMap(){
- const buttons=names.map((n,i)=>{const c=regionClock(i);return `<button data-region="${i}" style="margin:3px;padding:8px">${n} ${c.visible?'🌌':'🌙'} · ${Math.floor(c.remaining/60)}분 ${c.remaining%60}초</button>`}).join('');
- modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 🏔️ 하얀 산 아이콘은 설산 위치 · 파란 구역은 얼음 지형</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 다른 지역으로 이동</h3>'+buttons);
+ const buttons=[0,2].map(i=>{const n=names[i],c=regionClock(i);return `<button data-region="${i}" style="margin:3px;padding:8px">${n} ${c.visible?'🌌':'🌙'} · ${Math.floor(c.remaining/60)}분 ${c.remaining%60}초</button>`}).join('');
+ modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 🏔️ 하얀 산 아이콘은 설산 위치 · 파란 구역은 얼음 지형</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 아이슬란드 · 캐나다</h3>'+buttons);
  renderNavigationMap();
  const trailToggle=document.getElementById('trailToggle');
  if(trailToggle){
@@ -2198,7 +2261,7 @@ function openNavigationMap(){
 }
 document.getElementById('map').onclick=openNavigationMap;
 setInterval(()=>{if(document.getElementById('dialog').classList.contains('show')&&document.getElementById('navigationCanvas'))renderNavigationMap()},300);
-document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);player.position.set(0,0,0);velocity.set(0,0);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
+document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);if(current!==0&&current!==2)return;try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);player.position.set(0,0,0);velocity.set(0,0);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
 const albumKey='aurura-album-v1';
 function getAlbum(){try{return JSON.parse(localStorage.getItem(albumKey)||'[]')}catch{return []}}
 function savePhoto(){
@@ -2230,7 +2293,7 @@ document.getElementById('album').onclick=()=>{
 document.getElementById('content').addEventListener('click',e=>{if(e.target.id==='clearAlbum'&&confirm('이 브라우저의 앨범 사진을 모두 지울까요?')){localStorage.removeItem(albumKey);document.getElementById('dialog').classList.remove('show');notice('앨범을 비웠어요. 다운로드한 사진은 그대로예요.')}});
 function status(){
  const region=regionClock(current),visible=region.visible,remaining=region.remaining;
- const regionStates=names.map((name,i)=>name+' '+(auroraVisibleNow(i)?'🌌':'🌙')).join(' · ');
+ const regionStates=[0,2].map(i=>names[i]+' '+(auroraVisibleNow(i)?'🌌':'🌙')).join(' · ');
  const state=visible?'🌌 이 지역 오로라 출몰 중':'🌙 이 지역 오로라 대기 중';
  document.getElementById('status').innerHTML=state+' · '+names[current]+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 '+(visible?'사라지기까지 ':'다음 출몰까지 ')+Math.floor(remaining/60)+'분 '+remaining%60+'초<br><small>'+regionStates+'</small><br><small>'+skyMode+' · 5분 출몰 후 10분 대기</small>';
  updateAuroraVisibility(time);
