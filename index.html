@@ -774,7 +774,7 @@ document.getElementById('album').onclick=()=>{
  photos.forEach((p,i)=>{const item=document.createElement('div');const img=document.createElement('img');img.src=p.src;img.alt=p.region+'에서 촬영한 사진';img.style='width:100%;border-radius:12px';const label=document.createElement('small');label.textContent=p.region+' · '+p.date;item.append(img,label);grid.append(item)});
 };
 document.getElementById('content').addEventListener('click',e=>{if(e.target.id==='clearAlbum'&&confirm('이 브라우저의 앨범 사진을 모두 지울까요?')){localStorage.removeItem(albumKey);document.getElementById('dialog').classList.remove('show');notice('앨범을 비웠어요. 다운로드한 사진은 그대로예요.')}});
-function status(){const seconds=600-Math.floor((Date.now()+clockOffset)/1000)%600;document.getElementById('status').innerHTML='🌌 '+('4개 지역 모두 오로라 활동 중 · '+names[current])+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>'+skyMode+'</small>';updateAuroraVisibility(time)}setInterval(status,1000);status();build(current);let last=performance.now(),time=0;
+function status(){const seconds=600-Math.floor((Date.now()+clockOffset)/1000)%600;document.getElementById('status').innerHTML='🌌 '+('4개 지역 모두 오로라 활동 중 · '+names[current])+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>'+skyMode+'</small>';updateAuroraVisibility(time)}let last=performance.now(),time=0;setInterval(status,1000);status();build(current);
 // Cap expensive per-frame aurora geometry updates on mobile while keeping animation smooth.
 // Mobile-friendly snow tracks: capped pooled meshes, no geometry allocation per step.
 const trackGeometry=new THREE.CircleGeometry(1,12);
