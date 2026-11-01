@@ -375,7 +375,7 @@ const regionAtmospheres=[
  {sky:0x1a2043,fog:0x586c8c,star:0xffe9d6,snow:.70}
 ];
 function setRegionAtmosphere(region){
- const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0022:.0055;
+ const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0011:.0055;
  starsMaterial.color.setHex(a.star);snowfallMaterial.opacity=a.snow;
 }
 function animateAtmosphere(t,dt){
@@ -631,10 +631,11 @@ function artScene(region){
 // Scale original 3,600m terrain so multiple peaks surround the 5x-sized map.
 const icelandMountainGroup=new THREE.Group();scene.add(icelandMountainGroup);
 const icelandMountainSpots=[
- // x,z,scale,rotation; leave the central walking area and spawn unobstructed.
- [-620,-580,.090,.20],[-230,-670,.103,1.25],[210,-680,.100,2.15],[630,-540,.096,3.5],
- [690,-60,.092,.70],[675,420,.101,1.90],[285,680,.097,2.90],[-210,680,.104,.80],
- [-660,460,.091,2.3],[-690,-55,.100,3.5]
+ // Mountain ring sits 280–410 m from spawn, visible from the central snowfield.
+ // Keep a clear open plain around the player and room to walk around mountains.
+ [-330,-310,.080,.20],[-75,-390,.087,1.25],[255,-355,.084,2.15],[390,-205,.080,3.5],
+ [400,80,.078,.70],[315,340,.085,1.90],[80,390,.081,2.90],[-225,365,.083,.80],
+ [-395,165,.078,2.3],[-395,-115,.082,3.5]
 ];
 // Soft-edged collision footprints for the imported mountain terrain.
 // Low-cost horizontal blockers keep the avatar on the snow without climbing slopes.
