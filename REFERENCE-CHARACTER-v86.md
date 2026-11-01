@@ -1,0 +1,1 @@
+Reference image: user-supplied winter chibi + puppy. Rebuilt separate avatar and puppy GLBs with 360-degree geometry. This is a manually approximated stylized 3D model, NOT a photogrammetric or exact recreation of the supplied image. Hair variants and movement pivots retained. Browser/iPhone not tested.

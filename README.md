@@ -244,3 +244,14 @@ Upward swipe now tilts the actual viewing direction skyward instead of moving th
 
 ## v79 visual replacement
 New standalone avatarV79 visual group replaces all legacy player geometry (hidden). New sculpted face, hair, jacket, scarf, hat and articulated arms/legs; old player movement and game logic preserved. This is a custom procedural 3D character, not a generated photorealistic GLB asset. Mobile runtime test required.
+
+
+## v80
+External glTF/GLB asset pipeline proof of concept. See ASSET-PIPELINE.md.
+
+
+v81: Added independent assets/winter_avatar.glb and runtime avatar swap with legacy fallback. Existing controls preserved; GLB not rigged yet, so walking animation on external avatar is pending.
+
+
+## v82 — External GLB character motion
+External avatar leg/boot and sleeve/mitten meshes are attached to pivot groups and animated with the existing walking phase. Idle breathing and small hair movement are included. This is procedural limb articulation, **not** a skeletal rig or professionally animated walk cycle. Existing game systems are untouched; mobile visual QA still required.

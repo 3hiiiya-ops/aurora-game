@@ -1,0 +1,1 @@
+v85: full replacement of GLB avatar geometry, not edits to v84 mesh. New flared coat loft, layered ribbon hair, new facial features, scarf, knit beanie, boots. Variant hair toggles retained. Actual Safari rendering unverified.
