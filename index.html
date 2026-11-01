@@ -2,7 +2,69 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
 const scene=new THREE.Scene();scene.background=new THREE.Color('#19254f');scene.fog=new THREE.FogExp2(0x6479a2,.008);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));document.body.prepend(renderer.domElement);scene.add(new THREE.HemisphereLight(0xb5cfff,0x4c4465,2.7));const light=new THREE.DirectionalLight(0xffe7dc,2);light.position.set(-20,50,-40);scene.add(light);
 const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,12,9),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}function tree(x,z,s){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,.5*s,3*s,.5*s,wood,0,1.5*s,0);for(let j=0;j<3;j++){cone(g,(2.1-j*.4)*s,2.8*s,green,0,(2.8+j*.9)*s,0);cone(g,(2.1-j*.4)*s,.3*s,snow,0,(4+j*.9)*s,0)}}function hut(x,z,red){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,7,4,6,material(red?0xa85461:0x8f6c72),0,2,0);let a=cube(g,8,.7,7,material(0x695275),-1.3,5,0);a.rotation.z=-.43;let b=cube(g,8,.7,7,material(0x695275),1.3,5,0);b.rotation.z=.43;cube(g,1.5,1.7,.1,new THREE.MeshBasicMaterial({color:0xffdc9a}),-1.7,2.4,3.1);cube(g,1.5,1.7,.1,new THREE.MeshBasicMaterial({color:0xffdc9a}),1.7,2.4,3.1)}function mountain(x,z,r,h){cone(terrain,r,h,material(0x72819d),x,h/2-3,z);cone(terrain,r*.36,h*.3,snow,x,h-3-h*.15,z)}const names=['아이슬란드','노르웨이','캐나다','알래스카'];let current=0;function build(i){terrain.clear();const rnd=random(29+i*93);ground.material=material([0xc8d3e5,0xc6d0e3,0xdbe3ed,0xc2cde0][i]);for(let j=0;j<95;j++){let x=(rnd()-.5)*240,z=(rnd()-.5)*240;if(Math.hypot(x,z)<20)continue;if(i===0&&j<35)ball(terrain,1+rnd()*2,dark,x,1,z);else tree(x,z,.5+rnd()*.9)}for(let j=0;j<22;j++)mountain((rnd()-.5)*350,-80-rnd()*150,14+rnd()*22,32+rnd()*55);hut(-17,-14,i===1);if(i===1)hut(-29,-24,true);if(i===0||i===2){let p=shape(terrain,new THREE.CircleGeometry(23,40),material(0x89bacc),30,.08,-28);p.rotation.x=-Math.PI/2}document.getElementById('region').textContent='❄️ '+names[i]+' · 베이스캠프'}
-const player=new THREE.Group();scene.add(player);const coat=material(0xece1df),skin=material(0xffd9cb),hair=material(0x423846),hat=material(0xf7e8eb),boot=material(0x817b8b);cube(player,1.2,1.2,.8,coat,0,1.35,0);ball(player,.7,coat,0,1.5,0);for(const x of [-.35,.35]){cube(player,.4,.7,.5,coat,x,.5,0);ball(player,.3,boot,x,.16,.12);ball(player,.26,coat,x*2.2,1.4,0)}ball(player,.82,skin,0,2.65,0);ball(player,.84,hair,0,2.9,-.1);ball(player,.85,hat,0,3.18,0);cube(player,1.68,.3,1.55,hat,0,3.05,.12);ball(player,.24,hat,0,3.95,0);cube(player,1.42,.3,.95,hat,0,2.08,.04);for(const x of [-.3,.3])cube(player,.24,.07,.06,hair,x,2.65,.79);
-const dog=new THREE.Group();scene.add(dog);const fur=material(0xffeee5);ball(dog,.43,fur,0,.47,0);ball(dog,.37,fur,0,.96,.15);for(const x of [-.33,.33])ball(dog,.18,fur,x,.96,.09);for(const x of [-.14,.14])ball(dog,.05,dark,x,1.02,.48);ball(dog,.07,dark,0,.86,.5);
+// Reference-inspired character: chubby proportions, sleepy eyes, quilted puffer and knit hat.
+// First-visit character and three fixed outfit/scarf palettes are stored locally, not yet account-synced.
+const savedKey='aururo-character-v3';
+let appearance;
+try { appearance=JSON.parse(localStorage.getItem(savedKey)); } catch(e) {}
+if(!appearance){
+ const palettes=[['#f4e8e2','#f8f0ee','#e9d9d7'],['#dfcce9','#ead5ed','#d5c6e5'],['#c9d9e8','#d2e5e0','#b8c9da']];
+ appearance={variant:Math.random()<.5?'girl':'boy',palette:Math.floor(Math.random()*palettes.length)};
+ localStorage.setItem(savedKey,JSON.stringify(appearance));
+}
+const palette=[['#f4e8e2','#f8f0ee','#e9d9d7'],['#dfcce9','#ead5ed','#d5c6e5'],['#c9d9e8','#d2e5e0','#b8c9da']][appearance.palette%3];
+const player=new THREE.Group();scene.add(player);
+const coat=material(palette[0]), pants=material(palette[2]),skin=material(0xffd8c8),hair=material(0x39303d),hat=material(0xf5e8e7),scarf=material(palette[1]),boots=material(0x7b7285),faceDark=material(0x322b38),blush=material(0xd98f9f),stitch=material(0xd5bfc8);
+function oval(parent,rx,ry,rz,m,x,y,z){const o=ball(parent,1,m,x,y,z);o.scale.set(rx,ry,rz);return o}
+// Short, rounded body and padded legs
+oval(player,.73,.78,.49,coat,0,1.45,0);
+for(const x of [-.37,.37]){
+ oval(player,.31,.47,.36,pants,x,.62,0);
+ oval(player,.36,.20,.45,boots,x,.20,.13);
+ oval(player,.28,.53,.31,coat,x*2.22,1.42,.01);
+ oval(player,.23,.20,.23,coat,x*2.27,1.01,.08);
+}
+// Puffer jacket horizontal quilting
+for(const y of [1.12,1.46,1.80]){
+ const band=new THREE.Mesh(new THREE.TorusGeometry(.69,.015,5,32,Math.PI),stitch);
+ band.rotation.x=Math.PI/2;band.position.set(0,y,.06);player.add(band);
+}
+cube(player,.035,.72,.015,stitch,0,1.46,.497);
+for(const x of [-.46,.46])cube(player,.17,.025,.02,stitch,x,1.24,.485);
+// Oversized head, ears and layered dark hair
+oval(player,.86,.82,.69,skin,0,2.62,.07);
+for(const x of [-.83,.83])oval(player,.16,.21,.13,skin,x,2.52,.05);
+oval(player,.88,.67,.65,hair,0,2.91,-.11);
+for(const [x,y,rot] of [[-.50,2.96,-.3],[-.20,2.99,-.12],[.13,2.99,.12],[.45,2.95,.34]]){
+ const fringe=oval(player,.23,.36,.18,hair,x,y,.52);fringe.rotation.z=rot;
+}
+// Half-lidded eyes and the characteristic sleepy, slightly grumpy face
+for(const x of [-.32,.32]){
+ oval(player,.21,.105,.025,faceDark,x,2.59,.744);
+ oval(player,.225,.052,.03,skin,x,2.64,.765);
+ const brow=oval(player,.23,.035,.025,faceDark,x,2.80,.74);brow.rotation.z=x<0?-.07:.07;
+ oval(player,.105,.052,.014,blush,x*1.65,2.35,.65);
+ for(const dx of [-.055,.055])oval(player,.018,.035,.012,faceDark,x*1.65+dx,2.33,.675);
+}
+oval(player,.038,.025,.018,faceDark,0,2.42,.776);
+const mouth=oval(player,.085,.021,.018,faceDark,0,2.32,.772);mouth.rotation.z=-.06;
+// Scarf wraps the neck without hiding the face
+oval(player,.76,.23,.55,scarf,0,2.07,.04);
+oval(player,.20,.35,.10,scarf,.40,1.82,.50);
+// Knitted beanie, cuff, ribbing and pom-pom
+oval(player,.90,.47,.75,hat,0,3.30,-.03);
+oval(player,.94,.20,.78,hat,0,3.11,.03);
+for(let j=-5;j<=5;j++){
+ const x=j*.135;const z=.02+Math.sqrt(Math.max(0,1-(x/.94)**2))*.78;
+ cube(player,.018,.23,.018,stitch,x,3.13,z);
+}
+oval(player,.22,.20,.22,hat,0,3.78,-.03);
+// Girl: side wisps; boy: short side hair, while preserving the same face and silhouette
+if(appearance.variant==='girl'){
+ for(const x of [-.76,.76])oval(player,.13,.31,.14,hair,x,2.30,-.05);
+}else{
+ for(const x of [-.76,.76])oval(player,.13,.18,.14,hair,x,2.48,-.06);
+}
+const dog=new THREE.Group();scene.add(dog);const fur=material(0xffeee5);ball(dog,.43,fur,0,.47,0);ball(dog,.37,fur,0,.96,.15);for(const x of [-.33,.33])ball(dog,.18,fur,x,.96,.09);for(const x of [-.14,.14])ball(dog,.05,faceDark,x,1.02,.48);ball(dog,.07,faceDark,0,.86,.5);
 const stars=[];let r=random(2026);for(let i=0;i<220;i++)ball(scene,.05+r()*.09,new THREE.MeshBasicMaterial({color:0xffffff}),(r()-.5)*250,35+r()*100,(r()-.5)*250);const aurora=[];for(let i=0;i<5;i++){let m=new THREE.Mesh(new THREE.PlaneGeometry(130,18),new THREE.MeshBasicMaterial({color:i%2?0xa88cff:0x67ffce,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));m.position.set((i-2)*18,58+i*7,-90-i*8);scene.add(m);aurora.push(m)}
 const keys={};addEventListener('keydown',e=>{keys[e.key]=true;if(e.key.startsWith('Arrow'))e.preventDefault()});addEventListener('keyup',e=>keys[e.key]=false);document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;b.addEventListener('pointerdown',e=>{b.setPointerCapture(e.pointerId);keys[k]=true});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>keys[k]=false)});let looking=false;document.getElementById('look').onclick=()=>looking=!looking;function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}document.getElementById('wave').onclick=()=>notice('👋 안녕! 반가워요!');function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show')}document.getElementById('close').onclick=()=>document.getElementById('dialog').classList.remove('show');document.getElementById('help').onclick=()=>modal('❄️ 게임 안내','<p>방향키로 이동하고 지도로 지역을 변경해 보세요. 하늘 보기와 사진 촬영도 가능해요.</p><p>현재는 첫 3D 시제품으로 멀티플레이, 계정별 캐릭터 저장, 정확한 원본 캐릭터 모델은 아직 구현되지 않았어요.</p>');function active(){const slot=Math.floor(Date.now()/600000);return names.map((_,i)=>random(slot*111+i*37)()>.4)}document.getElementById('map').onclick=()=>modal('🗺️ 지역 선택',names.map((n,i)=>`<button data-region="${i}">${n} ${active()[i]?'✨':'🌙'}</button>`).join('')+'<p>✨ 표시는 오로라 활동을 뜻해요.</p>');document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);build(current);player.position.set(0,0,0);document.getElementById('dialog').classList.remove('show')}};document.getElementById('photo').onclick=()=>{renderer.render(scene,camera);let a=document.createElement('a');a.href=renderer.domElement.toDataURL('image/png');a.download='aururo-photo.png';a.click()};function status(){const seconds=600-Math.floor(Date.now()/1000)%600;document.getElementById('status').innerHTML='🌌 '+(active()[current]?'오로라 활동 중!':'지금은 오로라가 잠잠해요')+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>시제품: 기기 시간 기준</small>';aurora.forEach(a=>a.visible=active()[current])}setInterval(status,1000);status();build(0);let last=performance.now(),time=0;function frame(now){requestAnimationFrame(frame);let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a)),dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w));if(dx||dz){let length=Math.hypot(dx,dz);player.position.x+=dx/length*dt*8;player.position.z+=dz/length*dt*8;player.rotation.y=Math.atan2(dx,dz)}dog.position.lerp(new THREE.Vector3(player.position.x+1.5,0,player.position.z+1.4),.06);camera.position.lerp(new THREE.Vector3(player.position.x,looking?13:7,player.position.z+13),.06);camera.lookAt(player.position.x,looking?27:2.4,player.position.z-9);aurora.forEach((m,i)=>{m.rotation.z=Math.sin(time*.4+i)*.14;m.material.opacity=.11+.05*Math.sin(time+i)});renderer.render(scene,camera)}requestAnimationFrame(frame);addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});notice('🌌 aururo game에 오신 걸 환영해요!');</script></body></html>
