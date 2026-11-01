@@ -642,9 +642,11 @@ let icelandSnowReady=false;
 const icelandSnowRay=new THREE.Raycaster();
 const icelandSnowMeshes=[];
 function icelandSnowHeight(x,z){
- if(current!==0||!icelandSnowReady||Math.abs(x)>34||Math.abs(z)>34)return null;
+ if(current!==0||!icelandSnowReady||Math.abs(x)>154||Math.abs(z)>154)return null;
  icelandSnowRay.set(new THREE.Vector3(x,12,z),new THREE.Vector3(0,-1,0));
- const hit=icelandSnowRay.intersectObjects(icelandSnowMeshes,false);
+ // Only test the tile under the player and its immediate neighbors.
+ const close=icelandSnowMeshes.filter(obj=>Math.abs(obj.userData.tileX-x)<25&&Math.abs(obj.userData.tileZ-z)<25);
+ const hit=icelandSnowRay.intersectObjects(close,false);
  return hit.length?hit[0].point.y:null;
 }
 icelandSnowLoader.load('./snow-field.glb',g=>{
@@ -655,17 +657,17 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
  // Source is 24m square in XZ; align the lowest snow point to y=0.
  original.position.set(-center.x,-bounds.min.y,-center.z);
  original.updateMatrixWorld(true);
- for(let x=-1;x<=1;x++)for(let z=-1;z<=1;z++){
+ for(let x=-6;x<=6;x++)for(let z=-6;z<=6;z++){
   const tile=original.clone(true);
   tile.position.x+=x*size.x;tile.position.z+=z*size.z;
-  tile.traverse(obj=>{if(obj.isMesh){obj.receiveShadow=true;obj.castShadow=false;obj.material=obj.material.clone();if('side' in obj.material)obj.material.side=THREE.DoubleSide;icelandSnowMeshes.push(obj)}});
+  tile.traverse(obj=>{if(obj.isMesh){obj.receiveShadow=true;obj.castShadow=false;obj.material=obj.material.clone();if('side' in obj.material)obj.material.side=THREE.DoubleSide;obj.userData.tileX=x*size.x;obj.userData.tileZ=z*size.z;icelandSnowMeshes.push(obj)}});
   icelandSnowTiles.add(tile);
  }
  icelandSnowReady=true;icelandSnowTiles.visible=current===0;if(current===0)ground.position.y=-1.1;
  // Hide the old flat ground beneath the imported patch; retain it for the rest of the world.
  // The imported surface sits just above the existing base to avoid z-fighting.
 
- console.info('Iceland GLB snow field loaded: 9 walkable tiles');
+ console.info('Iceland GLB snow field loaded: 169 walkable tiles');
 },undefined,err=>console.warn('Snow-field GLB could not be loaded; procedural terrain remains.',err));
 function build(i){
  setRegionAtmosphere(i);
@@ -1331,8 +1333,8 @@ function avatarPivot(model,names,x,y,z){
 }
 function setupExternalMotion(model){
  for(const side of [-1,1]){
-  externalLegs.push(avatarPivot(model,[`leg_${side}`,`boot_${side}`],side*.35,.94,0));
-  externalArms.push(avatarPivot(model,[`sleeve_${side}`,`mitten_${side}`],side*.70,1.87,0));
+  externalLegs.push(avatarPivot(model,[`leg_${side}`,`boot_${side}`,`boot_sole_${side}`],side*.35,.94,0));
+  externalArms.push(avatarPivot(model,[`sleeve_${side}`,`mitten_${side}`,`cuff_${side}`,...[0,1,2].map(n=>`sleeve_quilt_${side}_${n}`)],side*.70,1.87,0));
  }
  for(const side of [-1,1]){
   const hairNames=[];for(let j=0;j<4;j++)hairNames.push(`hair_bob_${side}_${j}`,`hair_long_${side}_${j}`);
@@ -1991,8 +1993,8 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const len=Math.hypot(dx,dz);if(len>1){dx/=len;dz/=len}
  const moving=len>.05;
  // Camera-relative movement: forward is where the camera is facing on the ground plane.
- const targetVX=(dx*Math.cos(orbitYaw)+dz*Math.sin(orbitYaw))*(moving?8:0);
- const targetVZ=(-dx*Math.sin(orbitYaw)+dz*Math.cos(orbitYaw))*(moving?8:0);
+ const targetVX=(dx*Math.cos(orbitYaw)+dz*Math.sin(orbitYaw))*(moving?9:0);
+ const targetVZ=(-dx*Math.sin(orbitYaw)+dz*Math.cos(orbitYaw))*(moving?9:0);
  const responsiveness=1-Math.exp(-(moving?11:15)*dt);
  velocity.x+=(targetVX-velocity.x)*responsiveness;
  velocity.y+=(targetVZ-velocity.y)*responsiveness;
@@ -2003,26 +2005,26 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  animateSnowSteps(dt,speed);
  updatePhotoSpot(dt);
  if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
- walkingPhase+=speed*dt*1.7;
+ walkingPhase+=speed*dt*.60;
  const snowSurface=icelandSnowHeight(player.position.x,player.position.z);
- player.position.y=(snowSurface===null?0:snowSurface)+(speed>.3?Math.sin(walkingPhase*2)*.065*(Math.min(speed,8)/8):0);
- player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.018:0);
- const stride=Math.min(1,speed/6);
+ player.position.y=(snowSurface===null?0:snowSurface)+(speed>.3?Math.sin(walkingPhase*2)*.09*(Math.min(speed,8)/8):0);
+ player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.026:0);
+ const stride=THREE.MathUtils.smoothstep(speed,0.3,4.8);
  // Opposing arm/leg swing, with a smooth return to idle when stopping.
- walkLegs.forEach((limb,i)=>{const target=Math.sin(walkingPhase*2+(i?Math.PI:0))*.36*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
- walkArms.forEach((limb,i)=>{const target=-Math.sin(walkingPhase*2+(i?Math.PI:0))*.27*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
+ walkLegs.forEach((limb,i)=>{const target=Math.sin(walkingPhase*2+(i?Math.PI:0))*.55*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
+ walkArms.forEach((limb,i)=>{const target=-Math.sin(walkingPhase*2+(i?Math.PI:0))*.42*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
  // v82: actual external avatar swings its limbs in opposite phases, with idle breathing.
  if(avatarExternal){
   const phase=walkingPhase*2;
-  externalLegs.forEach((limb,i)=>{const target=Math.sin(phase+(i?Math.PI:0))*.40*stride;limb.rotation.x=THREE.MathUtils.damp(limb.rotation.x,target,11,dt);});
-  externalArms.forEach((limb,i)=>{const target=-Math.sin(phase+(i?Math.PI:0))*.29*stride;limb.rotation.x=THREE.MathUtils.damp(limb.rotation.x,target,10,dt);});
+  externalLegs.forEach((limb,i)=>{const target=Math.sin(phase+(i?Math.PI:0))*.58*stride;limb.rotation.x=THREE.MathUtils.damp(limb.rotation.x,target,11,dt);});
+  externalArms.forEach((limb,i)=>{const target=-Math.sin(phase+(i?Math.PI:0))*.46*stride;limb.rotation.x=THREE.MathUtils.damp(limb.rotation.x,target,10,dt);});
   externalHair.forEach((hair,i)=>{const target=Math.sin(time*2.2+i)*.014+Math.sin(phase+i)*.035*stride;hair.rotation.z=THREE.MathUtils.damp(hair.rotation.z,target,5,dt);});
   const breathe=1+Math.sin(time*2.3)*.004*(1-stride);
   avatarExternal.scale.y=THREE.MathUtils.damp(avatarExternal.scale.y,breathe,3,dt);
  }
 
- dogTail.rotation.z=Math.sin(time*(speed>.5?10:5))*.24;
- dog.scale.y=1+(speed<.3?Math.sin(time*2.1)*.008:0);
+ dogTail.rotation.z=Math.sin(time*(speed>.5?12:5))*.34;
+ dog.scale.y=1+(speed<.3?Math.sin(time*2.1)*.008:Math.abs(Math.sin(walkingPhase*2))*.035);
  // The companion follows behind the player's heading rather than cutting across the camera.
  dog.rotation.z=Math.sin(time*3.2)*.013;
  const dogOffsetX=Math.cos(player.rotation.y)*1.05-Math.sin(player.rotation.y)*1.45;
