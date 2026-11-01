@@ -1,0 +1,83 @@
+name: Convert snowy tree BLEND to GLB
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'snow_covered_pine_tree-sykphm.blend'
+      - '.github/workflows/convert-tree.yml'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out tree file
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install Blender
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender
+          blender --version
+
+      - name: Prepare Blender export script
+        shell: bash
+        run: |
+          cat > convert_tree.py <<'PY'
+          import bpy
+          import os
+          import sys
+          import traceback
+
+          input_file = os.path.abspath('snow_covered_pine_tree-sykphm.blend')
+          output_file = os.path.abspath('snowy-tree.glb')
+
+          try:
+              if not os.path.isfile(input_file):
+                  raise FileNotFoundError(input_file)
+              bpy.ops.wm.open_mainfile(filepath=input_file)
+              # Make sure hidden mesh objects are exported as well.
+              meshes = [ob for ob in bpy.data.objects if ob.type == 'MESH']
+              print('MESH COUNT:', len(meshes))
+              for ob in meshes:
+                  print('MESH:', ob.name, 'vertices=', len(ob.data.vertices))
+                  ob.hide_set(False)
+                  ob.hide_viewport = False
+                  ob.hide_render = False
+              if not meshes:
+                  raise RuntimeError('This .blend file contains no mesh objects.')
+
+              # Exclude cameras, lights, empties unless they are needed as parents.
+              bpy.ops.export_scene.gltf(
+                  filepath=output_file,
+                  export_format='GLB',
+                  use_selection=False,
+                  export_cameras=False,
+                  export_lights=False,
+                  export_yup=True,
+                  export_apply=False,
+                  export_animations=False,
+              )
+              if not os.path.exists(output_file) or os.path.getsize(output_file) < 1000:
+                  raise RuntimeError('The GLB file was not created properly.')
+              print('EXPORTED:', output_file, os.path.getsize(output_file), 'bytes')
+          except Exception:
+              traceback.print_exc()
+              sys.exit(1)
+          PY
+
+      - name: Convert tree model to GLB
+        run: blender --background --python convert_tree.py
+
+      - name: Upload converted tree
+        uses: actions/upload-artifact@v4
+        with:
+          name: snowy-tree-glb
+          path: snowy-tree.glb
+          if-no-files-found: error
+          retention-days: 7
