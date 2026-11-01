@@ -124,7 +124,7 @@ import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/js
 // v80: standalone authored GLB art asset, kept separate from movement/gameplay logic.
 let cabinAsset=null;
 const cabinAssetLoader=new GLTFLoader();
-cabinAssetLoader.load('./assets/winter_cabin.glb',gltf=>{cabinAsset=gltf.scene;console.info('aurura: winter cabin GLB loaded');},undefined,err=>console.warn('aurura: cabin GLB unavailable; procedural fallback remains',err));
+cabinAssetLoader.load('./winter_cabin.glb',gltf=>{cabinAsset=gltf.scene;console.info('aurura: winter cabin GLB loaded');},undefined,err=>console.warn('aurura: cabin GLB unavailable; procedural fallback remains',err));
 // v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
 const moreToolsButton=document.getElementById('moreTools');
 function setToolsExpanded(expanded){
@@ -629,7 +629,7 @@ function artScene(region){
 }
 // Iceland distant ridge: a single triangulated GLB mesh, not a row of cone mountains.
 const icelandMountainGroup=new THREE.Group();scene.add(icelandMountainGroup);
-new GLTFLoader().load('./assets/iceland-mountain-ridge.glb', gltf=>{
+new GLTFLoader().load('./iceland-mountain-ridge.glb', gltf=>{
  const ridge=gltf.scene;
  ridge.position.set(0,-3,-153);
  ridge.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;o.material.side=THREE.DoubleSide;}});
@@ -647,7 +647,7 @@ function icelandSnowHeight(x,z){
  const hit=icelandSnowRay.intersectObjects(icelandSnowMeshes,false);
  return hit.length?hit[0].point.y:null;
 }
-icelandSnowLoader.load('./assets/snow-field.glb',g=>{
+icelandSnowLoader.load('./snow-field.glb',g=>{
  const original=g.scene;
  const bounds=new THREE.Box3().setFromObject(original);
  const center=bounds.getCenter(new THREE.Vector3());
@@ -1339,7 +1339,7 @@ function setupExternalMotion(model){
   externalHair.push(avatarPivot(model,hairNames,side*.68,3.00,0));
  }
 }
-avatarAssetLoader.load('./assets/winter_avatar.glb',gltf=>{
+avatarAssetLoader.load('./winter_avatar.glb',gltf=>{
  const model=gltf.scene;
  model.traverse(obj=>{
   if(!obj.isMesh)return;
@@ -1395,7 +1395,7 @@ const tailMesh=oval(dogTail,.13,.33,.13,fur,0,.21,-.10);tailMesh.rotation.x=-.55
 
 // v86: reference-based puppy GLB. Fallback keeps existing procedural dog if asset fails.
 const dogModelLoader=new GLTFLoader();
-dogModelLoader.load('./assets/winter_puppy.glb',gltf=>{
+dogModelLoader.load('./winter_puppy.glb',gltf=>{
   const puppy=gltf.scene;
   puppy.traverse(obj=>{if(obj.isMesh){obj.castShadow=true;obj.receiveShadow=true;}});
   dog.add(puppy);
