@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v57</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v67</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -93,6 +93,31 @@ button{min-height:42px;-webkit-tap-highlight-color:transparent}
  body.tools-expanded .status{opacity:.35;pointer-events:none}
 }
 @media(min-width:701px){#moreTools{display:none}}
+/* v65: restore space for scenery on portrait phones. */
+@media(max-width:700px){
+ .top{top:calc(43px + env(safe-area-inset-top))!important;gap:4px!important}
+ .top>button{padding:9px 10px!important;font-size:12px!important;min-height:42px!important}
+ .region{top:calc(100px + env(safe-area-inset-top))!important;max-width:40vw!important;background:#1a2544b8!important;padding:7px 9px!important}
+ .status{top:calc(100px + env(safe-area-inset-top))!important;max-width:45vw!important;width:45vw!important;max-height:100px!important;font-size:10px!important;background:#1a2544bd!important}
+ .actions{opacity:.78;transform:scale(.88);transform-origin:bottom right}
+}
+/* v66: reference-driven visual direction and uncluttered touch controls. */
+@media(max-width:700px){
+ #zoomIn,#zoomOut{display:none!important}
+ .actions{width:64px!important;max-width:64px!important;gap:8px!important;opacity:.9!important}
+ .actions button{border-radius:22px!important;background:#6c65a8b3!important;box-shadow:0 4px 14px #17183d55}
+ .top>button{border-radius:18px!important;background:#6863a6b5!important;backdrop-filter:blur(12px)}
+ .status,.region{border:1px solid #ffffff2c;backdrop-filter:blur(8px)}
+}
+/* v67: prioritize the world over HUD in portrait. */
+@media(max-width:700px){
+ header b{font-size:16px!important;text-shadow:0 2px 12px #0e1239}
+ .top{top:calc(40px + env(safe-area-inset-top))!important}
+ .top>button{padding:7px 9px!important;min-height:37px!important;font-size:11px!important;border-radius:13px!important}
+ .status{top:calc(91px + env(safe-area-inset-top))!important;max-height:73px!important;overflow:auto!important;opacity:.83!important;font-size:9px!important}
+ .region{top:calc(91px + env(safe-area-inset-top))!important;opacity:.8!important;font-size:9px!important}
+ .actions{opacity:.68!important;transform:scale(.78)!important}
+}
 </style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top" id="gameTools"><button id="map">🗺️ 지도</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
 // v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
@@ -112,7 +137,7 @@ if(!document.createElement('canvas').getContext('webgl2')&&!document.createEleme
  document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
  throw new Error('WebGL unavailable');
 }
-const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.008);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
+const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0055);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
 const QUALITY_PRESETS={"절전":0.75,"균형":1,"선명":1.5};
 let qualityChoice='균형';try{qualityChoice=localStorage.getItem('aurura_quality')||'균형'}catch(e){}
 if(!QUALITY_PRESETS[qualityChoice])qualityChoice='균형';
@@ -134,47 +159,140 @@ document.body.append(gpuNotice);
 gpuNotice.querySelector('#gpuReload').addEventListener('click',()=>location.reload());
 renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();webglPaused=true;gpuNotice.style.display='flex';});
 renderer.domElement.addEventListener('webglcontextrestored',()=>{try{setQuality(qualityChoice);renderer.setSize(Math.max(1,innerWidth),Math.max(1,innerHeight),false);webglPaused=false;gpuNotice.style.display='none';}catch(err){console.warn('GPU restore failed',err);}});
-scene.add(new THREE.HemisphereLight(0xb5cfff,0x4c4465,2.7));const light=new THREE.DirectionalLight(0xffe7dc,2);light.position.set(-20,50,-40);scene.add(light);
-const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,12,9),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}// v49: layered spruce silhouettes and irregular snow caps (low geometry budget).
+scene.add(new THREE.HemisphereLight(0xd9eaff,0x8c8ba7,3.05));const light=new THREE.DirectionalLight(0xffe9dc,2.6);light.position.set(-20,50,30);scene.add(light);renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,20,14),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;// v65: broad, softly rolling snow surface, rather than a perfectly flat plane.
+const snowGeo=new THREE.PlaneGeometry(900,900,100,100);
+const snowPos=snowGeo.attributes.position;
+for(let n=0;n<snowPos.count;n++){
+ const x=snowPos.getX(n),z=snowPos.getY(n),r=Math.hypot(x,z);
+ const fade=THREE.MathUtils.smoothstep(r,13,55);
+ const h=(Math.sin(x*.065)*Math.cos(z*.047)*1.9+Math.sin(x*.025+z*.036)*2.4+Math.cos(z*.12+x*.08)*.38)*fade;
+ snowPos.setZ(n,h);
+}
+snowGeo.computeVertexNormals();ground.geometry.dispose();ground.geometry=snowGeo;
+// v68: procedural fine-grain snow material; no downloaded assets required.
+const snowCanvas=document.createElement('canvas');snowCanvas.width=snowCanvas.height=256;
+const snowCtx=snowCanvas.getContext('2d');
+if(snowCtx){
+ snowCtx.fillStyle='#e7eaf3';snowCtx.fillRect(0,0,256,256);
+ let seed=271828;const noise=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
+ for(let n=0;n<16000;n++){
+  const v=Math.floor(215+noise()*40),a=.06+noise()*.17;
+  snowCtx.fillStyle=`rgba(${v},${v+Math.min(255-v,3)},255,${a})`;
+  snowCtx.fillRect(noise()*256,noise()*256,noise()<.92?1:2,1);
+ }
+}
+const snowGrain=new THREE.CanvasTexture(snowCanvas);
+snowGrain.wrapS=snowGrain.wrapT=THREE.RepeatWrapping;snowGrain.repeat.set(55,55);
+snowGrain.colorSpace=THREE.SRGBColorSpace;
+const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}// v49: layered spruce silhouettes and irregular snow caps (low geometry budget).
 const spruceDeep=material(0x244d52),spruceMid=material(0x376b68),spruceBright=material(0x56847d);
 const barkDark=material(0x5d4c51),snowCap=material(0xf2f4fb);
-function tree(x,z,s){
- const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);
- const variation=(Math.sin(x*13.13+z*7.31)+1)*.5;
- cube(g,.32*s,2.9*s,.32*s,barkDark,0,1.45*s,0);
- const leaves=[spruceDeep,spruceMid,spruceBright][Math.floor(variation*2.99)];
- // Stagger the branches to break up the repetitive cone silhouette.
- for(let j=0;j<4;j++){
-  const radius=(2.15-j*.34)*s,level=(2.7+j*.82)*s;
-  const branch=cone(g,radius,2.25*s,leaves,0,level,0);
-  branch.rotation.y=variation*3.14+j*.29;
-  cone(g,radius*.76,.28*s,snowCap,0,level+1.02*s,0);
+// Rounded snow-heavy boughs instead of stacked angular cones.
+// v76: replace stacked-cone spruce with custom continuous, undulating foliage meshes.
+// Shared geometry is reused for mobile performance; no external assets needed.
+function sculptSpruceGeometry(seedOffset=0){
+ const vertices=[],normals=[],indices=[];
+ const tiers=17,around=12,height=5.2;
+ for(let j=0;j<=tiers;j++){
+  const t=j/tiers, y=.62+t*height;
+  const envelope=Math.pow(1-t,.82)*1.72;
+  const tierPulse=.79+.21*Math.pow(Math.sin(t*Math.PI*8.3),2);
+  for(let k=0;k<=around;k++){
+   const a=k/around*Math.PI*2;
+   const irregular=1+.085*Math.sin(a*5+seedOffset+t*17)+.06*Math.cos(a*7-t*11);
+   const r=Math.max(.035,envelope*tierPulse*irregular);
+   vertices.push(Math.cos(a)*r,y+.075*Math.sin(a*6+t*27),Math.sin(a)*r);
+  }
  }
- // A soft snow skirt helps each tree meet the ground rather than float.
- const skirt=new THREE.Mesh(new THREE.CylinderGeometry(1.08*s,1.35*s,.12*s,9),snowCap);
- skirt.position.y=.07*s;g.add(skirt);
+ for(let j=0;j<tiers;j++)for(let k=0;k<around;k++){
+  const v=j*(around+1)+k;
+  indices.push(v,v+around+1,v+1,v+1,v+around+1,v+around+2);
+ }
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geo.setIndex(indices);geo.computeVertexNormals();return geo;
 }
+const spruceSculptGeo=sculptSpruceGeometry();
+const spruceSnowGeo=(()=>{
+ const geo=spruceSculptGeo.clone(),p=geo.attributes.position;
+ for(let n=0;n<p.count;n++){
+  const y=p.getY(n),x=p.getX(n),z=p.getZ(n);
+  const shrink=.87; p.setXYZ(n,x*shrink,y+.18,z*shrink);
+ }
+ p.needsUpdate=true;geo.computeVertexNormals();return geo;
+})();
+function tree(x,z,s){
+ const g=new THREE.Group();g.position.set(x,0,z);g.scale.setScalar(s);terrain.add(g);
+ const variation=(Math.sin(x*13.13+z*7.31)+1)*.5;
+ const leaves=[spruceDeep,spruceMid,spruceBright][Math.floor(variation*2.99)];
+ const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.12,.23,3.2,7),barkDark);
+ trunk.position.y=1.6;g.add(trunk);
+ const foliage=new THREE.Mesh(spruceSculptGeo,leaves);foliage.rotation.y=variation*2.2;g.add(foliage);
+ // Irregular scalloped snow cover follows the foliage silhouette rather than stacked cones.
+ const frosting=new THREE.Mesh(spruceSnowGeo,snowCap);
+ frosting.rotation.y=foliage.rotation.y;frosting.scale.set(.93,.98,.93);g.add(frosting);
+ for(let j=0;j<6;j++){
+  const y=1.05+j*.68, r=(1-j/7)*1.32;
+  for(let k=0;k<3;k++){
+   const a=k*Math.PI*2/3+j*1.1;
+   oval(g,.32,.095,.22,snowCap,Math.cos(a)*r,y,Math.sin(a)*r).rotation.y=a;
+  }
+ }
+ oval(g,1.05,.13,.92,snowCap,0,.05,0);
+}
+
+
+// v77: replacement cabin geometry, not cube panels laid over the previous hut.
 function hut(x,z,red){
  const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);
- const walls=material(red?0xa85461:0x8f6c72),roof=material(red?0x4d5267:0x695275);
- const trim=material(0xe8e0d9),glow=new THREE.MeshBasicMaterial({color:0xffdc9a});
- cube(g,7,4,6,walls,0,2,0);
- // Pitched snowy roof, fascia and soft warm windows; low-poly geometry for mobile.
- let a=cube(g,8,.7,7,roof,-1.3,5,0);a.rotation.z=-.43;
- let b=cube(g,8,.7,7,roof,1.3,5,0);b.rotation.z=.43;
- for(const side of [-1,1]){
-  cube(g,1.9,2.05,.14,trim,side*1.7,2.4,3.11);
-  cube(g,1.55,1.7,.16,glow,side*1.7,2.4,3.21);
-  cube(g,.12,1.8,.19,trim,side*1.7,2.4,3.33);
-  cube(g,1.6,.12,.19,trim,side*1.7,2.4,3.34);
-  cube(g,.35,.23,.35,material(0xe8e9f2),side*2.5,5.1,2.8);
+ const woodMat=new THREE.MeshStandardMaterial({color:red?0x96535a:0x80615a,roughness:1});
+ const beamMat=new THREE.MeshStandardMaterial({color:0x59444a,roughness:1});
+ const roofMat=new THREE.MeshStandardMaterial({color:0xe8edf9,roughness:.97,side:THREE.DoubleSide});
+ const glowMat=new THREE.MeshBasicMaterial({color:0xffd59a});
+ function customMesh(verts,faces,mat){
+  const a=[];for(const f of faces)for(const idx of f)a.push(...verts[idx]);
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(a,3));geo.computeVertexNormals();
+  const m=new THREE.Mesh(geo,mat);m.castShadow=true;m.receiveShadow=true;g.add(m);return m;
  }
- cube(g,1.3,2.65,.15,material(0x5a4852),0,1.34,3.12);
- ball(g,.12,material(0xffd89c),.42,1.35,3.23);
- cube(g,1.1,2.2,1.1,material(0x665363),2.2,6.1,-1.2);
- cube(g,1.45,.22,1.45,snow,2.2,7.3,-1.2);
+ // A single continuous pitched-house shell, with real triangular gables.
+ const v=[[-3.4,0,-3], [3.4,0,-3], [3.4,0,3], [-3.4,0,3],
+          [-3.4,4.0,-3],[3.4,4.0,-3],[3.4,4.0,3],[-3.4,4.0,3],
+          [0,6.15,-3],[0,6.15,3]];
+ customMesh(v,[[0,1,5],[0,5,4],[1,2,6],[1,6,5],[2,3,7],[2,7,6],
+   [3,0,4],[3,4,7],[4,5,8],[7,9,6],[5,6,9],[5,9,8],[7,4,8],[7,8,9]],woodMat);
+ // Two continuous sloping roof slabs, with real thickness and rounded snowy eaves.
  for(const side of [-1,1]){
-  cube(g,.25,3.7,.25,trim,side*3.4,2,3.03);
+  const edgeX=side*4.15, ridgeY=6.6, edgeY=3.95;
+  const a=[ [0, ridgeY,-3.85],[edgeX,edgeY,-3.85],[edgeX,edgeY,3.85],[0,ridgeY,3.85] ];
+  customMesh(a,[[0,1,2],[0,2,3]],roofMat);
+  for(let k=0;k<9;k++){
+   const zz=-3.6+k*.9;
+   const roll=oval(g,.33,.17,.49,roofMat,edgeX,edgeY+.06,zz);
+   roll.rotation.z=side*.17;
+  }
+ }
+ // Log beams form structural horizontal courses; they are not the old cube cabin.
+ const logGeo=new THREE.CylinderGeometry(.18,.18,6.9,10);
+ for(let y=.4;y<4;y+=.58){
+  for(const zSide of [-3.05,3.05]){
+   const log=new THREE.Mesh(logGeo,beamMat);log.rotation.z=Math.PI/2;
+   log.position.set(0,y,zSide);g.add(log);
+  }
+ }
+ // Warm window glazing, wooden mullions, recessed front entrance.
+ for(const xx of [-1.85,1.85]){
+  cube(g,1.28,1.48,.09,glowMat,xx,2.25,3.11);
+  cube(g,.10,1.56,.12,beamMat,xx,2.25,3.2);
+  cube(g,1.38,.10,.12,beamMat,xx,2.25,3.2);
+  const cap=oval(g,.84,.18,.30,roofMat,xx,3.17,3.12);
+ }
+ cube(g,1.35,2.55,.15,beamMat,0,1.28,3.13);
+ cube(g,2.3,.23,1.65,beamMat,0,.14,3.8);
+ const chimney=new THREE.Mesh(new THREE.CylinderGeometry(.47,.56,1.75,8),beamMat);
+ chimney.position.set(1.9,6.25,-1.4);g.add(chimney);
+ oval(g,.66,.19,.60,roofMat,1.9,7.17,-1.4);
+ for(const xx of [-3.1,3.1]){
+  const bulb=ball(g,.21,glowMat,xx,2.75,3.22);
+  const light=new THREE.PointLight(0xffbf7b,.65,9,2);light.position.copy(bulb.position);g.add(light);
  }
 }
 function villageDetails(x,z,red){
@@ -191,36 +309,39 @@ function villageDetails(x,z,red){
  }
 }
 // v50: faceted irregular mountain ridges with integrated snow peaks (not simple cones).
+
+// v77: irregular continuous ridgeline with multiple crests and integrated snow cover.
 function mountain(x,z,r,h){
  const seed=Math.abs(Math.sin(x*12.9898+z*78.233)*43758.5453)%1;
- const n=9,base=[],tipY=h*.88;
- for(let k=0;k<n;k++){
-  const angle=k*Math.PI*2/n;
-  const variation=.78+.32*(.5+.5*Math.sin(k*4.13+seed*17));
-  base.push([Math.cos(angle)*r*variation,-3,Math.sin(angle)*r*variation]);
+ const cols=13,rows=7,verts=[],colors=[],indices=[];
+ const stone=new THREE.Color(0x64738d),frost=new THREE.Color(0xe9f1fb);
+ for(let j=0;j<=rows;j++){
+  const depth=j/rows;
+  for(let i=0;i<=cols;i++){
+   const u=i/cols, xx=(u-.5)*r*2.9;
+   const crest=Math.pow(Math.max(0,1-Math.abs(u-.51)*1.6),.72);
+   const peaks=.68+.18*Math.sin(u*21+seed*9)+.13*Math.cos(u*38+seed*4);
+   const height=h*crest*peaks;
+   const yy=-2+height*Math.pow(1-depth,1.15)+Math.sin(u*27+depth*11+seed*6)*height*.045;
+   const zz=(depth-.45)*r*1.6+Math.sin(u*16+seed*8)*r*.06;
+   verts.push(xx,yy,zz);
+   const snowLine=depth<.30+(Math.sin(u*32+seed*6)+1)*.07;
+   const c=snowLine?frost:stone.clone().multiplyScalar(.8+.3*Math.sin(u*15+depth*7)**2);
+   colors.push(c.r,c.g,c.b);
+  }
  }
- const top=[r*(seed-.5)*.18,tipY,r*(.5-seed)*.14];
- const snowHeight=h*(.21+seed*.06),snowRing=[];
- for(let k=0;k<n;k++){
-  const t=.72+.06*Math.sin(k*3.71+seed*12);
-  snowRing.push([top[0]*(1-t)+base[k][0]*t,top[1]*(1-t)+base[k][1]*t,top[2]*(1-t)+base[k][2]*t]);
+ for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){
+  const a=j*(cols+1)+i,b=a+cols+1;
+  indices.push(a,b,a+1,a+1,b,b+1);
  }
- const rockColors=[0x5a6685,0x74809b,0x8993ad,0x64718d];
- const rockMaterials=rockColors.map(c=>new THREE.MeshStandardMaterial({color:c,roughness:1,flatShading:true,side:THREE.DoubleSide}));
- const white=new THREE.MeshStandardMaterial({color:0xe8eff8,roughness:1,flatShading:true,side:THREE.DoubleSide});
- const verts=[],groups=[];
- function triangle(a,b,c,mat){const start=verts.length/3;verts.push(...a,...b,...c);groups.push([start,3,mat]);}
- for(let k=0;k<n;k++){
-  const next=(k+1)%n;
-  triangle(base[k],base[next],snowRing[k],k%4);
-  triangle(base[next],snowRing[next],snowRing[k],(k+1)%4);
-  triangle(snowRing[k],snowRing[next],top,4);
- }
- const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
- for(const [start,count,index] of groups)geo.addGroup(start,count,index);
- geo.computeVertexNormals();
- const mesh=new THREE.Mesh(geo,[...rockMaterials,white]);mesh.position.set(x,0,z);terrain.add(mesh);
-}// Region-specific night atmosphere: GPU-friendly points (one draw call per field).
+ const geo=new THREE.BufferGeometry();
+ geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+ geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+ geo.setIndex(indices);geo.computeVertexNormals();
+ const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,side:THREE.DoubleSide,flatShading:false}));
+ mesh.position.set(x,0,z);terrain.add(mesh);
+}
+// Region-specific night atmosphere: GPU-friendly points (one draw call per field).
 const starCount=240,snowCount=135;
 const starPositions=new Float32Array(starCount*3),snowPositions=new Float32Array(snowCount*3);
 const starRng=random(7701),snowRng=random(3109);
@@ -275,7 +396,17 @@ function lake(x,z,rx,rz){const g=new THREE.Mesh(new THREE.CircleGeometry(1,64),n
   terrain.add(ripple);lakeReflections.push({mesh:ripple,material:reflectionMaterial,x,z,phase:k*.8});
  }
  for(let k=0;k<16;k++){let a=k*Math.PI*2/16;ball(terrain,.8+Math.random()*.7,snow,x+Math.cos(a)*rx,.3,z+Math.sin(a)*rz)}}
-function rock(x,z,r,volcanic=false){let m=new THREE.Mesh(new THREE.DodecahedronGeometry(r,0),material(volcanic?0x292e3b:0x8895ac));m.scale.set(1,.55,1.2);m.position.set(x,r*.28,z);terrain.add(m)}
+function rock(x,z,r,volcanic=false){
+ const geo=new THREE.SphereGeometry(r,13,9),pos=geo.attributes.position;
+ for(let i=0;i<pos.count;i++){
+  const xx=pos.getX(i),yy=pos.getY(i),zz=pos.getZ(i);
+  const ripple=1+.14*Math.sin(xx*3.4+z*.3)*Math.cos(zz*4.2+x*.2);
+  pos.setXYZ(i,xx*ripple,yy*.59*ripple,zz*1.12*ripple);
+ }
+ geo.computeVertexNormals();
+ const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:volcanic?0x354354:0x8b9db6,roughness:1,flatShading:false}));
+ mesh.position.set(x,r*.24,z);mesh.rotation.y=Math.abs(Math.sin(x*5+z))*3;terrain.add(mesh);
+}
 function lantern(x,z){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,.16,2.1,.16,wood,0,1.05,0);cube(g,.8,.85,.8,new THREE.MeshBasicMaterial({color:0xffd39d}),0,2.15,0);cone(g,.66,.42,material(0x6c566a),0,2.8,0);const l=new THREE.PointLight(0xffc88c,3,13);l.position.y=2.2;g.add(l)}
 function iceShard(x,z,s){const m=new THREE.Mesh(new THREE.OctahedronGeometry(s,0),new THREE.MeshStandardMaterial({color:0xb9edff,transparent:true,opacity:.72,roughness:.2}));m.scale.set(.7,1.6,.65);m.position.set(x,s*.9,z);terrain.add(m)}
 // Lightweight landmark geometry: region-specific silhouettes, deliberately stylized.
@@ -295,7 +426,7 @@ function disposeRegion(){
  lakeReflections.length=0;
  const geometries=new Set(),materials=new Set();
  terrain.traverse(o=>{
-  if(o.geometry)geometries.add(o.geometry);
+  if(o.geometry && o.geometry!==spruceSculptGeo && o.geometry!==spruceSnowGeo)geometries.add(o.geometry);
   if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));
  });
  terrain.clear();
@@ -409,11 +540,90 @@ function winterCampPolish(region){
   for(let k=0;k<4;k++)cube(terrain,.85,.5,.85,gold,-16+k*.65,.7,-9);
  }
 }
+// v67 visual rebuild: dense, rounded snow-capped firs, cozy lodge and warm foreground lighting.
+// Shared geometry and materials reduce GPU memory pressure on phones.
+const artPineDark=material(0x274b53),artPineMid=material(0x376b70),artSnow=material(0xf3efff),artSnowBlue=material(0xd4e5f5);
+const artWood=material(0x79535b),artWoodLight=material(0xae7b78),artRoof=material(0x594b68);
+const artWindow=new THREE.MeshBasicMaterial({color:0xffd99b});
+const artGlass=new THREE.MeshBasicMaterial({color:0xffe9bd,transparent:true,opacity:.75});
+const artGlow=new THREE.MeshBasicMaterial({color:0xffd8a3,transparent:true,opacity:.16,depthWrite:false});
+const artSphere=new THREE.SphereGeometry(1,12,9),artCone=new THREE.ConeGeometry(1,1,9),artBox=new THREE.BoxGeometry(1,1,1);
+function artMesh(g,geo,mat,x,y,z,sx=1,sy=1,sz=1){const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);g.add(m);return m}
+function artFir(x,z,scale,seed){
+ const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);
+ artMesh(g,artBox,artWood,0,1.45*scale,0,.28*scale,2.9*scale,.28*scale);
+ for(let j=0;j<4;j++){
+  const level=(1.5+j*.8)*scale,r=(1.8-j*.27)*scale;
+  artMesh(g,artCone,j%2?artPineMid:artPineDark,0,level+.6*scale,0,r,1.85*scale,r);
+  // Soft rounded snow banks, not flat cone caps.
+  for(let k=0;k<3;k++){
+   const a=(k/5)*Math.PI*2+seed,rr=r*.67;
+   artMesh(g,artSphere,artSnow,Math.cos(a)*rr,level+.75*scale,Math.sin(a)*rr,r*.40,.16*scale,r*.34);
+  }
+ }
+ artMesh(g,artSphere,artSnow,0,4.65*scale,0,.27*scale,.17*scale,.27*scale);
+}
+function artLodge(x,z,scale){
+ const g=new THREE.Group();g.position.set(x,0,z);g.scale.setScalar(scale);terrain.add(g);
+ artMesh(g,artBox,artWood,0,2.3,0,8,4.6,6);
+ // Log strips make the building read as a timber cabin rather than a plain box.
+ for(let y=.5;y<4.4;y+=.56){
+  artMesh(g,artBox,artWoodLight,0,y,3.08,8.3,.11,.18);
+  artMesh(g,artBox,artWoodLight,-4.08,y,0,.15,.11,6.2);
+ }
+ for(const side of [-1,1]){
+  const roof=artMesh(g,artBox,artRoof,side*2.08,5.55,0,5.25,.36,7.8);roof.rotation.z=side*.55;
+  const snowRoof=artMesh(g,artBox,artSnow,side*2.08,5.86,0,5.3,.30,7.95);snowRoof.rotation.z=side*.55;
+  artMesh(g,artBox,artWindow,side*2.1,2.75,3.14,1.55,1.75,.10);
+  artMesh(g,artBox,artWood,side*2.1,2.75,3.23,.12,1.9,.13);
+  artMesh(g,artBox,artWood,side*2.1,2.75,3.24,1.7,.12,.13);
+  artMesh(g,artSphere,artGlow,side*2.1,2.7,3.5,2.4,2.2,.7);
+ }
+ artMesh(g,artBox,artWoodLight,0,1.45,3.12,1.65,2.9,.16);
+ artMesh(g,artBox,artRoof,2.65,6.65,-1.2,.9,2.2,.9);
+ artMesh(g,artSphere,artSnow,2.65,7.75,-1.2,.65,.19,.65);
+ // Warm window light is emissive and inexpensive; only one actual point light.
+ const lamp=new THREE.PointLight(0xffc58e,3.2,20,2);lamp.position.set(0,3.2,5);g.add(lamp);
+}
+function artLantern(x,z){
+ const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);
+ artMesh(g,artBox,artWood,0,.9,0,.24,1.8,.24);
+ artMesh(g,artBox,artWindow,0,1.93,0,.7,.8,.7);
+ artMesh(g,artCone,artRoof,0,2.46,0,.65,.42,.65);
+ artMesh(g,artSphere,artGlow,0,1.93,0,1.8,1.7,1.8);
+ artMesh(g,artSphere,artSnow,0,2.66,0,.38,.13,.38);
+}
+function artScene(region){
+ const rng=random(20261101+region*307);
+ // Keep a clear central walking/photo area and put dense scenery on both sides.
+ for(let side of [-1,1])for(let j=0;j<13;j++){
+  const x=side*(12+rng()*38),z=-12-rng()*75;
+  artFir(x,z,.75+rng()*.72,rng()*6.28);
+ }
+ // A distinct, close, warmly lit cabin: instantly recognizable from spawn.
+ if(region===2)artLodge(-18,-25,1.02);
+ else if(region===1)artLodge(-22,-30,.9);
+ else if(region===0)artLodge(-19,-28,.76);
+ else artLodge(-23,-30,.83);
+ for(const [x,z] of [[-8,-9],[-10,-17],[9,-17],[11,-30]])artLantern(x,z);
+ for(let j=0;j<24;j++){
+  const x=(rng()-.5)*95,z=-8-rng()*76;
+  if(Math.abs(x)<6)continue;
+  const r=.8+rng()*2.4;
+  artMesh(terrain,artSphere,artSnowBlue,x,.16,z,r,.28+rng()*.23,r*.8);
+  artMesh(terrain,artSphere,artSnow,x-.16,.36,z-.1,r*.8,.25,r*.7);
+ }
+ // Snowy foreground stones add depth to the camera framing.
+ for(const [x,z,r] of [[-9,6,1.4],[10,3,1.7],[-12,-4,1.2]]){
+  artMesh(terrain,artSphere,artWood,x,.40,z,r,.65,r*.8);
+  artMesh(terrain,artSphere,artSnow,x,.81,z,r*.98,.23,r*.79);
+ }
+}
 function build(i){
  setRegionAtmosphere(i);
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
- ground.material=material([0xd4d8e5,0xd4d7e8,0xe0e7f0,0xd5dfec][i]);
+ ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
  const count=[45,80,120,65][i];
  for(let j=0;j<count;j++){
   let x=(rnd()-.5)*260,z=(rnd()-.5)*260;
@@ -441,6 +651,27 @@ function build(i){
   lake(45,-42,19,13);
   for(let k=0;k<32;k++)rock(-95+rnd()*190,-65+rnd()*130,.6+rnd()*2.4);
   for(let k=0;k<12;k++)iceShard(28+rnd()*45,-65+rnd()*40,1+rnd()*2);for(let k=0;k<38;k++)tundraPatch((rnd()-.5)*210,(rnd()-.5)*210,1+rnd()*3);
+ }
+ // v65: textured-looking, overlapping snow banks around the playable area.
+ // More readable silhouettes in the near/mid distance; no expensive textures.
+ const bankSnow=material([0xe6efff,0xe9f1ff,0xf5f8ff,0xeaf4ff][i]);
+ const bankShade=material([0xaebdd4,0xaeb9d5,0xb7c9d5,0xa8c4d5][i]);
+ for(let k=0;k<48;k++){
+  const angle=rnd()*Math.PI*2,dist=17+rnd()*85;
+  const x=Math.cos(angle)*dist,z=Math.sin(angle)*dist;
+  if(x>-11&&x<11&&z>-24&&z<16)continue;
+  const size=1.1+rnd()*3.4;
+  const bank=oval(terrain,size*1.8,.26+rnd()*.56,size,bankSnow,x,.02,z);
+  bank.rotation.y=rnd()*6.28;
+  if(k%3===0){const shadow=oval(terrain,size*1.45,.07,size*.75,bankShade,x+.3,.005,z+.4);shadow.rotation.y=bank.rotation.y;}
+ }
+ // Individual icy pebbles add foreground depth without cluttering the spawn.
+ const frostStone=material(i===0?0x566579:0xa7b6c9);
+ for(let k=0;k<38;k++){
+  const a=rnd()*Math.PI*2,d=15+rnd()*66,x=Math.cos(a)*d,z=Math.sin(a)*d;
+  if(Math.abs(x)<7&&z>-19&&z<14)continue;
+  const pebble=oval(terrain,.16+rnd()*.34,.11+rnd()*.16,.2+rnd()*.45,frostStone,x,.1,z);
+  pebble.rotation.y=rnd()*6.28;
  }
  // v64: large, recognizable foreground formations for each destination.
  // All objects are terrain-owned, so switching regions cleans them up.
@@ -478,7 +709,37 @@ function build(i){
    iceShard(x,z,3+rnd()*4);
   }
  }
- baseCamp(i);campIdentityDetails(i);winterCampPolish(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
+ // v75: dense winter forest silhouettes in two GPU instanced draw calls.
+ // Keep a generous clearing around the camp and exploration routes.
+ if(i===1||i===2||i===3){
+  const forestCount=i===2?240:i===1?110:65;
+  const forestGeo=new THREE.ConeGeometry(1,1,7,1);
+  const darkForest=new THREE.InstancedMesh(forestGeo,new THREE.MeshStandardMaterial({color:i===2?0x264e4b:i===1?0x35565b:0x526779,roughness:1}),forestCount);
+  const snowyTips=new THREE.InstancedMesh(forestGeo,new THREE.MeshStandardMaterial({color:i===2?0xd9edf0:0xe5eef8,roughness:1}),forestCount);
+  const dummy=new THREE.Object3D();
+  for(let k=0;k<forestCount;k++){
+   const a=rnd()*Math.PI*2,d=35+Math.sqrt(rnd())*126;
+   const x=Math.cos(a)*d,z=Math.sin(a)*d;
+   const h=(i===2?6:4.5)+rnd()*(i===2?8:6),w=h*(.27+rnd()*.08);
+   dummy.position.set(x,h*.5,z);dummy.scale.set(w,h,w);dummy.rotation.set(0,rnd()*6.28,0);dummy.updateMatrix();darkForest.setMatrixAt(k,dummy.matrix);
+   dummy.position.y=h*.82;dummy.scale.set(w*.72,h*.38,w*.72);dummy.updateMatrix();snowyTips.setMatrixAt(k,dummy.matrix);
+  }
+  darkForest.instanceMatrix.needsUpdate=true;snowyTips.instanceMatrix.needsUpdate=true;
+  darkForest.frustumCulled=false;snowyTips.frustumCulled=false;
+  terrain.add(darkForest,snowyTips);
+ }
+ // Iceland's volcanic shore gains a cohesive basalt ridge rather than isolated pillars.
+ if(i===0){
+  const basaltRidge=material(0x313c4b),iceRim=material(0xc9e5f3);
+  for(let k=0;k<19;k++){
+   const x=-110+k*8,z=-87+Math.sin(k*.63)*11;
+   const h=7+Math.sin(k*.71+1.2)*4+rnd()*6;
+   const rockPillar=new THREE.Mesh(new THREE.CylinderGeometry(2.7,3.5,h,6),basaltRidge);
+   rockPillar.position.set(x,h/2-.15,z);terrain.add(rockPillar);
+   oval(terrain,3.1,.22,2.9,iceRim,x,h-.05,z);
+  }
+ }
+ baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
  document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
  if(typeof updateLandmarkHUD==='function')updateLandmarkHUD();
 }
@@ -493,7 +754,7 @@ const visitedLandmarks=new Set();
 try{const saved=JSON.parse(localStorage.getItem('aurura-landmarks-v1')||'[]');if(Array.isArray(saved))saved.forEach(k=>visitedLandmarks.add(String(k)));}catch(e){}
 const landmarkHUD=document.createElement('div');landmarkHUD.id='landmarkHUD';landmarkHUD.setAttribute('aria-live','polite');
 landmarkHUD.style.cssText='position:fixed;top:calc(112px + env(safe-area-inset-top));left:12px;z-index:2;pointer-events:none;background:#25294cb8;border:1px solid #ffffff33;color:white;border-radius:12px;padding:8px 10px;font:12px system-ui;max-width:175px;text-shadow:0 1px 3px #0008';
-document.body.appendChild(landmarkHUD);
+document.body.appendChild(landmarkHUD);landmarkHUD.style.display='none'; // v65: no overlapping second status box; progress remains in journal
 function updateLandmarkHUD(){const list=landmarkSets[current];const count=list.filter((_,i)=>visitedLandmarks.has(current+':'+i)).length;landmarkHUD.textContent='🧭 탐험 발견 '+count+'/3 · '+names[current];}
 function checkLandmarks(){
  const list=landmarkSets[current];
@@ -621,51 +882,125 @@ if(!Number.isInteger(appearance.scarfPalette)){
 }
 const scarfIndex=((appearance.scarfPalette%3)+3)%3;
 const palette=[jacketColors[jacketIndex],scarfColors[scarfIndex],trouserColors[jacketIndex]];
+// Matte, softly-lit fabrics and skin avoid the toy-plastic appearance.
+const fabricSoftness={roughness:1,metalness:0};
 const player=new THREE.Group();scene.add(player);
 const coat=material(palette[0]), pants=material(palette[2]),skin=material(0xffd8c8),hair=material(0x39303d),hat=material(0xf5e8e7),scarf=material(palette[1]),boots=material(0x7b7285),faceDark=material(0x322b38),blush=material(0xd98f9f),stitch=material(0xd5bfc8);
 function oval(parent,rx,ry,rz,m,x,y,z){const o=ball(parent,1,m,x,y,z);o.scale.set(rx,ry,rz);return o}
+// v69: actual procedural cloth surfaces, shared across avatar parts.
+// A tiny repeatable canvas is used as a bump map, not a flat color overlay.
+function weaveBump(kind){
+ const c=document.createElement('canvas');c.width=c.height=128;
+ const ctx=c.getContext('2d');ctx.fillStyle='#888';ctx.fillRect(0,0,128,128);
+ if(kind==='knit'){
+  for(let y=0;y<128;y+=12)for(let x=0;x<128;x+=12){
+   ctx.strokeStyle='#d8d8d8';ctx.lineWidth=3;ctx.lineCap='round';
+   ctx.beginPath();ctx.moveTo(x+2,y);ctx.bezierCurveTo(x+10,y+3,x+1,y+8,x+7,y+12);ctx.stroke();
+   ctx.strokeStyle='#4b4b4b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x+9,y);ctx.lineTo(x+10,y+12);ctx.stroke();
+  }
+ }else{
+  for(let y=0;y<128;y+=5){ctx.strokeStyle=y%10===0?'#aaa':'#757575';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(128,y);ctx.stroke();}
+  for(let x=0;x<128;x+=7){ctx.strokeStyle='#999';ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,128);ctx.stroke();}
+ }
+ const tex=new THREE.CanvasTexture(c);tex.wrapS=tex.wrapT=THREE.RepeatWrapping;tex.repeat.set(3,2);return tex;
+}
+const clothBump=weaveBump('cloth'),knitBump=weaveBump('knit');
+for(const m of [coat,pants]){m.bumpMap=clothBump;m.bumpScale=.027;m.needsUpdate=true;}
+for(const m of [hat,scarf]){m.bumpMap=knitBump;m.bumpScale=.047;m.needsUpdate=true;}
+// Softer skin/hair separation and muted winter highlights.
+skin.color.set(0xf4c9bd);hair.roughness=.92;boots.roughness=.96;
 // v53: layered padded coat panels, curved pockets and warmer material response.
-coat.roughness=.94;coat.metalness=0;hat.roughness=1;scarf.roughness=1;
+coat.roughness=.92;coat.metalness=0;coat.flatShading=false;hat.roughness=1;scarf.roughness=1;skin.roughness=.97;
 const coatShade=new THREE.MeshStandardMaterial({color:palette[0],roughness:1});
 coatShade.color.multiplyScalar(.88);
 const coatHighlight=new THREE.MeshStandardMaterial({color:palette[0],roughness:.91});
 coatHighlight.color.multiplyScalar(1.08);
-// Short, rounded body and padded legs
-oval(player,.73,.78,.49,coat,0,1.45,0);
+// v70: replace the sphere torso with a purpose-shaped, smooth padded silhouette.
+// The curved lathe profile gives a rounded shoulder, tapered waist and soft hem.
+const coatProfile=[
+ [0,0.85],[.39,.85],[.59,.91],[.70,1.06],[.76,1.28],
+ [.78,1.53],[.74,1.76],[.60,1.96],[.41,2.04],[0,2.04]
+].map(([r,y])=>new THREE.Vector2(r,y));
+const coatSculpt=new THREE.Mesh(new THREE.LatheGeometry(coatProfile,48),coat);
+coatSculpt.scale.z=.76;coatSculpt.castShadow=true;coatSculpt.receiveShadow=true;
+player.add(coatSculpt);
+// Soft raised down chambers follow the silhouette rather than cutting across a sphere.
+for(const [y,r] of [[1.10,.70],[1.38,.775],[1.67,.755],[1.89,.64]]){
+ const tube=new THREE.Mesh(new THREE.TorusGeometry(r,.065,9,48),coatHighlight);
+ tube.rotation.x=Math.PI/2;tube.scale.y=.76;tube.position.y=y;
+ tube.castShadow=true;player.add(tube);
+}
+// Collar and hem are rounded to read as fabric, not rigid armor.
+const collarRoll=new THREE.Mesh(new THREE.TorusGeometry(.46,.105,10,40),coatHighlight);
+collarRoll.rotation.x=Math.PI/2;collarRoll.scale.y=.85;collarRoll.position.y=2.01;player.add(collarRoll);
 // Group arms and legs so their movement is visible without changing the face.
 const walkLegs=[],walkArms=[];
 for(const x of [-.37,.37]){
  const leg=new THREE.Group();leg.position.set(x,.92,0);player.add(leg);
- oval(leg,.31,.47,.36,pants,0,-.30,0);
- oval(leg,.36,.20,.45,boots,0,-.72,.13);
+ oval(leg,.32,.43,.32,pants,0,-.30,0);
+ oval(leg,.35,.17,.42,boots,0,-.70,.16);
  walkLegs.push(leg);
  const arm=new THREE.Group();arm.position.set(x*2.22,1.84,.01);player.add(arm);
- oval(arm,.28,.53,.31,coat,0,-.42,0);
+ oval(arm,.29,.46,.31,coat,0,-.40,0);
  oval(arm,.23,.20,.23,coat,0,-.83,.08);
  walkArms.push(arm);
 }
 // Puffer jacket horizontal quilting
-for(const y of [1.12,1.46,1.80]){
- const band=new THREE.Mesh(new THREE.TorusGeometry(.69,.015,5,32,Math.PI),stitch);
- band.rotation.x=Math.PI/2;band.position.set(0,y,.06);player.add(band);
-}
-cube(player,.035,.72,.015,stitch,0,1.46,.497);
+// v70: quilting is built into the curved coat chambers above.
+cube(player,.025,.70,.012,stitch,0,1.46,.577);
 for(const x of [-.46,.46])cube(player,.17,.025,.02,stitch,x,1.24,.485);
 // Soft puffed jacket: raised horizontal quilt segments, cuffs, and visible pocket flaps.
-for(const y of [1.26,1.55,1.82]){
- const puff=oval(player,.66,.15,.465,coatHighlight,0,y,.01);
- puff.scale.x=.65-(y===1.82?.07:0);
-}
+// v70: front follows the sculpted coat surface, without overlapping rigid slabs.
 for(const x of [-.44,.44]){
  const pocket=oval(player,.21,.12,.07,coatShade,x,1.29,.455);
  pocket.rotation.z=x<0?-.18:.18;
 }
-// Oversized head, ears and layered dark hair
-oval(player,.86,.82,.69,skin,0,2.62,.07);
+// v67: soft jacket roll, hem padding and thick knitted collar.
+const plush=material(jacketIndex===2?0x465777:0xf6eaf0);
+// v70: remove pill-shaped front pieces; curved chambers carry the padding.
+for(const x of [-.65,.65])oval(player,.19,.19,.18,plush,x,1.11,.10);
+// v74: replace the primitive oval head with a dedicated deformed, smooth mesh.
+// Geometry is sculpted from a subdivided sphere: fuller cheeks, flat sleepy
+// brow plane, narrowed temples, rounded jaw and a slightly protruding forehead.
+function sculptHeadGeometry(){
+ const g=new THREE.SphereGeometry(1,64,48);
+ const pos=g.attributes.position;
+ for(let k=0;k<pos.count;k++){
+  const x=pos.getX(k),y=pos.getY(k),z=pos.getZ(k);
+  const lower=Math.max(0,Math.min(1,(.20-y)*1.25));
+  const cheek=Math.exp(-Math.pow((y+.22)/.34,2))*Math.pow(Math.abs(x),1.4);
+  const forehead=Math.exp(-Math.pow((y-.38)/.40,2))*Math.max(0,z);
+  const jaw=Math.max(0,-y-.28);
+  const nx=x*(.86+.085*cheek-.15*jaw);
+  const ny=2.62+y*.82-.045*lower;
+  const nz=.07+z*(.69+.045*forehead+.06*cheek)-.035*jaw;
+  pos.setXYZ(k,nx,ny,nz);
+ }
+ g.computeVertexNormals();return g;
+}
+const sculptHead=new THREE.Mesh(sculptHeadGeometry(),skin);
+sculptHead.castShadow=true;sculptHead.receiveShadow=true;player.add(sculptHead);
+
 for(const x of [-.83,.83])oval(player,.16,.21,.13,skin,x,2.52,.05);
-oval(player,.88,.67,.65,hair,0,2.91,-.11);
+// v74: hair cap is its own sculpted surface rather than an overlapping oval.
+function sculptHairCap(){
+ const g=new THREE.SphereGeometry(1,48,32,0,Math.PI*2,0,Math.PI*.67);
+ const a=g.attributes.position;
+ for(let i=0;i<a.count;i++){
+  const x=a.getX(i),y=a.getY(i),z=a.getZ(i);
+  const side=1+.05*Math.sin(Math.atan2(z,x)*4);
+  a.setXYZ(i,x*.895*side,2.89+y*.65,z*.68-.095);
+ }
+ g.computeVertexNormals();return g;
+}
+const sculptHair=new THREE.Mesh(sculptHairCap(),hair);sculptHair.castShadow=true;player.add(sculptHair);
 for(const [x,y,rot] of [[-.50,2.96,-.3],[-.20,2.99,-.12],[.13,2.99,.12],[.45,2.95,.34]]){
  const fringe=oval(player,.23,.36,.18,hair,x,y,.52);fringe.rotation.z=rot;
+}
+// v66: soft layered hair strands instead of a single unbroken fringe silhouette.
+const hairSheen=new THREE.MeshStandardMaterial({color:0x554957,roughness:1});
+for(const [x,y,tilt] of [[-.55,2.96,-.26],[-.29,3.03,-.13],[.02,3.06,.04],[.34,3.02,.19],[.57,2.95,.29]]){
+ const strand=oval(player,.055,.22,.045,hairSheen,x,y,.678);strand.rotation.z=tilt;
 }
 // Delicate face accents: tiny ear highlights and cheek glows, without changing eye spacing.
 const earLight=material(0xf4b8ae);
@@ -680,6 +1015,27 @@ for(const x of [-.32,.32]){
 }
 oval(player,.038,.025,.018,faceDark,0,2.42,.776);
 const mouth=oval(player,.085,.021,.018,faceDark,0,2.32,.772);mouth.rotation.z=-.06;
+// v72: face silhouette sculpt. A pair of broad, shallow cheeks soften the
+// spherical head while keeping the sleepy eyes unobstructed.
+const cheekSkin=new THREE.MeshStandardMaterial({color:0xf4c9bd,roughness:1});
+for(const side of [-1,1]){
+ // Sculpted head already includes the cheek volume; no stuck-on cheek sphere.
+ // Rounded lower eyelid creates a soft sleepy expression, not a painted stripe.
+ const lidCurve=new THREE.CatmullRomCurve3([
+  new THREE.Vector3(side*.14,2.565,.755),
+  new THREE.Vector3(side*.31,2.545,.774),
+  new THREE.Vector3(side*.49,2.565,.724)
+ ]);
+ const lid=new THREE.Mesh(new THREE.TubeGeometry(lidCurve,12,.018,5,false),faceDark);
+ player.add(lid);
+ // Delicate cheek freckles, kept above the surface of the cheek sculpture.
+ for(const dx of [-.035,.035])oval(player,.014,.021,.009,blush,side*.59+dx,2.395,.718);
+}
+// A tiny protruding nose and gentle lip give the front face actual depth.
+const noseSoft=new THREE.MeshStandardMaterial({color:0xeeb9ac,roughness:1});
+oval(player,.052,.035,.032,noseSoft,0,2.445,.785);
+// A short, softly raised chin makes the oversized face less like a flat mask.
+// Jawline is integrated into the new head mesh.
 // v64: clearly visible character detail pass: dimensional cheeks, eye glints,
 // jacket front placket and tiny metal snaps. Kept away from sleepy eyelids.
 const cheekGlow=new THREE.MeshStandardMaterial({color:0xf3a9ad,roughness:1,transparent:true,opacity:.53});
@@ -688,42 +1044,79 @@ for(const x of [-.53,.53]){
  oval(player,.035,.020,.014,material(0xffffff),x<0?-.395:.245,2.574,.772);
 }
 const zipperMetal=new THREE.MeshStandardMaterial({color:0xb8b9c5,metalness:.5,roughness:.38});
-cube(player,.028,.69,.018,zipperMetal,0,1.49,.511);
-for(const y of [1.27,1.52,1.77])oval(player,.025,.025,.014,zipperMetal,.055,y,.521);
+cube(player,.022,.69,.013,zipperMetal,0,1.49,.590);
+for(const y of [1.27,1.52,1.77])oval(player,.025,.025,.014,zipperMetal,.055,y,.601);
 for(const x of [-.68,.68]){
  for(const y of [1.43,1.66])oval(player,.047,.035,.035,coatShade,x,y,.20);
 }
-// Scarf wraps the neck without hiding the face
-oval(player,.76,.23,.55,scarf,0,2.07,.04);
-oval(player,.20,.35,.10,scarf,.40,1.82,.50);
-// Subtle plaid on the hanging scarf tail: two crosswise bands and fine vertical stitch.
+// v69: stitched sleeve segments and raised down-filled jacket rolls.
+// Small sculpted overlapping forms read as cloth rather than armor plates.
+const quiltSeam=new THREE.MeshStandardMaterial({color:palette[0],roughness:1});quiltSeam.color.multiplyScalar(.78);
+for(const arm of walkArms){
+ for(const y of [-.24,-.48,-.68]){
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.288,.013,6,24),quiltSeam);
+  ring.rotation.x=Math.PI/2;ring.position.set(0,y,.01);arm.add(ring);
+ }
+ oval(arm,.26,.115,.265,coatHighlight,0,-.70,.01);
+}
+for(const x of [-.35,.35]){
+ // Curved seam at the coat hem and raised pocket piping.
+ const pip=oval(player,.24,.024,.025,quiltSeam,x,1.14,.495);pip.rotation.z=x<0?-.12:.12;
+}
+// v73 clothing pass: rounded scarf loops and a softly hanging, shaped knitted tail.
+const scarfShadow=new THREE.MeshStandardMaterial({color:palette[1],roughness:1,bumpMap:knitBump,bumpScale:.045});
+scarfShadow.color.multiplyScalar(.84);
+// Individual overlapped neck loops are round and asymmetrical, not a rigid cylinder.
+for(const [x,y,z,rx,ry,rz,tilt] of [[-.34,2.055,.19,.46,.205,.44,-.12],[.28,2.065,.20,.49,.21,.45,.11]]){
+ const loop=oval(player,rx,ry,rz,scarf,x,y,z);loop.rotation.z=tilt;
+}
+oval(player,.28,.18,.15,scarfShadow,.37,1.98,.52);
+const tailProfile=[new THREE.Vector2(0,1.50),new THREE.Vector2(.155,1.50),new THREE.Vector2(.195,1.57),new THREE.Vector2(.19,1.79),new THREE.Vector2(.175,1.98),new THREE.Vector2(0,2.00)];
+const scarfTail=new THREE.Mesh(new THREE.LatheGeometry(tailProfile,24),scarf);
+scarfTail.position.set(.39,0,.49);scarfTail.scale.z=.55;scarfTail.rotation.z=-.065;scarfTail.castShadow=true;player.add(scarfTail);
 const plaidAccent=[0xf5e6e8,0xe9f1fc,0xffffff][scarfIndex];
 const plaidDark=[0x9b607d,0x597fa8,0xb49a7e][scarfIndex];
 const plaidLightMaterial=material(plaidAccent),plaidDarkMaterial=material(plaidDark);
-for(const y of [1.70,1.82,1.94]){
- const stripe=cube(player,.37,.023,.018,plaidDarkMaterial,.40,y,.603);
- stripe.rotation.z=-.045;
+// Embroidered plaid follows the rounded scarf surface rather than a flat plate.
+for(const y of [1.60,1.76,1.91]){
+ const band=oval(player,.174,.018,.016,plaidDarkMaterial,.39,y,.598);
+ band.rotation.z=-.065;
 }
-for(const x of [.32,.47])cube(player,.021,.59,.018,plaidLightMaterial,x,1.82,.611);
-// Small decorative hem on the coat, without changing its silhouette.
+for(const x of [.325,.445]){
+ const line=oval(player,.012,.235,.012,plaidLightMaterial,x,1.755,.605);
+ line.rotation.z=-.065;
+}
+for(const x of [.29,.355,.425,.49])oval(player,.017,.065,.017,plaidLightMaterial,x,1.47,.515);
+// Soft padded hem, cuffs and pocket piping maintain the three jacket colors.
 const hem=material(jacketIndex===2?0x526487:0xf9f4f0);
-for(const x of [-.37,.37])cube(player,.12,.022,.024,hem,x,1.08,.43);
-
-// Small scarf fringe: low-cost rounded tassels below the checked tail.
-for(const x of [.28,.36,.44,.52])oval(player,.018,.07,.017,plaidLightMaterial,x,1.61,.61);
-// Knitted beanie, cuff, ribbing and pom-pom
-oval(player,.90,.47,.75,hat,0,3.30,-.03);
-oval(player,.94,.20,.78,hat,0,3.11,.03);
-for(let j=-5;j<=5;j++){
- const x=j*.135;const z=.02+Math.sqrt(Math.max(0,1-(x/.94)**2))*.78;
- cube(player,.018,.23,.018,stitch,x,3.13,z);
+for(const x of [-.37,.37])oval(player,.14,.025,.03,hem,x,1.08,.43);
+// Beanie is built from a rounded crown and folded knitted cuff, with a real seam edge.
+const capCrown=oval(player,.875,.46,.725,hat,0,3.33,-.04);
+capCrown.rotation.z=.025;
+const capCuff=oval(player,.93,.165,.77,hat,0,3.115,.025);
+const cuffShade=new THREE.MeshStandardMaterial({color:0xe4d7d4,roughness:1,bumpMap:knitBump,bumpScale:.035});
+const cuffEdge=new THREE.Mesh(new THREE.TorusGeometry(.875,.025,7,40),cuffShade);
+cuffEdge.rotation.x=Math.PI/2;cuffEdge.scale.z=.86;cuffEdge.position.set(0,3.02,.02);player.add(cuffEdge);
+const yarnHighlight=new THREE.MeshStandardMaterial({color:0xfff9f4,roughness:1,bumpMap:knitBump,bumpScale:.03});
+for(let j=-7;j<=7;j++){
+ const x=j*.112,arc=Math.sqrt(Math.max(0,1-(x/.94)**2));
+ const rib=oval(player,.018,.093,.013,yarnHighlight,x,3.12,.055+arc*.78);
+ rib.rotation.z=x*.10;
 }
-oval(player,.22,.20,.22,hat,0,3.78,-.03);
-// Thin beanie seams: subtle cap texture that keeps the original silhouette.
-for(let j=-3;j<=3;j++){
- const x=j*.20;
- const z=.04+Math.sqrt(Math.max(0,1-(x/.91)**2))*.70;
- cube(player,.012,.12,.012,stitch,x,3.39,z);
+// Small vertical crown stitches sit on the curved surface.
+for(let j=-4;j<=4;j++){
+ const x=j*.17,arc=Math.sqrt(Math.max(0,1-(x/.91)**2));
+ const seam=oval(player,.012,.105,.012,cuffShade,x,3.39,-.02+arc*.68);
+ seam.rotation.z=x*.12;
+}
+oval(player,.19,.18,.19,hat,0,3.76,-.03);
+for(let k=0;k<9;k++){
+ const a=k*Math.PI*2/9;
+ oval(player,.085,.09,.085,hat,Math.cos(a)*.12,3.79+Math.sin(a*2)*.035,Math.sin(a)*.11-.03);
+}
+// Add individual soft hair tips below the fringe; they don't cover the eyes.
+for(const [x,tilt] of [[-.59,-.22],[-.40,-.15],[-.12,-.06],[.18,.12],[.43,.23],[.60,.30]]){
+ const tip=oval(player,.11,.19,.105,hair,x,2.91,.57);tip.rotation.z=tilt;
 }
 // Girl: side wisps; boy: short side hair, while preserving the same face and silhouette
 if(appearance.variant==='girl-long'){
@@ -746,6 +1139,42 @@ if(appearance.variant==='girl-long'){
 }else{
  for(const x of [-.76,.76])oval(player,.13,.18,.14,hair,x,2.48,-.06);
 }
+// v71: shaped, tapering hair ribbons replace the flat toy-like outer silhouette.
+// Each lock is a curved 3D mesh, not a decal; variants retain their original lengths.
+function sculptHairLock(points, width, depth, tint=hair){
+ const curve=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));
+ const verts=[],indices=[];const steps=14;
+ for(let i=0;i<=steps;i++){
+  const t=i/steps, pos=curve.getPoint(t);
+  const w=width*(.94-.78*Math.pow(t,2.1));
+  verts.push(pos.x-w,pos.y,pos.z-depth*.45,pos.x+w,pos.y,pos.z+depth*.45);
+  if(i<steps){const a=i*2;indices.push(a,a+1,a+2,a+1,a+3,a+2)}
+ }
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setIndex(indices);geo.computeVertexNormals();
+ const mat=tint===hair?hair:new THREE.MeshStandardMaterial({color:tint,roughness:.94,side:THREE.DoubleSide});
+ const mesh=new THREE.Mesh(geo,mat);mesh.material.side=THREE.DoubleSide;mesh.castShadow=true;player.add(mesh);
+}
+// Front swoop, kept above the sleepy eyes.
+for(const [x,dx] of [[-.52,-.12],[-.28,-.08],[.03,.03],[.32,.10],[.54,.14]]){
+ sculptHairLock([[x,3.28,.52],[x+dx*.45,3.12,.67],[x+dx,2.90,.69]],.105,.08);
+}
+if(appearance.variant==='girl-long'){
+ for(const side of [-1,1])for(let j=0;j<3;j++){
+  const x=side*(.68+j*.065);
+  sculptHairLock([[x,2.95,-.03],[x+side*.055,2.43,.00],[x+side*.035,1.87,-.04],[x+side*.015,1.48,-.10]],.10,.14);
+ }
+}else if(appearance.variant==='girl'){
+ for(const side of [-1,1])for(let j=0;j<3;j++){
+  const x=side*(.70+j*.045);
+  sculptHairLock([[x,2.97,.04],[x+side*.08,2.70,.05],[x+side*.04,2.45,.02]],.09,.12);
+ }
+}else{
+ for(const side of [-1,1])sculptHairLock([[side*.69,3.10,.04],[side*.78,2.86,.07],[side*.73,2.63,.02]],.11,.12);
+}
+// v69: a soft, low-cost ground contact shadow helps anchor the feet.
+const shadowMat=new THREE.MeshBasicMaterial({color:0x46536e,transparent:true,opacity:.19,depthWrite:false});
+const footShadow=new THREE.Mesh(new THREE.CircleGeometry(.82,32),shadowMat);
+footShadow.rotation.x=-Math.PI/2;footShadow.position.y=.025;player.add(footShadow);
 // v56: restrained cold-air breath animation. Meshes are shared across frames,
 // stay attached to the avatar, and do not spawn per-frame particles.
 const breathPuffs=[];
@@ -774,6 +1203,16 @@ function otherAvatar(data){
 }
 function removeOther(id){const entry=others.get(id);if(entry){scene.remove(entry.group);others.delete(id)}}
 const dog=new THREE.Group();scene.add(dog);const fur=material(0xffeee5);ball(dog,.43,fur,0,.47,0);ball(dog,.37,fur,0,.96,.15);for(const x of [-.33,.33])ball(dog,.18,fur,x,.96,.09);for(const x of [-.14,.14])ball(dog,.05,faceDark,x,1.02,.48);ball(dog,.07,faceDark,0,.86,.5);
+// v71: round muzzle, floppy ears, paws and chest give the companion a softer silhouette.
+const dogMuzzle=material(0xfff7ef),dogEar=material(0xf6e2d5),dogNose=material(0x433d48);
+oval(dog,.23,.17,.16,dogMuzzle,0,.81,.44);
+oval(dog,.095,.075,.065,dogNose,0,.84,.58);
+for(const side of [-1,1]){
+ const ear=oval(dog,.16,.27,.12,dogEar,side*.34,1.00,.04);ear.rotation.z=side*.30;
+ oval(dog,.16,.20,.19,fur,side*.24,.17,.28);
+ oval(dog,.15,.19,.17,fur,side*.27,.17,-.24);
+}
+oval(dog,.30,.35,.16,dogMuzzle,0,.55,.31);
 const dogTail=new THREE.Group();dogTail.position.set(0,.60,-.34);dog.add(dogTail);
 const tailMesh=oval(dogTail,.13,.33,.13,fur,0,.21,-.10);tailMesh.rotation.x=-.55;
 
@@ -786,8 +1225,10 @@ for(let i=0;i<5;i++){
   const u=Math.abs(positions.getX(j)/55),v=(positions.getY(j)+15.5)/31;
   const edge=Math.pow(Math.max(0,1-u*u),1.6);
   const vertical=.14+.86*Math.pow(Math.sin(Math.PI*v),.8);
-  const intensity=edge*vertical;
-  colors.push(intensity,intensity,intensity);
+  const ray=.55+.45*Math.pow(Math.sin(positions.getX(j)*.43+i*1.7),2);
+  const intensity=edge*vertical*ray;
+  const upper=Math.max(0,Math.min(1,(v-.32)*1.45));
+  colors.push(intensity*(.65+.35*upper),intensity*(1-.22*upper),intensity*(.82+.18*upper));
  }
  geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
  const m=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color:0x66ffce,vertexColors:true,transparent:true,opacity:.15,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
@@ -917,18 +1358,46 @@ const stickEl=document.getElementById('stick'),joyEl=document.getElementById('jo
 const joy={x:0,y:0,id:null};let orbitYaw=0,orbitPitch=.20,orbitRadius=13;
 let cameraSensitivity=Number(localStorage.getItem('aurura-camera-sensitivity')||1);
 if(!Number.isFinite(cameraSensitivity)||cameraSensitivity<.5||cameraSensitivity>2)cameraSensitivity=1;
+// v66: true two-finger pinch zoom; one-finger drag rotates only.
 let orbitPointer=null,orbitX=0,orbitY=0;
+const activeViewTouches=new Map();let pinchDistance=0;
+function pointerGap(){const p=[...activeViewTouches.values()];return p.length<2?0:Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)}
 function updateJoystick(e){const r=joyEl.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;const max=45;let x=(e.clientX-cx)/max,y=(e.clientY-cy)/max;const l=Math.hypot(x,y);if(l>1){x/=l;y/=l}joy.x=x;joy.y=y;stickEl.style.transform=`translate(${x*max}px,${y*max}px)`}
 function resetJoystick(){joy.id=null;joy.x=joy.y=0;stickEl.style.transform='translate(0px,0px)'}
 joyEl.addEventListener('pointerdown',e=>{if(joy.id!==null)return;joy.id=e.pointerId;joyEl.setPointerCapture(e.pointerId);updateJoystick(e);e.preventDefault()});
 joyEl.addEventListener('pointermove',e=>{if(joy.id===e.pointerId){updateJoystick(e);e.preventDefault()}});
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])joyEl.addEventListener(ev,e=>{if(joy.id===e.pointerId)resetJoystick()});
 const viewCanvas=renderer.domElement;
-viewCanvas.addEventListener('pointerdown',e=>{if(orbitPointer!==null)return;orbitPointer=e.pointerId;orbitX=e.clientX;orbitY=e.clientY;viewCanvas.setPointerCapture(e.pointerId);e.preventDefault()});
-viewCanvas.addEventListener('pointermove',e=>{if(orbitPointer!==e.pointerId)return;const mx=e.clientX-orbitX,my=e.clientY-orbitY;orbitX=e.clientX;orbitY=e.clientY;orbitYaw-=mx*.008*cameraSensitivity;orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.006*cameraSensitivity,-1.15,.85);e.preventDefault()});
-for(const ev of ['pointerup','pointercancel','lostpointercapture'])viewCanvas.addEventListener(ev,e=>{if(orbitPointer===e.pointerId)orbitPointer=null});
+viewCanvas.addEventListener('pointerdown',e=>{
+ if(e.pointerType==='mouse'&&e.button!==0)return;
+ activeViewTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ try{viewCanvas.setPointerCapture(e.pointerId)}catch(_){}
+ if(activeViewTouches.size===1){orbitPointer=e.pointerId;orbitX=e.clientX;orbitY=e.clientY;pinchDistance=0}
+ else {orbitPointer=null;pinchDistance=pointerGap()}
+ e.preventDefault();
+});
+viewCanvas.addEventListener('pointermove',e=>{
+ if(!activeViewTouches.has(e.pointerId))return;
+ activeViewTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(activeViewTouches.size>=2){
+  const gap=pointerGap();
+  if(pinchDistance>0&&gap>0){orbitRadius=THREE.MathUtils.clamp(orbitRadius*pinchDistance/gap,5,25)}
+  pinchDistance=gap;
+ }else if(orbitPointer===e.pointerId){
+  const mx=e.clientX-orbitX,my=e.clientY-orbitY;orbitX=e.clientX;orbitY=e.clientY;
+  orbitYaw-=mx*.008*cameraSensitivity;
+  orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.006*cameraSensitivity,-1.15,.85);
+ }
+ e.preventDefault();
+});
+for(const ev of ['pointerup','pointercancel','lostpointercapture'])viewCanvas.addEventListener(ev,e=>{
+ activeViewTouches.delete(e.pointerId);
+ if(activeViewTouches.size===1){const [id,pos]=activeViewTouches.entries().next().value;orbitPointer=id;orbitX=pos.x;orbitY=pos.y;pinchDistance=0}
+ else if(activeViewTouches.size===0){orbitPointer=null;pinchDistance=0}
+ else {orbitPointer=null;pinchDistance=pointerGap()}
+});
 viewCanvas.addEventListener('wheel',e=>{orbitRadius=THREE.MathUtils.clamp(orbitRadius+Math.sign(e.deltaY)*1.3,5,25);e.preventDefault()},{passive:false});
-addEventListener('blur',resetJoystick);document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoystick();orbitPointer=null}});
+addEventListener('blur',resetJoystick);document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoystick();orbitPointer=null;activeViewTouches.clear();pinchDistance=0}});
 // Prevent iPhone double-tap zoom and browser gesture interference on directional pad.
 document.querySelector('.pad').addEventListener('contextmenu',e=>e.preventDefault());
 document.getElementById('photoMode').onclick=()=>{
@@ -1384,7 +1853,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const a=m.geometry.attributes.position;
  for(let j=0;j<a.count;j++){
   const x=a.getX(j),y=a.getY(j),v=(y+15.5)/31;
-  a.setZ(j,Math.sin(x*.092+time*.58+i*.85)*4.2*v+Math.sin(x*.035-time*.27+i)*2.4);
+  a.setZ(j,Math.sin(x*.092+time*.58+i*.85)*4.2*v+Math.sin(x*.035-time*.27+i)*2.4+Math.sin(x*.24+time*.9+i)*.75*v);
  }
  a.needsUpdate=true;
 });if(now-lastAuroraGeometry>=45)lastAuroraGeometry=now;renderer.render(scene,camera)}build(current);requestAnimationFrame(frame);function resizeGameViewport(){

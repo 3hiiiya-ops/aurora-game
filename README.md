@@ -160,3 +160,79 @@
 - More legible chibi face and jacket detailing (cheek glow, eye glints, zipper).
 - Large region-specific terrain silhouettes: Iceland basalt stacks, Norway shore cottages, Canada treeline, Alaska icy ridge.
 - Snow drifts add landscape layering. Visuals still require real-device inspection.
+
+
+v65 visual pass: displaced snow plane, layered snow banks/pebbles, brighter cinematic lighting, softer avatar proportions, and non-overlapping mobile HUD. Static checks only; no mobile runtime verification.
+
+
+## v66 · Touch controls and reference art direction
+- On touch screens, one finger rotates the camera and a two-finger pinch alone changes zoom. Pinch transitions back to one-finger drag without a jump.
+- Removed +/- camera buttons from mobile HUD (desktop retains them and mouse wheel zoom).
+- Reduced mobile control visual weight; added hair strand surface detail.
+- The user's reference image is a visual target, not an already-achieved quality level. No photorealistic assets or custom character mesh were generated in this release.
+
+## v67 · Cozy world art rebuild
+- Dense layered snow-covered fir forest, foreground snow banks, timber lodge with warm glowing windows, lanterns and snow-roof details around spawn in all regions.
+- Smoother avatar mesh and puffer quilting; reduced mobile HUD obstruction.
+- Visual-first pass; reference image fidelity still requires authored character/environment assets.
+- Static JS syntax check only; no device/browser rendering verification.
+
+
+## v68 art overhaul
+- Rebuilt spruce branches with five rounded, snow-laden tiers and bough snow clumps.
+- Added repeatable procedural snow grain to the ground.
+- Added thick cabin roof snow, exposed log siding, doorstep and porch lantern details.
+- No new game systems; art-focused pass. Reference-image parity is not claimed.
+
+
+## v69 character surface rebuild
+- Procedural cloth/knit bump textures on jacket, trousers, scarf, and hat.
+- Raised jacket sleeve seams, hem piping, beanie yarn ribs and soft hair tips.
+- Character ground-contact shadow.
+- Keeps three avatar variants and existing outfit color palettes.
+- Browser visual testing is still required; not equivalent to a custom sculpted GLB character.
+
+
+## v70 — Avatar silhouette rebuild
+- Replaced primitive oval coat body with smooth lathe sculpt profile, rounded collar and padded chamber geometry.
+- Removed slab/pill chest overlays; softened arm and boot proportions.
+- Preserved game systems, touch controls, appearance palettes and aurora scheduling.
+- Static JS syntax checked; mobile runtime and performance still need testing.
+
+
+## v71 visual pass
+- Procedural tapered 3D hair locks for bob, long, and short variants.
+- Rounded dog muzzle, ears, paws and chest.
+- Existing navigation, aurora schedule, camera pinch gestures unchanged.
+- Syntax-checked only; real mobile rendering still requires testing.
+
+
+## v72 · Face sculpt pass
+- Added soft dimensional cheeks, lower eyelid curves, tiny nose and chin contour to avatar.
+- Kept existing hair variants, clothing palettes, dog, aurora schedule, camera and map code intact.
+- Static syntax checks only; mobile visual and performance testing still required.
+
+
+## v73 clothing sculpt
+- Rebuilt scarf as rounded asymmetric neck loops and curved hanging tail with plaid stitching.
+- Rebuilt beanie crown, folded cuff, curved seam and knit ribbing.
+- Preserved jacket/scarf color assignment, controls, aurora timing, map and game logic.
+- Static syntax verified; not tested on real phones.
+
+
+## v74 — Head mesh replacement
+Replaced original oval face and oval hair cap with separate, high-segment custom deformed 3D meshes. Removed oversized stuck-on cheek and chin geometry. Existing controls, aurora schedule and region logic are unchanged. Mobile runtime not verified.
+
+## v75: regional scenery / aurora art pass
+- Batched, instanced distant spruce forests in Norway, Canada, and Alaska, preserving a camp clearing.
+- Continuous basalt ridge added to Iceland.
+- Aurora ribbons have fine vertical ray variation, subtle color gradients and layered wave depth.
+- No changes to the 5-minute appearance / 10-minute absence schedule, camera, touch controls, or player state.
+- These remain procedural stylized meshes, not reference-grade 3D assets.
+
+## v76 — sculpted spruce geometry / QA
+Replaced stacked-cone nearby spruce with continuous custom scalloped foliage and matching snow mesh; shared geometry remains alive across region switches. Existing features unchanged. See VISUAL-QA-v76.md for device tests still required.
+
+
+## v77 — environment mesh replacements
+Replaced the old cuboid cabin shell with a custom pitched-house mesh and continuous roof surfaces; replaced angular peak mountains with an irregular connected ridgeline mesh; replaced dodecahedron rocks with deformed smooth boulder meshes. Existing game systems were not intentionally modified. Browser/mobile runtime QA remains necessary.
