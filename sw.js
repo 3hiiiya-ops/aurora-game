@@ -1,4 +1,4 @@
-const CACHE='aurura-shell-v31';
+const CACHE='aurura-shell-v63';
 const SHELL=['./index.html','./config.js','./manifest.webmanifest','./icon-180.png','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(async cache=>{

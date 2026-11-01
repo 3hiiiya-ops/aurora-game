@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · 테스트</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v57</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -60,8 +60,53 @@ button{min-height:42px;-webkit-tap-highlight-color:transparent}
  .region{bottom:calc(12px + env(safe-area-inset-bottom));max-width:45vw}
  #viewHint{display:none}
 }
-</style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top"><button id="map">🗺️ 지도</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="module">
+@media(max-width:700px){
+ .top{right:10px;max-width:calc(100vw - 20px)}
+ .status{max-width:154px;overflow-wrap:anywhere}
+ #viewHint{display:none}
+ .region{bottom:calc(160px + env(safe-area-inset-bottom));left:10px;transform:none;max-width:calc(100vw - 130px);white-space:normal}
+ .actions{gap:4px}.actions button{min-width:64px}
+}
+
+/* v42: mobile HUD stays inside viewport, avoids covering avatar and world */
+@media (max-width:700px){
+ .top{top:calc(50px + env(safe-area-inset-top));left:10px;right:10px;max-width:calc(100vw - 20px);overflow-x:auto;overflow-y:hidden;scrollbar-width:none;mask-image:linear-gradient(to right,black 93%,transparent 100%)}
+ .top::-webkit-scrollbar{display:none}
+ .status{top:calc(113px + env(safe-area-inset-top));right:10px;width:min(174px,46vw);max-width:min(174px,46vw);font-size:10px;line-height:1.45;max-height:155px;overflow-y:auto;z-index:1}
+ .region{top:calc(116px + env(safe-area-inset-top));left:10px;bottom:auto;transform:none;max-width:calc(54vw - 24px);width:max-content;white-space:normal;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+ .actions{right:max(9px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));gap:5px;width:67px;max-width:67px;display:flex;flex-direction:column;align-items:stretch;flex-wrap:nowrap}
+ .actions button{min-width:0;width:100%;padding:9px 3px;min-height:42px;font-size:11px;line-height:1.15}
+ #joystick{width:116px;height:116px;bottom:calc(16px + env(safe-area-inset-bottom));left:max(10px,env(safe-area-inset-left))}
+ #stick{width:54px;height:54px}
+ #viewHint{display:none}
+ #message{top:auto;bottom:calc(177px + env(safe-area-inset-bottom));left:50%;max-width:calc(100vw - 165px);font-size:11px;pointer-events:none}
+}
+@media(max-width:380px){.status{font-size:10px}.actions{width:62px;max-width:62px}#joystick{width:106px;height:106px}}
+@media(max-height:500px) and (orientation:landscape){.region{top:85px;left:10px}.status{max-height:90px}.actions{width:60px;max-width:60px}}
+
+/* v57: on narrow screens keep essential exploration controls visible. */
+@media(max-width:700px){
+ body:not(.tools-expanded) .top>button:not(#map):not(#compass):not(#photo):not(#moreTools){display:none}
+ .top{mask-image:none!important;overflow-x:auto!important;gap:6px}
+ .top>button{flex:0 0 auto;white-space:nowrap}
+ body.tools-expanded .top{background:#20284bdc;border:1px solid #ffffff44;border-radius:14px;padding:7px;flex-wrap:wrap;max-height:min(38dvh,270px);overflow-y:auto!important;align-content:start;box-shadow:0 12px 30px #0006}
+ body.tools-expanded .status{opacity:.35;pointer-events:none}
+}
+@media(min-width:701px){#moreTools{display:none}}
+</style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top" id="gameTools"><button id="map">🗺️ 지도</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
+// v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
+const moreToolsButton=document.getElementById('moreTools');
+function setToolsExpanded(expanded){
+ document.body.classList.toggle('tools-expanded',expanded);
+ moreToolsButton.setAttribute('aria-expanded',String(expanded));
+ moreToolsButton.textContent=expanded?'✕ 닫기':'☰ 더보기';
+}
+moreToolsButton.addEventListener('click',()=>setToolsExpanded(!document.body.classList.contains('tools-expanded')));
+document.querySelector('.top').addEventListener('click',e=>{
+ if(e.target.closest('button')?.id!=='moreTools' && document.body.classList.contains('tools-expanded'))setToolsExpanded(false);
+});
+
 // If WebGL is unsupported, show a useful diagnostic rather than a blank page.
 if(!document.createElement('canvas').getContext('webgl2')&&!document.createElement('canvas').getContext('webgl')){
  document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
@@ -78,8 +123,38 @@ function setQuality(choice){
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,QUALITY_PRESETS[choice]));
  try{localStorage.setItem('aurura_quality',choice)}catch(e){}
 }
-setQuality(qualityChoice);renderer.setSize(innerWidth,innerHeight);document.body.prepend(renderer.domElement);scene.add(new THREE.HemisphereLight(0xb5cfff,0x4c4465,2.7));const light=new THREE.DirectionalLight(0xffe7dc,2);light.position.set(-20,50,-40);scene.add(light);
-const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,12,9),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}function tree(x,z,s){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,.5*s,3*s,.5*s,wood,0,1.5*s,0);for(let j=0;j<3;j++){cone(g,(2.1-j*.4)*s,2.8*s,green,0,(2.8+j*.9)*s,0);cone(g,(2.1-j*.4)*s,.3*s,snow,0,(4+j*.9)*s,0)}}function hut(x,z,red){
+setQuality(qualityChoice);renderer.setSize(innerWidth,innerHeight);document.body.prepend(renderer.domElement);
+// v63: recover visibly from mobile Safari/Android WebGL context interruption.
+let webglPaused=false;
+const gpuNotice=document.createElement('div');
+gpuNotice.setAttribute('role','alert');
+gpuNotice.style.cssText='position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:#101a30ee;color:#fff;text-align:center;padding:24px;font:16px/1.7 system-ui,sans-serif';
+gpuNotice.innerHTML='<div style="max-width:340px"><div style="font-size:32px">🌌</div><strong>3D 화면을 복구하고 있어요</strong><p>휴대폰의 그래픽 연결이 잠시 끊겼어요. 잠시 기다려 주세요.</p><button type="button" id="gpuReload" style="border:0;border-radius:14px;padding:12px 20px;background:#e2d4ff;color:#1d2041;font-weight:700">게임 다시 열기</button></div>';
+document.body.append(gpuNotice);
+gpuNotice.querySelector('#gpuReload').addEventListener('click',()=>location.reload());
+renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();webglPaused=true;gpuNotice.style.display='flex';});
+renderer.domElement.addEventListener('webglcontextrestored',()=>{try{setQuality(qualityChoice);renderer.setSize(Math.max(1,innerWidth),Math.max(1,innerHeight),false);webglPaused=false;gpuNotice.style.display='none';}catch(err){console.warn('GPU restore failed',err);}});
+scene.add(new THREE.HemisphereLight(0xb5cfff,0x4c4465,2.7));const light=new THREE.DirectionalLight(0xffe7dc,2);light.position.set(-20,50,-40);scene.add(light);
+const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,12,9),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}// v49: layered spruce silhouettes and irregular snow caps (low geometry budget).
+const spruceDeep=material(0x244d52),spruceMid=material(0x376b68),spruceBright=material(0x56847d);
+const barkDark=material(0x5d4c51),snowCap=material(0xf2f4fb);
+function tree(x,z,s){
+ const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);
+ const variation=(Math.sin(x*13.13+z*7.31)+1)*.5;
+ cube(g,.32*s,2.9*s,.32*s,barkDark,0,1.45*s,0);
+ const leaves=[spruceDeep,spruceMid,spruceBright][Math.floor(variation*2.99)];
+ // Stagger the branches to break up the repetitive cone silhouette.
+ for(let j=0;j<4;j++){
+  const radius=(2.15-j*.34)*s,level=(2.7+j*.82)*s;
+  const branch=cone(g,radius,2.25*s,leaves,0,level,0);
+  branch.rotation.y=variation*3.14+j*.29;
+  cone(g,radius*.76,.28*s,snowCap,0,level+1.02*s,0);
+ }
+ // A soft snow skirt helps each tree meet the ground rather than float.
+ const skirt=new THREE.Mesh(new THREE.CylinderGeometry(1.08*s,1.35*s,.12*s,9),snowCap);
+ skirt.position.y=.07*s;g.add(skirt);
+}
+function hut(x,z,red){
  const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);
  const walls=material(red?0xa85461:0x8f6c72),roof=material(red?0x4d5267:0x695275);
  const trim=material(0xe8e0d9),glow=new THREE.MeshBasicMaterial({color:0xffdc9a});
@@ -115,7 +190,37 @@ function villageDetails(x,z,red){
   stone.scale.set(1.2,.12,.7);stone.position.set(x-1+j*.55,.10,z+4.7+j*1.45);terrain.add(stone);
  }
 }
-function mountain(x,z,r,h){cone(terrain,r,h,material(0x72819d),x,h/2-3,z);cone(terrain,r*.36,h*.3,snow,x,h-3-h*.15,z)}// Region-specific night atmosphere: GPU-friendly points (one draw call per field).
+// v50: faceted irregular mountain ridges with integrated snow peaks (not simple cones).
+function mountain(x,z,r,h){
+ const seed=Math.abs(Math.sin(x*12.9898+z*78.233)*43758.5453)%1;
+ const n=9,base=[],tipY=h*.88;
+ for(let k=0;k<n;k++){
+  const angle=k*Math.PI*2/n;
+  const variation=.78+.32*(.5+.5*Math.sin(k*4.13+seed*17));
+  base.push([Math.cos(angle)*r*variation,-3,Math.sin(angle)*r*variation]);
+ }
+ const top=[r*(seed-.5)*.18,tipY,r*(.5-seed)*.14];
+ const snowHeight=h*(.21+seed*.06),snowRing=[];
+ for(let k=0;k<n;k++){
+  const t=.72+.06*Math.sin(k*3.71+seed*12);
+  snowRing.push([top[0]*(1-t)+base[k][0]*t,top[1]*(1-t)+base[k][1]*t,top[2]*(1-t)+base[k][2]*t]);
+ }
+ const rockColors=[0x5a6685,0x74809b,0x8993ad,0x64718d];
+ const rockMaterials=rockColors.map(c=>new THREE.MeshStandardMaterial({color:c,roughness:1,flatShading:true,side:THREE.DoubleSide}));
+ const white=new THREE.MeshStandardMaterial({color:0xe8eff8,roughness:1,flatShading:true,side:THREE.DoubleSide});
+ const verts=[],groups=[];
+ function triangle(a,b,c,mat){const start=verts.length/3;verts.push(...a,...b,...c);groups.push([start,3,mat]);}
+ for(let k=0;k<n;k++){
+  const next=(k+1)%n;
+  triangle(base[k],base[next],snowRing[k],k%4);
+  triangle(base[next],snowRing[next],snowRing[k],(k+1)%4);
+  triangle(snowRing[k],snowRing[next],top,4);
+ }
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+ for(const [start,count,index] of groups)geo.addGroup(start,count,index);
+ geo.computeVertexNormals();
+ const mesh=new THREE.Mesh(geo,[...rockMaterials,white]);mesh.position.set(x,0,z);terrain.add(mesh);
+}// Region-specific night atmosphere: GPU-friendly points (one draw call per field).
 const starCount=240,snowCount=135;
 const starPositions=new Float32Array(starCount*3),snowPositions=new Float32Array(snowCount*3);
 const starRng=random(7701),snowRng=random(3109);
@@ -197,6 +302,113 @@ function disposeRegion(){
  geometries.forEach(g=>g.dispose());
  materials.forEach(m=>m.dispose());
 }
+// Region-specific base camps: Iceland geothermal shelter, Norway red fishing lodge,
+// Canada log-cabin outpost, Alaska expedition tents. Simple prototype geometry.
+function baseCamp(region){
+ const dark=material(0x4d4b62),cream=material(0xece9df),stone=material(0x566071),amber=new THREE.MeshBasicMaterial({color:0xffdca0}),warm=amber;
+ if(region===0){
+  // Iceland: dark basalt geothermal station, pale roof, steaming thermal pool.
+  cube(terrain,12,4.2,8,material(0x343b48),-12,2.1,-12);
+  cube(terrain,13,.65,9,cream,-12,4.65,-12);
+  for(let j=0;j<3;j++)cube(terrain,1.5,1.5,.12,amber,-16+j*3.5,2.8,-7.92);
+  for(let j=0;j<5;j++)column(-27+j*2.5,-23,3+j%2);
+  lake(-4,-29,8,6);
+ }else if(region===1){
+  // Norway: tall red stilt fishing lodge and waterside wooden boardwalk.
+  const red=material(0xb34753);
+  cube(terrain,11,6,9,red,-14,5,-16);
+  for(const x of [-18,-10])for(const z of [-19,-13])cube(terrain,.75,3,.75,dark,x,1.5,z);
+  cube(terrain,13,.65,11,material(0x45435c),-14,8.35,-16);
+  for(let j=0;j<3;j++)cube(terrain,1.6,1.8,.13,amber,-18+j*4,5.2,-11.43);
+  dock(-9,-28);
+ }else if(region===2){
+  // Canada: timber ranger station, roof snow and dense spruce grove.
+  const timber=material(0x88674e);
+  cube(terrain,12,4.7,9,timber,-14,2.35,-13);
+  for(let j=0;j<6;j++)cube(terrain,12,.22,.3,material(0x5e483b),-14,1+j*.67,-8.35);
+  let a=cube(terrain,9,.75,10,cream,-17,5.5,-13);a.rotation.z=-.32;
+  let b=cube(terrain,9,.75,10,cream,-11,5.5,-13);b.rotation.z=.32;
+  cube(terrain,2,2,.13,amber,-14,2.8,-8.32);
+  for(let j=0;j<7;j++)tree(-26+j*3,-27-(j%3)*3,.55+(j%2)*.2);
+ }else{
+  // Alaska: expedition domes, solar equipment and tall signal mast.
+  const orange=material(0xdd8b64),blue=material(0x7794b2);
+  for(const [x,z,r] of [[-15,-14,4.5],[-26,-23,3.3]]){
+   const dome=new THREE.Mesh(new THREE.SphereGeometry(r,12,7,0,Math.PI*2,0,Math.PI/2),orange);
+   dome.position.set(x,0,z);terrain.add(dome);
+   cube(terrain,r*1.2,1.8,.15,dark,x,.9,z+r*.77);
+  }
+  cube(terrain,5,.3,3,blue,-5,1.5,-20);
+  cube(terrain,.18,9,.18,dark,1,4.5,-17);
+  ball(terrain,.6,amber,1,9.2,-17);
+ }
+}
+// v44: region-specific camp silhouettes. All objects belong to terrain and are
+// released by disposeRegion() when the player switches regions.
+function campIdentityDetails(region){
+ const warm=new THREE.MeshBasicMaterial({color:0xffdba6});
+ const timber=material(0x725443),stone=material(0x303744);
+ if(region===0){
+  // Iceland: low black basalt pillars and turquoise thermal spring basin.
+  for(let k=0;k<8;k++){
+   const a=k*Math.PI/4;
+   column(-12+10*Math.cos(a),-12+9*Math.sin(a),2.2+(k%3)*.7);
+  }
+  const pool=new THREE.Mesh(new THREE.CylinderGeometry(5.2,5.6,.16,24),new THREE.MeshBasicMaterial({color:0x61c6be,transparent:true,opacity:.78}));
+  pool.position.set(-3,.13,-30);terrain.add(pool);
+  for(let k=0;k<3;k++)ball(terrain,.23,warm,-6+k*3,.55,-24);
+ }else if(region===1){
+  // Norway: red harbor shed, quay posts and nautical beacon.
+  const red=material(0xa83e4e);
+  cube(terrain,6,3.7,5,red,-29,1.85,-17);
+  cube(terrain,7,.5,6,material(0xddd9df),-29,3.95,-17);
+  for(let k=0;k<5;k++)cube(terrain,.28,2,.28,timber,-31+k*3,1,-29);
+  cube(terrain,.24,6,.24,timber,-36,3,-27);
+  ball(terrain,.65,warm,-36,6.25,-27);
+ }else if(region===2){
+  // Canada: ranger's timber lookout and stacked firewood.
+  for(let k=0;k<4;k++)cube(terrain,.42,5,.42,timber,-30+(k%2)*4,2.5,-16+Math.floor(k/2)*4);
+  cube(terrain,6,.55,6,timber,-28,5.25,-14);
+  cube(terrain,6.7,.4,6.7,material(0xf3f3f5),-28,5.75,-14);
+  for(let k=0;k<9;k++)cube(terrain,2,.24,.26,timber,-6+(k%3)*.15,.24+Math.floor(k/3)*.25,-18+(k%3)*.4);
+  ball(terrain,.4,warm,-28,6.1,-14);
+ }else{
+  // Alaska: expedition supply crates, signal beacon, and antenna array.
+  for(let k=0;k<6;k++){
+   const x=-30+(k%3)*2.4,z=-12+Math.floor(k/3)*2.4;
+   cube(terrain,2,1.5,2,material(k%2?0x9aafbf:0xe4a57d),x,.75,z);
+  }
+  cube(terrain,.22,12,.22,stone,6,6,-25);
+  for(let k=0;k<3;k++)cube(terrain,3.4,.12,.12,stone,6,8+k*1.2,-25);
+  ball(terrain,.65,warm,6,12.3,-25);
+ }
+}
+// v48: low-cost winter camp accents; no new dynamic lights or external assets.
+function winterCampPolish(region){
+ const snowcap=material(0xf3f5fb),gold=new THREE.MeshBasicMaterial({color:0xffd7a0}),woodTrim=material(0x6c5260);
+ const rnd=random(4400+region*83);
+ // Wind-sculpted snowbanks at camp perimeter, avoiding the central spawn.
+ for(let j=0;j<18;j++){
+  const angle=(j/18)*Math.PI*2,rad=22+rnd()*9;
+  const x=Math.cos(angle)*rad-12,z=Math.sin(angle)*rad-13;
+  const mound=ball(terrain,1,snowcap,x,.14,z);
+  mound.scale.set(1.3+rnd()*2,.18+rnd()*.23,.8+rnd()*1.6);
+ }
+ // Small glowing windows / warm details in the appropriate camp silhouette.
+ if(region===0){
+  for(let k=0;k<4;k++)cube(terrain,.18,1.2,1.2,gold,-5.91,2.4,-15+k*2);
+  for(let k=0;k<5;k++)rock(-36+k*2.4,-34,1.2,true);
+ }else if(region===1){
+  for(let k=0;k<4;k++)cube(terrain,.12,1.1,1.1,gold,-8.43,5,-20+k*2.3);
+  for(let k=0;k<5;k++)cube(terrain,1.1,.18,2.2,woodTrim,-23+k*2.2,.22,-31);
+ }else if(region===2){
+  for(let k=0;k<3;k++)cube(terrain,.14,1.2,1.1,gold,-7.91,2.9,-17+k*2.8);
+  for(let k=0;k<8;k++)tree(-40+k*4,-40-(k%2)*5,.4+(k%3)*.13);
+ }else{
+  for(let k=0;k<7;k++)iceShard(-40+k*3.7,-36-(k%3)*2,.35+rnd()*.55);
+  for(let k=0;k<4;k++)cube(terrain,.85,.5,.85,gold,-16+k*.65,.7,-9);
+ }
+}
 function build(i){
  setRegionAtmosphere(i);
  trackPool.forEach(mark=>mark.visible=false);
@@ -218,19 +430,55 @@ function build(i){
   lake(39,-30,29,19);
   for(let k=0;k<22;k++)iceShard(20+rnd()*48,-49+rnd()*36,.5+rnd()*2);
   for(let k=0;k<28;k++)rock(-15-rnd()*85,-15-rnd()*90,.6+rnd()*2.4,true);
-  hut(-17,-15,false);villageDetails(-17,-15,false);column(-45,-62,9);column(-56,-68,7);waterfall(-70,-103);
+  column(-45,-62,9);column(-56,-68,7);waterfall(-70,-103);
  }else if(i===1){
-  lake(42,-37,43,29);hut(-18,-14,true);hut(-31,-24,true);hut(-44,-37,true);villageDetails(-31,-24,true);
+  lake(42,-37,43,29);hut(-31,-24,true);hut(-44,-37,true);villageDetails(-31,-24,true);
   for(let k=0;k<14;k++)rock(60+rnd()*30,-70+rnd()*70,2+rnd()*4);dock(-18,-38);fishingBoat(15,-35);
  }else if(i===2){
-  lake(42,-30,31,24);hut(-18,-15,false);villageDetails(-18,-15,false);
+  lake(42,-30,31,24);
   for(let k=0;k<40;k++){let x=-80+rnd()*170,z=-100+rnd()*150;if(Math.hypot(x,z)>24)tree(x,z,.65+rnd()*.8)}frozenStream(-65,-68);
  }else{
-  lake(45,-42,19,13);hut(-18,-15,false);villageDetails(-18,-15,false);
+  lake(45,-42,19,13);
   for(let k=0;k<32;k++)rock(-95+rnd()*190,-65+rnd()*130,.6+rnd()*2.4);
   for(let k=0;k<12;k++)iceShard(28+rnd()*45,-65+rnd()*40,1+rnd()*2);for(let k=0;k<38;k++)tundraPatch((rnd()-.5)*210,(rnd()-.5)*210,1+rnd()*3);
  }
- for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
+ // v64: large, recognizable foreground formations for each destination.
+ // All objects are terrain-owned, so switching regions cleans them up.
+ const driftMat=material([0xeaf5ff,0xe7edf9,0xf8fbff,0xe8f2ff][i]);
+ for(let k=0;k<34;k++){
+  const angle=rnd()*Math.PI*2,dist=24+rnd()*110;
+  const x=Math.cos(angle)*dist,z=Math.sin(angle)*dist;
+  if(Math.abs(x)<11&&z>-35&&z<15)continue;
+  const drift=oval(terrain,3+rnd()*6,.22+rnd()*.45,1.2+rnd()*2.8,driftMat,x,.05,z);
+  drift.rotation.y=rnd()*Math.PI;
+ }
+ if(i===0){ // Iceland: dark basalt stacks and blue glacial spires.
+  for(let k=0;k<9;k++){
+   const x=-80+k*7,z=-45-(k%3)*8;
+   const h=4+(k%4)*2.1;
+   const pillar=shape(terrain,new THREE.CylinderGeometry(.95,1.2,h,6),material(0x303b4c),x,h/2,z);
+   pillar.rotation.z=(k%2?-.05:.06);
+   oval(terrain,1.1,.28,1.0,driftMat,x,h+.03,z);
+  }
+ }else if(i===1){ // Norway: clusters of red shore houses with snow roofs.
+  for(let k=0;k<5;k++){
+   const x=-62-k*10,z=-45-(k%2)*13;
+   cube(terrain,6,4.4,5,material(k%2?0xa34b56:0xb85a5c),x,2.2,z);
+   const roof=shape(terrain,new THREE.ConeGeometry(5.2,2.6,4),driftMat,x,5.4,z);roof.rotation.y=Math.PI/4;
+   cube(terrain,1.15,1.3,.08,material(0xffdf9a),x,2.7,z+2.54);
+  }
+ }else if(i===2){ // Canada: a dense, dark evergreen treeline.
+  for(let k=0;k<45;k++){
+   const x=-125+rnd()*250,z=-95-rnd()*42;
+   tree(x,z,.7+rnd()*.85);
+  }
+ }else{ // Alaska: dramatic icy ridges around the expedition route.
+  for(let k=0;k<12;k++){
+   const x=-115+k*21,z=-105-(k%3)*17;
+   iceShard(x,z,3+rnd()*4);
+  }
+ }
+ baseCamp(i);campIdentityDetails(i);winterCampPolish(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
  document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
  if(typeof updateLandmarkHUD==='function')updateLandmarkHUD();
 }
@@ -279,6 +527,13 @@ for(let regionIndex=0;regionIndex<landmarkSets.length;regionIndex++){
 }
 // v35: region-themed photo frames, a distinct in-world destination at each landmark.
 // MeshBasicMaterial avoids per-frame light costs on mobile.
+// Dedicated photo viewpoints farther from the base camp and landmark markers.
+const photoViewpoints=[
+ [{x:-105,z:-88},{x:105,z:-80},{x:-135,z:-145}],
+ [{x:-105,z:-95},{x:110,z:-120},{x:-145,z:-130}],
+ [{x:120,z:-100},{x:-115,z:-125},{x:85,z:-145}],
+ [{x:100,z:-115},{x:-125,z:-100},{x:10,z:-165}]
+];
 const photoZoneDecor=new THREE.Group();scene.add(photoZoneDecor);
 const photoZoneGroups=[];
 const photoThemes=[0x82e8c5,0xe4a4dd,0x8ed8ff,0xffd5a3];
@@ -288,7 +543,7 @@ const photoStarGeometry=new THREE.OctahedronGeometry(.24,0);
 for(let regionIndex=0;regionIndex<landmarkSets.length;regionIndex++){
  for(let spotIndex=0;spotIndex<landmarkSets[regionIndex].length;spotIndex++){
   const spot=landmarkSets[regionIndex][spotIndex];
-  const group=new THREE.Group();group.position.set(spot.x+3.5,0,spot.z+2.2);
+  const group=new THREE.Group();group.position.set(photoViewpoints[regionIndex][spotIndex].x,0,photoViewpoints[regionIndex][spotIndex].z);
   const glow=new THREE.MeshBasicMaterial({color:photoThemes[regionIndex]});
   for(const side of [-1,1]){
    const pole=new THREE.Mesh(new THREE.CylinderGeometry(.13,.17,3.1,7),archWood);
@@ -349,15 +604,32 @@ function updateLandmarkSigns(time){
 const savedKey='aururo-character-v3'; // Legacy localStorage key retained to preserve existing character appearances.
 let appearance;
 try { appearance=JSON.parse(localStorage.getItem(savedKey)); } catch(e) {}
+// Canonical reference palettes: jacket cream/white, pink, navy;
+// scarf pink plaid, blue plaid, cream plaid. Preserve existing assigned variant and palette.
+const jacketColors=['#f3ece5','#e6b8cc','#283a60'];
+const trouserColors=['#e6dcd5','#d4a5bd','#263554'];
+const scarfColors=['#dba2b7','#9dbbdc','#eee0ca'];
 if(!appearance){
- const palettes=[['#f4e8e2','#f8f0ee','#e9d9d7'],['#dfcce9','#ead5ed','#d5c6e5'],['#c9d9e8','#d2e5e0','#b8c9da']];
- appearance={variant:Math.random()<.5?'girl':'boy',palette:Math.floor(Math.random()*palettes.length)};
- localStorage.setItem(savedKey,JSON.stringify(appearance));
+ appearance={variant:['girl','girl-long','boy'][Math.floor(Math.random()*3)],palette:Math.floor(Math.random()*3),scarfPalette:Math.floor(Math.random()*3)};
+ try{localStorage.setItem(savedKey,JSON.stringify(appearance));}catch(e){}
 }
-const palette=[['#f4e8e2','#f8f0ee','#e9d9d7'],['#dfcce9','#ead5ed','#d5c6e5'],['#c9d9e8','#d2e5e0','#b8c9da']][appearance.palette%3];
+// Old avatars keep their original jacket slot; a separate scarf choice is assigned once.
+const jacketIndex=Number.isInteger(appearance.palette)?((appearance.palette%3)+3)%3:0;
+if(!Number.isInteger(appearance.scarfPalette)){
+ appearance.scarfPalette=(jacketIndex+1)%3;
+ try{localStorage.setItem(savedKey,JSON.stringify(appearance));}catch(e){}
+}
+const scarfIndex=((appearance.scarfPalette%3)+3)%3;
+const palette=[jacketColors[jacketIndex],scarfColors[scarfIndex],trouserColors[jacketIndex]];
 const player=new THREE.Group();scene.add(player);
 const coat=material(palette[0]), pants=material(palette[2]),skin=material(0xffd8c8),hair=material(0x39303d),hat=material(0xf5e8e7),scarf=material(palette[1]),boots=material(0x7b7285),faceDark=material(0x322b38),blush=material(0xd98f9f),stitch=material(0xd5bfc8);
 function oval(parent,rx,ry,rz,m,x,y,z){const o=ball(parent,1,m,x,y,z);o.scale.set(rx,ry,rz);return o}
+// v53: layered padded coat panels, curved pockets and warmer material response.
+coat.roughness=.94;coat.metalness=0;hat.roughness=1;scarf.roughness=1;
+const coatShade=new THREE.MeshStandardMaterial({color:palette[0],roughness:1});
+coatShade.color.multiplyScalar(.88);
+const coatHighlight=new THREE.MeshStandardMaterial({color:palette[0],roughness:.91});
+coatHighlight.color.multiplyScalar(1.08);
 // Short, rounded body and padded legs
 oval(player,.73,.78,.49,coat,0,1.45,0);
 // Group arms and legs so their movement is visible without changing the face.
@@ -379,6 +651,15 @@ for(const y of [1.12,1.46,1.80]){
 }
 cube(player,.035,.72,.015,stitch,0,1.46,.497);
 for(const x of [-.46,.46])cube(player,.17,.025,.02,stitch,x,1.24,.485);
+// Soft puffed jacket: raised horizontal quilt segments, cuffs, and visible pocket flaps.
+for(const y of [1.26,1.55,1.82]){
+ const puff=oval(player,.66,.15,.465,coatHighlight,0,y,.01);
+ puff.scale.x=.65-(y===1.82?.07:0);
+}
+for(const x of [-.44,.44]){
+ const pocket=oval(player,.21,.12,.07,coatShade,x,1.29,.455);
+ pocket.rotation.z=x<0?-.18:.18;
+}
 // Oversized head, ears and layered dark hair
 oval(player,.86,.82,.69,skin,0,2.62,.07);
 for(const x of [-.83,.83])oval(player,.16,.21,.13,skin,x,2.52,.05);
@@ -386,6 +667,9 @@ oval(player,.88,.67,.65,hair,0,2.91,-.11);
 for(const [x,y,rot] of [[-.50,2.96,-.3],[-.20,2.99,-.12],[.13,2.99,.12],[.45,2.95,.34]]){
  const fringe=oval(player,.23,.36,.18,hair,x,y,.52);fringe.rotation.z=rot;
 }
+// Delicate face accents: tiny ear highlights and cheek glows, without changing eye spacing.
+const earLight=material(0xf4b8ae);
+for(const x of [-.86,.86])oval(player,.065,.09,.022,earLight,x,2.51,.166);
 // Half-lidded eyes and the characteristic sleepy, slightly grumpy face
 for(const x of [-.32,.32]){
  oval(player,.21,.105,.025,faceDark,x,2.59,.744);
@@ -396,9 +680,37 @@ for(const x of [-.32,.32]){
 }
 oval(player,.038,.025,.018,faceDark,0,2.42,.776);
 const mouth=oval(player,.085,.021,.018,faceDark,0,2.32,.772);mouth.rotation.z=-.06;
+// v64: clearly visible character detail pass: dimensional cheeks, eye glints,
+// jacket front placket and tiny metal snaps. Kept away from sleepy eyelids.
+const cheekGlow=new THREE.MeshStandardMaterial({color:0xf3a9ad,roughness:1,transparent:true,opacity:.53});
+for(const x of [-.53,.53]){
+ oval(player,.16,.083,.021,cheekGlow,x,2.405,.674);
+ oval(player,.035,.020,.014,material(0xffffff),x<0?-.395:.245,2.574,.772);
+}
+const zipperMetal=new THREE.MeshStandardMaterial({color:0xb8b9c5,metalness:.5,roughness:.38});
+cube(player,.028,.69,.018,zipperMetal,0,1.49,.511);
+for(const y of [1.27,1.52,1.77])oval(player,.025,.025,.014,zipperMetal,.055,y,.521);
+for(const x of [-.68,.68]){
+ for(const y of [1.43,1.66])oval(player,.047,.035,.035,coatShade,x,y,.20);
+}
 // Scarf wraps the neck without hiding the face
 oval(player,.76,.23,.55,scarf,0,2.07,.04);
 oval(player,.20,.35,.10,scarf,.40,1.82,.50);
+// Subtle plaid on the hanging scarf tail: two crosswise bands and fine vertical stitch.
+const plaidAccent=[0xf5e6e8,0xe9f1fc,0xffffff][scarfIndex];
+const plaidDark=[0x9b607d,0x597fa8,0xb49a7e][scarfIndex];
+const plaidLightMaterial=material(plaidAccent),plaidDarkMaterial=material(plaidDark);
+for(const y of [1.70,1.82,1.94]){
+ const stripe=cube(player,.37,.023,.018,plaidDarkMaterial,.40,y,.603);
+ stripe.rotation.z=-.045;
+}
+for(const x of [.32,.47])cube(player,.021,.59,.018,plaidLightMaterial,x,1.82,.611);
+// Small decorative hem on the coat, without changing its silhouette.
+const hem=material(jacketIndex===2?0x526487:0xf9f4f0);
+for(const x of [-.37,.37])cube(player,.12,.022,.024,hem,x,1.08,.43);
+
+// Small scarf fringe: low-cost rounded tassels below the checked tail.
+for(const x of [.28,.36,.44,.52])oval(player,.018,.07,.017,plaidLightMaterial,x,1.61,.61);
 // Knitted beanie, cuff, ribbing and pom-pom
 oval(player,.90,.47,.75,hat,0,3.30,-.03);
 oval(player,.94,.20,.78,hat,0,3.11,.03);
@@ -407,11 +719,40 @@ for(let j=-5;j<=5;j++){
  cube(player,.018,.23,.018,stitch,x,3.13,z);
 }
 oval(player,.22,.20,.22,hat,0,3.78,-.03);
+// Thin beanie seams: subtle cap texture that keeps the original silhouette.
+for(let j=-3;j<=3;j++){
+ const x=j*.20;
+ const z=.04+Math.sqrt(Math.max(0,1-(x/.91)**2))*.70;
+ cube(player,.012,.12,.012,stitch,x,3.39,z);
+}
 // Girl: side wisps; boy: short side hair, while preserving the same face and silhouette
-if(appearance.variant==='girl'){
- for(const x of [-.76,.76])oval(player,.13,.31,.14,hair,x,2.30,-.05);
+if(appearance.variant==='girl-long'){
+ // New long, straight hair: long back panel + two smooth face-framing lengths.
+ // Hair remains behind the face and outside the scarf, preserving sleepy eyes.
+ oval(player,.76,.92,.27,hair,0,2.28,-.49);
+ for(const x of [-.75,.75]){
+  oval(player,.19,.78,.20,hair,x,2.15,-.20);
+  oval(player,.17,.26,.17,hair,x,1.59,-.19);
+ }
+}else if(appearance.variant==='girl'){
+ // Ear-length bob: ends just below the ears (not at the chin or shoulders).
+ // Compact rounded side locks preserve the original chibi head proportions.
+ for(const x of [-.76,.76]){
+  oval(player,.16,.19,.17,hair,x,2.56,-.06);
+  oval(player,.14,.09,.15,hair,x,2.43,-.06);
+ }
+ // Short nape shape sits behind the neck, never down to the scarf.
+ oval(player,.65,.15,.19,hair,0,2.48,-.50);
 }else{
  for(const x of [-.76,.76])oval(player,.13,.18,.14,hair,x,2.48,-.06);
+}
+// v56: restrained cold-air breath animation. Meshes are shared across frames,
+// stay attached to the avatar, and do not spawn per-frame particles.
+const breathPuffs=[];
+for(let k=0;k<3;k++){
+ const mist=new THREE.Mesh(new THREE.SphereGeometry(1,8,6),new THREE.MeshBasicMaterial({color:0xe6f6ff,transparent:true,opacity:0,depthWrite:false}));
+ mist.scale.set(.085,.055,.038);mist.position.set(0,2.31,.84);
+ player.add(mist);breathPuffs.push(mist);
 }
 // Prototype shared-space avatars: presence is temporary and does not store account identity.
 const others=new Map();
@@ -419,7 +760,7 @@ function otherAvatar(data){
  let entry=others.get(data.id);
  if(!entry){
   const group=new THREE.Group();scene.add(group);
-  const coatColors=[0xf4e8e2,0xdfcce9,0xc9d9e8];
+  const coatColors=[0xf3ece5,0xe6b8cc,0x283a60];
   const body=material(coatColors[(data.palette||0)%3]);
   oval(group,.72,.76,.5,body,0,1.45,0);
   oval(group,.85,.83,.7,material(0xffd8c8),0,2.63,.07);
@@ -454,6 +795,17 @@ for(let i=0;i<5;i++){
  m.userData.baseX=m.position.x;m.userData.baseZ=m.position.z;
  scene.add(m);aurora.push(m);
 }
+// v55: low-cost, localized aurora glow on the snow. This is a transparent
+// additive decal (not an expensive realtime shadow-casting light).
+const auroraGroundGlow=new THREE.Mesh(
+ new THREE.CircleGeometry(1,48),
+ new THREE.MeshBasicMaterial({color:0x66e8c9,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide})
+);
+auroraGroundGlow.rotation.x=-Math.PI/2;
+auroraGroundGlow.position.y=.075;
+auroraGroundGlow.scale.set(26,26,1);
+auroraGroundGlow.visible=false;
+scene.add(auroraGroundGlow);
 // Optional Supabase Realtime Broadcast. Configure only PUBLIC URL and publishable key in config.js.
 let room=null, onlineState='오프라인', onlineId='player-'+crypto.randomUUID(), lastBroadcast=0, client=null, account=null;
 let config={};
@@ -472,7 +824,7 @@ async function syncAccount(){
   if(readError)throw readError;
   let profile=existing;
   if(!profile){
-   const generated={user_id:user.id,variant:Math.random()<.5?'girl':'boy',palette:Math.floor(Math.random()*3)};
+   const generated={user_id:user.id,variant:['girl','girl-long','boy'][Math.floor(Math.random()*3)],palette:Math.floor(Math.random()*3)};
    const {data, error:insertError}=await c.from('character_profiles').insert(generated).select('variant,palette').single();
    if(insertError){
     // Another session may have created it first.
@@ -573,7 +925,7 @@ joyEl.addEventListener('pointermove',e=>{if(joy.id===e.pointerId){updateJoystick
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])joyEl.addEventListener(ev,e=>{if(joy.id===e.pointerId)resetJoystick()});
 const viewCanvas=renderer.domElement;
 viewCanvas.addEventListener('pointerdown',e=>{if(orbitPointer!==null)return;orbitPointer=e.pointerId;orbitX=e.clientX;orbitY=e.clientY;viewCanvas.setPointerCapture(e.pointerId);e.preventDefault()});
-viewCanvas.addEventListener('pointermove',e=>{if(orbitPointer!==e.pointerId)return;const mx=e.clientX-orbitX,my=e.clientY-orbitY;orbitX=e.clientX;orbitY=e.clientY;orbitYaw-=mx*.008*cameraSensitivity;orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.006*cameraSensitivity,-1.25,1.25);e.preventDefault()});
+viewCanvas.addEventListener('pointermove',e=>{if(orbitPointer!==e.pointerId)return;const mx=e.clientX-orbitX,my=e.clientY-orbitY;orbitX=e.clientX;orbitY=e.clientY;orbitYaw-=mx*.008*cameraSensitivity;orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.006*cameraSensitivity,-1.15,.85);e.preventDefault()});
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])viewCanvas.addEventListener(ev,e=>{if(orbitPointer===e.pointerId)orbitPointer=null});
 viewCanvas.addEventListener('wheel',e=>{orbitRadius=THREE.MathUtils.clamp(orbitRadius+Math.sign(e.deltaY)*1.3,5,25);e.preventDefault()},{passive:false});
 addEventListener('blur',resetJoystick);document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoystick();orbitPointer=null}});
@@ -612,24 +964,41 @@ function fieldGuide(){
    return '<p style="margin:8px 0">'+(found?'✅ ':'🔒 ')+(found?esc(spot.name):'아직 발견하지 못한 장소')+'</p>';
   }).join('')+'</section>';
  }).join('');
- modal('📚 탐험 도감 · '+completed+'/12','<p>각 지역의 숨겨진 장소에 가까이 다가가면 자동으로 기록돼요. 발견 기록은 이 브라우저에 저장돼요.</p>'+groups+'<p>📸 발견한 장소에 다시 방문하면 포토존 안내가 나타나요.</p>');
+ modal('📚 탐험 도감 · '+completed+'/12','<p>각 지역의 숨겨진 장소에 가까이 다가가면 자동으로 기록돼요. 발견 기록은 이 브라우저에 저장돼요.</p>'+groups+'<p>📸 포토존 발견: '+unlockedPhotoZones.size+'/12 · 포토존은 랜드마크 발견과 관계없이 독립적으로 탐험할 수 있어요. 아치 근처에 가면 안내가 나타나요.</p>');
 }
 const guideButton=document.createElement('button');guideButton.id='fieldGuide';guideButton.textContent='📚 탐험 도감';
 document.querySelector('#ui .top').appendChild(guideButton);guideButton.onclick=fieldGuide;
-let lastPhotoSpot='';let photoSpotCooldown=0;
+// v47: photo zones are independent destinations, not gated by landmark discovery.
+// First approach gives a subtle clue; entering the arch unlocks the photo zone.
+const photoZoneStorageKey='aurura-photo-zones-v47';
+let unlockedPhotoZones=new Set();
+try{unlockedPhotoZones=new Set(JSON.parse(localStorage.getItem(photoZoneStorageKey)||'[]'))}catch(e){}
+let lastPhotoSpot='',lastPhotoApproach='',photoSpotCooldown=0;
 function updatePhotoSpot(dt){
  photoSpotCooldown=Math.max(0,photoSpotCooldown-dt);
- let closest=null,dist=Infinity;
- for(let i=0;i<landmarkSets[current].length;i++){
-  if(!visitedLandmarks.has(current+':'+i))continue;
-  const spot=landmarkSets[current][i],d=Math.hypot(player.position.x-(spot.x+3.5),player.position.z-(spot.z+2.2));
-  if(d<dist){dist=d;closest=spot;}
+ let nearest=-1,dist=Infinity;
+ for(let i=0;i<photoViewpoints[current].length;i++){
+  const view=photoViewpoints[current][i];
+  const d=Math.hypot(player.position.x-view.x,player.position.z-view.z);
+  if(d<dist){dist=d;nearest=i}
  }
- const spotKey=closest&&dist<12?current+':'+closest.name:'';
- if(spotKey&&spotKey!==lastPhotoSpot&&photoSpotCooldown===0){
-  notice('📸 포토존! '+closest.name+' · 사진 버튼으로 추억을 남겨요');photoSpotCooldown=8;
+ const key=nearest<0?'':current+':'+nearest;
+ const approach=dist<28?key:'';
+ const inside=dist<12?key:'';
+ if(approach&&approach!==lastPhotoApproach&&photoSpotCooldown===0){
+  notice('✨ 근처에 포토존이 있어요! 반짝이는 아치를 찾아보세요');photoSpotCooldown=6;
  }
- lastPhotoSpot=spotKey;
+ if(inside&&inside!==lastPhotoSpot){
+  if(!unlockedPhotoZones.has(key)){
+   unlockedPhotoZones.add(key);
+   try{localStorage.setItem(photoZoneStorageKey,JSON.stringify([...unlockedPhotoZones]))}catch(e){}
+   notice('📸 새 포토존 발견! '+landmarkSets[current][nearest].name+' · 사진을 찍어보세요');
+  }else if(photoSpotCooldown===0){
+   notice('📸 포토존 도착! 사진 버튼으로 추억을 남겨요');
+  }
+  photoSpotCooldown=7;
+ }
+ lastPhotoApproach=approach;lastPhotoSpot=inside;
 }
 
 // Local diagnostics report configuration and runtime status without claiming remote connectivity.
@@ -643,12 +1012,28 @@ document.getElementById('diagnostics').onclick=()=>{
  const webgl=!!renderer.getContext();
  const configured=!!(config.url&&config.publishableKey);
  const safe=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const rows=[['3D 그래픽',webgl?'초기화됨':'실패'],['화질 설정',qualityChoice],['프레임 속도',fpsEstimate?fpsEstimate+' FPS (추정)':'측정 중'],['현재 지역',names[current]],['오로라 시계',skyMode],['Supabase 설정',configured?'공개 키 입력됨 (연결 검증 아님)':'설정 안 됨'],['로그인',account?'로그인 상태':'로그인 안 됨'],['멀티플레이',room?'채널 참여 시도됨':'미접속'],['사진 앨범',getAlbum().length+'장'],['탐험 기록',discoveries().length+'건'],['탐험 도감',visitedLandmarks.size+'/12']];
+ const rows=[['3D 그래픽',webgl?'초기화됨':'실패'],['화질 설정',qualityChoice],['프레임 속도',fpsEstimate?fpsEstimate+' FPS (추정)':'측정 중'],['현재 지역',names[current]],['오로라 시계',skyMode],['Supabase 설정',configured?'공개 키 입력됨 (연결 검증 아님)':'설정 안 됨'],['로그인',account?'로그인 상태':'로그인 안 됨'],['멀티플레이',room?'채널 참여 시도됨':'미접속'],['사진 앨범',getAlbum().length+'장'],['탐험 기록',discoveries().length+'건'],['탐험 도감',visitedLandmarks.size+'/12'],['포토존',unlockedPhotoZones.size+'/12']];
  modal('🧪 게임 상태 점검','<p>이 화면은 현재 기기의 상태만 표시해요. 다른 사람과의 실제 접속 성공을 보증하지 않아요.</p>'+rows.map(([a,b])=>'<p><b>'+safe(a)+'</b>: '+safe(b)+'</p>').join(''));
 };
+// Region schedules are staggered. Each appearance lasts 5 minutes, then stays absent
+// for 10 FULL minutes. Consequently starts recur every 15 minutes per region.
+// Stable UTC epoch + per-region phase offsets keep browsers in sync.
+const AURORA_SHOW_SECONDS=300, AURORA_WAIT_SECONDS=600;
+const AURORA_PERIOD_SECONDS=AURORA_SHOW_SECONDS+AURORA_WAIT_SECONDS;
+const REGION_PHASE_SECONDS=[0,225,450,675]; // Iceland, Norway, Canada, Alaska
+function regionClock(region,nowMs=Date.now()+clockOffset){
+ const epoch=Math.floor(nowMs/1000)+REGION_PHASE_SECONDS[region];
+ const phase=((epoch%AURORA_PERIOD_SECONDS)+AURORA_PERIOD_SECONDS)%AURORA_PERIOD_SECONDS;
+ const slot=Math.floor(epoch/AURORA_PERIOD_SECONDS);
+ const visible=phase<AURORA_SHOW_SECONDS;
+ const remaining=(visible?AURORA_SHOW_SECONDS:AURORA_PERIOD_SECONDS)-phase;
+ return {slot,phase,visible,remaining};
+}
+function cycle(region=current){return regionClock(region).slot}
+function auroraSeconds(region=current){return regionClock(region).phase}
+function auroraVisibleNow(region=current){return regionClock(region).visible}
+function active(){return names.map((_,i)=>auroraVisibleNow(i))}
 function hasDiscovered(){return discoveries().includes(cycle()+':'+current)}
-function cycle(){return Math.floor((Date.now()+clockOffset)/600000)}
-function active(){return names.map(()=>true)} // All four regions have an independent observation site in every shared 10-minute slot.
 async function refreshSky(){
  if(!config.url||!config.publishableKey)return;
  try{
@@ -658,7 +1043,7 @@ async function refreshSky(){
   const serverMs=Number(data.server_ms);
   if(!Number.isFinite(serverMs)||Math.abs(serverMs-Date.now())>86400000)throw Error('Unexpected server timestamp');
   clockOffset=serverMs-(t0+t1)/2;
-  skyState={cycle:Number(data.cycle),active:names.map(()=>true)};
+  skyState={cycle:Number(data.cycle),active:data.active};
   skyMode='서버 동기화';
  }catch(e){console.warn('Aurora sync unavailable',e);skyMode='오프라인 시연';skyState=null}
 }
@@ -685,7 +1070,7 @@ function applyAuroraPalette(region,slot){
  appliedPaletteRegion=region;appliedPaletteSlot=slot;
 }
 function auroraDistance(){const spot=observationPoint(current,cycle());return Math.hypot(player.position.x-spot.x,player.position.z-spot.z)}
-function isAtAurora(){return auroraDistance()<22}
+function isAtAurora(){return auroraVisibleNow()&&auroraDistance()<22}
 // The sighting has a subtle distant afterglow before the full aurora becomes visible.
 // Each region has its own deterministic location per shared 10-minute slot.
 const distantGlow=new THREE.Group();scene.add(distantGlow);
@@ -705,7 +1090,7 @@ function updateLakeReflections(t,slot){
   const near=THREE.MathUtils.smoothstep(120-dist,0,105);
   const observer=THREE.MathUtils.smoothstep(105-auroraDistance(),0,90);
   r.material.color.setHex(palette.colors[i%palette.colors.length]);
-  r.material.opacity=Math.min(.23,near*observer*(.065+.035*Math.sin(t*1.1+r.phase)));
+  r.material.opacity=auroraVisibleNow()?Math.min(.23,near*observer*(.065+.035*Math.sin(t*1.1+r.phase))):0;
   r.mesh.scale.x=1+.12*Math.sin(t*.5+r.phase);
  }
 }
@@ -717,15 +1102,23 @@ function updateAuroraVisibility(t){
   distantGlow.position.set(spot.x,0,spot.z);
   // Position the main ribbons above the active observation site, not a fixed world coordinate.
   aurora.forEach((mesh,i)=>mesh.position.set(spot.x+mesh.userData.baseX,64+i*5,spot.z+mesh.userData.baseZ));
+  auroraGroundGlow.position.set(spot.x,.075,spot.z);
   lastGlowSlot=slot;lastGlowRegion=current;
  }
  // No exact marker: translucent atmospheric streaks become visible gradually within 100 m.
- const haze=THREE.MathUtils.smoothstep(105-distance,0,80);
- const clear=THREE.MathUtils.smoothstep(45-distance,0,30);
+ const haze=auroraVisibleNow()?THREE.MathUtils.smoothstep(105-distance,0,80):0;
+ const clear=auroraVisibleNow()?THREE.MathUtils.smoothstep(45-distance,0,30):0;
  distantGlow.visible=haze>.005;
  distantGlow.lookAt(camera.position.x,0,camera.position.z);
  glowMats.forEach((m,i)=>m.opacity=haze*(1-clear*.7)*(.035+.012*Math.sin(t*.8+i)));
  aurora.forEach((m,i)=>{m.visible=haze>.02;m.material.opacity=(.025*haze+.22*clear)*(.82+.18*Math.sin(t*.7+i))});
+ // The snow brightens only while an aurora is visible and the explorer is near.
+ const glowStrength=auroraVisibleNow()?Math.min(1,clear*.82+haze*.15):0;
+ auroraGroundGlow.visible=glowStrength>.01;
+ auroraGroundGlow.material.opacity=.065*glowStrength*(.90+.10*Math.sin(t*.62));
+ auroraGroundGlow.material.color.setHex(auroraPalette(current,slot).colors[0]);
+ auroraGroundGlow.rotation.z=t*.012;
+
 }
 
 function checkDiscovery(){
@@ -744,7 +1137,105 @@ document.getElementById('compass').onclick=()=>{
  const distance=Math.hypot(dx,dz);
  const hint=distance>90?'아직 멀리 있어요':distance>45?'먼 하늘에 잔상이 보일 수도 있어요':'잔상이 점점 선명해져요';
  notice('🧭 '+direction+'쪽 하늘이 희미하게 빛나요. '+hint);
-};document.getElementById('map').onclick=()=>modal('🗺️ 지역 선택',names.map((n,i)=>`<button data-region="${i}">${n} ✨</button>`).join('')+'<p>✨ 네 지역 모두 매 10분마다 독립적인 관측 지점이 바뀌어요. 관측 위치는 지도에 나오지 않아요. 🧭 단서 버튼으로 방향을 짐작할 수 있어요.</p>');document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);player.position.set(0,0,0);velocity.set(0,0);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
+};// v51: navigable local map. World coordinates are -130..130 on both axes.
+// The aurora position is intentionally never plotted: discovery remains exploratory.
+// v52: short-lived in-memory breadcrumb trail, reset on region travel.
+// No location data leaves the device or is written to persistent storage.
+const explorationTrail=[];
+let lastTrailRegion=-1;
+function recordExplorationTrail(){
+ if(lastTrailRegion!==current){explorationTrail.length=0;lastTrailRegion=current}
+ const x=player.position.x,z=player.position.z;
+ const prev=explorationTrail[explorationTrail.length-1];
+ if(!prev||Math.hypot(x-prev.x,z-prev.z)>=3){
+  explorationTrail.push({x,z});
+  if(explorationTrail.length>700)explorationTrail.splice(0,explorationTrail.length-700);
+ }
+}
+function campDirection(){
+ const x=player.position.x,z=player.position.z;
+ const distance=Math.hypot(x,z);
+ if(distance<9)return '🏠 베이스캠프 근처에 있어요!';
+ const dx=-x,dz=-z;
+ const ns=dz<0?'북':'남',ew=dx<0?'서':'동';
+ const direction=Math.abs(dx)>Math.abs(dz)*1.8?ew:Math.abs(dz)>Math.abs(dx)*1.8?ns:ns+ew;
+ return '🏠 베이스캠프: '+direction+'쪽 · 약 '+Math.round(distance)+'m (게임 내 거리)';
+}
+let navigationZoom=1; // 1 = whole region, 2 = nearby, 4 = close-up
+let showTrail=true; // route history can be hidden without deleting the player's position
+function renderNavigationMap(){
+ const canvas=document.getElementById('navigationCanvas');if(!canvas)return;
+ const ctx=canvas.getContext('2d');if(!ctx)return;
+ const w=canvas.width,h=canvas.height,pad=18;
+ // Zoom mode follows the player; full-region mode remains north-up.
+ const viewSpan=260/navigationZoom;
+ const centerX=navigationZoom===1?0:player.position.x;
+ const centerZ=navigationZoom===1?0:player.position.z;
+ const px=x=>pad+(x-centerX+viewSpan/2)/viewSpan*(w-pad*2);
+ const py=z=>pad+(z-centerZ+viewSpan/2)/viewSpan*(h-pad*2);
+ ctx.clearRect(0,0,w,h);
+ const bg=['#243e50','#29455a','#1c4644','#38465a'][current];ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+ ctx.strokeStyle='rgba(220,242,250,.13)';ctx.lineWidth=1;
+ for(let v=-100;v<=100;v+=50){ctx.beginPath();ctx.moveTo(px(v),pad);ctx.lineTo(px(v),h-pad);ctx.stroke();ctx.beginPath();ctx.moveTo(pad,py(v));ctx.lineTo(w-pad,py(v));ctx.stroke()}
+ // Decorative terrain cues, deterministic for each region.
+ for(let i=0;i<42;i++){const r=random(current*311+i*47+21);const x=(r()-.5)*250,z=(r()-.5)*250;ctx.fillStyle=current===2?'#6b9a87':current===0?'#536574':current===1?'#537c88':'#7c90a7';ctx.globalAlpha=.38;ctx.beginPath();ctx.arc(px(x),py(z),1.5+r()*3,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+ // A translucent breadcrumb path shows where the player has actually walked.
+ recordExplorationTrail();
+ if(showTrail&&explorationTrail.length>1){
+  ctx.save();ctx.strokeStyle='rgba(255,198,131,.85)';ctx.lineWidth=2.6;
+  ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();
+  explorationTrail.forEach((pt,i)=>{if(i===0)ctx.moveTo(px(pt.x),py(pt.z));else ctx.lineTo(px(pt.x),py(pt.z))});
+  ctx.stroke();ctx.restore();
+ }
+ // Camp and landmark pins. North is negative Z, matching compass hints.
+ ctx.fillStyle='#f7c98c';ctx.beginPath();ctx.arc(px(0),py(0),6,0,Math.PI*2);ctx.fill();ctx.font='bold 12px system-ui';ctx.fillStyle='#fff4d9';ctx.fillText('🏠 베이스캠프',Math.min(w-104,px(0)+9),py(0)-8);
+ for(let i=0;i<landmarkSets[current].length;i++){const spot=landmarkSets[current][i],found=visitedLandmarks.has(current+':'+i);ctx.fillStyle=found?'#e5d59a':'#b5c9d3';ctx.beginPath();ctx.arc(px(spot.x),py(spot.z),4.5,0,Math.PI*2);ctx.fill();if(found){ctx.font='10px system-ui';ctx.fillStyle='#e8f2fa';ctx.fillText(spot.name,Math.min(w-70,px(spot.x)+6),py(spot.z)-6)}}
+ // Current position: pulsing-free, crisp contrasting ring and direction arrow.
+ const x=px(player.position.x),y=py(player.position.z);
+ ctx.strokeStyle='#ffffff';ctx.lineWidth=3;ctx.fillStyle='#ff728f';ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fill();ctx.stroke();
+ // Heading arrow uses the same heading as the walking character.
+ ctx.save();ctx.translate(x,y);ctx.rotate(player.rotation.y+Math.PI);
+ ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-5,-9);ctx.lineTo(5,-9);ctx.closePath();
+ ctx.fillStyle='#ffffff';ctx.fill();ctx.restore();
+ ctx.fillStyle='#fff';ctx.font='bold 12px system-ui';ctx.fillText('나',Math.min(w-20,x+12),Math.max(15,y-10));
+ ctx.font='bold 14px system-ui';ctx.fillText('N ↑',w-46,22);
+ // Scale reference: grid distance is measured in game-world metres.
+ const scaleMetres=navigationZoom===1?50:navigationZoom===2?25:10;
+ const scalePixels=scaleMetres/viewSpan*(w-pad*2);
+ ctx.save();ctx.strokeStyle='#f5e8d0';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(22,h-23);ctx.lineTo(22+scalePixels,h-23);ctx.stroke();
+ ctx.fillStyle='#f5e8d0';ctx.font='bold 11px system-ui';ctx.fillText(scaleMetres+'m',22,h-30);ctx.restore();
+ // A dedicated camp bearing is visible even when the camp is off the zoomed map.
+ if(navigationZoom>1&&Math.hypot(player.position.x,player.position.z)>12){
+  const bearing=Math.atan2(-player.position.x,player.position.z);
+  const bx=w-38,by=h-39;
+  ctx.save();ctx.translate(bx,by);ctx.rotate(bearing);
+  ctx.fillStyle='#ffd08c';ctx.strokeStyle='#243e50';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,-17);ctx.lineTo(-9,9);ctx.lineTo(0,4);ctx.lineTo(9,9);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+  ctx.fillStyle='#ffe2b4';ctx.font='bold 10px system-ui';ctx.fillText('캠프',bx-12,by+25);
+ }
+ const positionText=document.getElementById('mapPositionText');if(positionText)positionText.textContent='📍 내 위치: 동서 '+Math.round(player.position.x)+' / 남북 '+Math.round(player.position.z)+' · 캠프까지 약 '+Math.round(Math.hypot(player.position.x,player.position.z))+'m (게임 내 거리)';
+ const homeText=document.getElementById('mapHomeText');if(homeText)homeText.textContent=campDirection();
+}
+function openNavigationMap(){
+ const buttons=names.map((n,i)=>{const c=regionClock(i);return `<button data-region="${i}" style="margin:3px;padding:8px">${n} ${c.visible?'🌌':'🌙'} · ${Math.floor(c.remaining/60)}분 ${c.remaining%60}초</button>`}).join('');
+ modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 작은 점은 탐험 장소</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 다른 지역으로 이동</h3>'+buttons);
+ renderNavigationMap();
+ const trailToggle=document.getElementById('trailToggle');
+ if(trailToggle){
+  trailToggle.textContent=showTrail?'🟠 경로 숨기기':'🟠 경로 표시';
+  trailToggle.onclick=()=>{showTrail=!showTrail;trailToggle.textContent=showTrail?'🟠 경로 숨기기':'🟠 경로 표시';renderNavigationMap()};
+ }
+ const trailClear=document.getElementById('trailClear');
+ if(trailClear)trailClear.onclick=()=>{explorationTrail.length=0;recordExplorationTrail();renderNavigationMap();notice('지나온 길 기록을 초기화했어요.')};
+ const zoomButton=document.getElementById('mapZoomToggle');
+ if(zoomButton){
+  zoomButton.textContent=navigationZoom===1?'🔍 내 주변 확대':navigationZoom===2?'🔎 더 가까이':'🗺️ 전체 지도 보기';
+  zoomButton.onclick=()=>{navigationZoom=navigationZoom===1?2:navigationZoom===2?4:1;zoomButton.textContent=navigationZoom===1?'🔍 내 주변 확대':navigationZoom===2?'🔎 더 가까이':'🗺️ 전체 지도 보기';renderNavigationMap()};
+ }
+}
+document.getElementById('map').onclick=openNavigationMap;
+setInterval(()=>{if(document.getElementById('dialog').classList.contains('show')&&document.getElementById('navigationCanvas'))renderNavigationMap()},300);
+document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);player.position.set(0,0,0);velocity.set(0,0);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
 const albumKey='aurura-album-v1';
 function getAlbum(){try{return JSON.parse(localStorage.getItem(albumKey)||'[]')}catch{return []}}
 function savePhoto(){
@@ -774,7 +1265,13 @@ document.getElementById('album').onclick=()=>{
  photos.forEach((p,i)=>{const item=document.createElement('div');const img=document.createElement('img');img.src=p.src;img.alt=p.region+'에서 촬영한 사진';img.style='width:100%;border-radius:12px';const label=document.createElement('small');label.textContent=p.region+' · '+p.date;item.append(img,label);grid.append(item)});
 };
 document.getElementById('content').addEventListener('click',e=>{if(e.target.id==='clearAlbum'&&confirm('이 브라우저의 앨범 사진을 모두 지울까요?')){localStorage.removeItem(albumKey);document.getElementById('dialog').classList.remove('show');notice('앨범을 비웠어요. 다운로드한 사진은 그대로예요.')}});
-function status(){const seconds=600-Math.floor((Date.now()+clockOffset)/1000)%600;document.getElementById('status').innerHTML='🌌 '+('4개 지역 모두 오로라 활동 중 · '+names[current])+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>'+skyMode+'</small>';updateAuroraVisibility(time)}let last=performance.now(),time=0;setInterval(status,1000);status();
+function status(){
+ const region=regionClock(current),visible=region.visible,remaining=region.remaining;
+ const regionStates=names.map((name,i)=>name+' '+(auroraVisibleNow(i)?'🌌':'🌙')).join(' · ');
+ const state=visible?'🌌 이 지역 오로라 출몰 중':'🌙 이 지역 오로라 대기 중';
+ document.getElementById('status').innerHTML=state+' · '+names[current]+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 '+(visible?'사라지기까지 ':'다음 출몰까지 ')+Math.floor(remaining/60)+'분 '+remaining%60+'초<br><small>'+regionStates+'</small><br><small>'+skyMode+' · 5분 출몰 후 10분 대기</small>';
+ updateAuroraVisibility(time);
+}let last=performance.now(),time=0;setInterval(status,1000);status();
 // Cap expensive per-frame aurora geometry updates on mobile while keeping animation smooth.
 // Mobile-friendly snow tracks: capped pooled meshes, no geometry allocation per step.
 const trackGeometry=new THREE.CircleGeometry(1,12);
@@ -817,7 +1314,23 @@ function animateSnowSteps(dt,speed){
   p.mesh.scale.setScalar(.12+(.55-p.life)*.3);p.mesh.material.opacity=p.life/.55*.48;
  }
 }
-let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden){last=now;return;}let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;frameCount++;frameElapsed+=dt;if(frameElapsed>=2){fpsEstimate=Math.round(frameCount/frameElapsed);frameCount=0;frameElapsed=0;}let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a))+joy.x;
+// v54: low-allocation companion follow and camera damping.
+// The puff effect remains subtle when walking and is visible during idle.
+function animateColdBreath(t,speed){
+ for(let k=0;k<breathPuffs.length;k++){
+  const p=breathPuffs[k];
+  const phase=((t*.56-k*.31)%1+1)%1;
+  const fade=Math.sin(phase*Math.PI);
+  p.position.set(.015+phase*.08,2.30+phase*.22,.85+phase*.42);
+  p.scale.set(.065+phase*.12,.045+phase*.09,.03+phase*.07);
+  p.material.opacity=.12*Math.max(0,fade)*(speed>5?.45:1);
+ }
+}
+const dogTarget=new THREE.Vector3();
+const cameraCenter=new THREE.Vector3();
+const cameraDesired=new THREE.Vector3();
+let cameraReady=false;
+let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden||webglPaused){last=now;return;}let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;frameCount++;frameElapsed+=dt;if(frameElapsed>=2){fpsEstimate=Math.round(frameCount/frameElapsed);frameCount=0;frameElapsed=0;}let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a))+joy.x;
  let dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w))+joy.y;
  const len=Math.hypot(dx,dz);if(len>1){dx/=len;dz/=len}
  const moving=len>.05;
@@ -830,6 +1343,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  player.position.x=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,-130,130);
  player.position.z=THREE.MathUtils.clamp(player.position.z+velocity.y*dt,-130,130);
  const speed=velocity.length();
+ animateColdBreath(time,speed);
  animateSnowSteps(dt,speed);
  updatePhotoSpot(dt);
  if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
@@ -840,14 +1354,31 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  // Opposing arm/leg swing, with a smooth return to idle when stopping.
  walkLegs.forEach((limb,i)=>{const target=Math.sin(walkingPhase*2+(i?Math.PI:0))*.36*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
  walkArms.forEach((limb,i)=>{const target=-Math.sin(walkingPhase*2+(i?Math.PI:0))*.27*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
- dogTail.rotation.z=Math.sin(time*8)*.30;
- dog.rotation.z=Math.sin(time*3)*.018;
- sendPosition();checkDiscovery();checkLandmarks();updateLandmarkSigns(time);updatePhotoZoneDecor(time);animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));dog.position.lerp(new THREE.Vector3(player.position.x+1.5,0,player.position.z+1.4),1-Math.exp(-4*dt));const center=new THREE.Vector3(player.position.x,2.4,player.position.z);
+ dogTail.rotation.z=Math.sin(time*(speed>.5?10:5))*.24;
+ dog.scale.y=1+(speed<.3?Math.sin(time*2.1)*.008:0);
+ // The companion follows behind the player's heading rather than cutting across the camera.
+ dog.rotation.z=Math.sin(time*3.2)*.013;
+ const dogOffsetX=Math.cos(player.rotation.y)*1.05-Math.sin(player.rotation.y)*1.45;
+ const dogOffsetZ=-Math.sin(player.rotation.y)*1.05-Math.cos(player.rotation.y)*1.45;
+ dogTarget.set(player.position.x+dogOffsetX,0,player.position.z+dogOffsetZ);
+ dog.position.lerp(dogTarget,1-Math.exp(-3.6*dt));
+ const dogDx=dogTarget.x-dog.position.x,dogDz=dogTarget.z-dog.position.z;
+ const dogDistance=Math.hypot(dogDx,dogDz);
+ dog.position.y=dogDistance>.15?Math.abs(Math.sin(time*9))*.045:0;
+ if(dogDistance>.12){const dogHeading=Math.atan2(dogDx,dogDz);dog.rotation.y+=Math.atan2(Math.sin(dogHeading-dog.rotation.y),Math.cos(dogHeading-dog.rotation.y))*(1-Math.exp(-7*dt));}
+ recordExplorationTrail();sendPosition();checkDiscovery();checkLandmarks();updateLandmarkSigns(time);updatePhotoZoneDecor(time);animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));cameraCenter.set(player.position.x,2.4+Math.min(speed/8,1)*.13,player.position.z);
  // Third-person camera stays above the ground; drag vertically to tilt the view, not bury the camera.
- const desiredCamera=new THREE.Vector3(center.x+orbitRadius*Math.sin(orbitYaw),center.y+2.5,center.z+orbitRadius*Math.cos(orbitYaw));
- camera.position.lerp(desiredCamera,1-Math.exp(-8*dt));
- const lookHeight=Math.max(-2,center.y-2.5-Math.tan(orbitPitch)*orbitRadius);
- camera.lookAt(center.x,lookHeight,center.z);aurora.forEach((m,i)=>{
+ // v59: true orbit pitch: the camera moves on a spherical arc instead of
+ // forcing the look-at target underground. Negative pitch raises the camera
+ // to frame the aurora; positive pitch lowers it for a ground-level view.
+ const pitch=THREE.MathUtils.clamp(orbitPitch,-1.15,.85);
+ const horizontal=orbitRadius*Math.cos(pitch);
+ const height=THREE.MathUtils.clamp(2.6-orbitRadius*Math.sin(pitch),1.05,orbitRadius+3);
+ cameraDesired.set(cameraCenter.x+horizontal*Math.sin(orbitYaw),height,cameraCenter.z+horizontal*Math.cos(orbitYaw));
+ if(!cameraReady){camera.position.copy(cameraDesired);cameraReady=true;}
+ else camera.position.lerp(cameraDesired,1-Math.exp(-(speed>.2?5.8:7.5)*dt));
+ camera.position.y=Math.max(1.05,camera.position.y);
+ camera.lookAt(cameraCenter.x,cameraCenter.y,cameraCenter.z);aurora.forEach((m,i)=>{
  m.rotation.z=Math.sin(time*.24+i*.7)*.055;
  if(now-lastAuroraGeometry<50)return;
  const a=m.geometry.attributes.position;
@@ -885,10 +1416,10 @@ const checks=['게임 화면이 정상적으로 나타남','왼쪽 조이스틱�
 const panel=document.getElementById('testkitPanel'),items=document.getElementById('testkitChecks'),count=document.getElementById('testkitCount'),info=document.getElementById('testkitInfo');
 let state={};try{state=JSON.parse(localStorage.getItem('aurura-testkit-v37')||'{}')||{}}catch{}
 function persist(){try{localStorage.setItem('aurura-testkit-v37',JSON.stringify(state))}catch{}}
-function deviceInfo(){return ['버전: v39','브라우저: '+navigator.userAgent,'화면: '+innerWidth+' × '+innerHeight,'배율: '+(devicePixelRatio||1),'온라인: '+(navigator.onLine?'예':'아니오'),'HTTPS: '+(location.protocol==='https:'?'예':'아니오'),'홈 화면 실행: '+((matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'예':'아니오'),'WebGL: '+(document.createElement('canvas').getContext('webgl2')?'WebGL2':document.createElement('canvas').getContext('webgl')?'WebGL1':'미지원')].join('\n')}
+function deviceInfo(){return ['버전: v42','브라우저: '+navigator.userAgent,'화면: '+innerWidth+' × '+innerHeight,'배율: '+(devicePixelRatio||1),'온라인: '+(navigator.onLine?'예':'아니오'),'HTTPS: '+(location.protocol==='https:'?'예':'아니오'),'홈 화면 실행: '+((matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'예':'아니오'),'WebGL: '+(document.createElement('canvas').getContext('webgl2')?'WebGL2':document.createElement('canvas').getContext('webgl')?'WebGL1':'미지원')].join('\n')}
 function render(){items.replaceChildren();checks.forEach((name,i)=>{const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=!!state[i];input.addEventListener('change',()=>{state[i]=input.checked;persist();renderCount()});label.append(input,document.createTextNode(' '+name));items.append(label)});renderCount();info.textContent=deviceInfo()}
 function renderCount(){count.textContent='확인한 항목: '+checks.filter((_,i)=>state[i]).length+' / '+checks.length}
-function report(){return 'aurura game v39 중간 테스트\n'+deviceInfo()+'\n\n'+checks.map((c,i)=>(state[i]?'[확인] ':'[미확인] ')+c).join('\n')}
+function report(){return 'aurura game v42 중간 테스트\n'+deviceInfo()+'\n\n'+checks.map((c,i)=>(state[i]?'[확인] ':'[미확인] ')+c).join('\n')}
 document.getElementById('testkit').onclick=()=>{render();panel.classList.add('show')};
 document.getElementById('testkitClose').onclick=()=>panel.classList.remove('show');
 document.getElementById('testkitReset').onclick=()=>{state={};persist();render()};
@@ -912,7 +1443,7 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
  badge.style.cssText='position:fixed;bottom:calc(160px + env(safe-area-inset-bottom));left:10px;z-index:30;background:#643f56;color:white;border:1px solid #ffffff80;border-radius:12px;padding:8px;font:12px system-ui;max-width:140px';
  document.body.append(badge);
  badge.addEventListener('click',()=>{
-  const result='aurura game v39 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음');
+  const result='aurura game v42 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음');
   const panel=document.getElementById('testkitPanel');
   if(panel){panel.classList.add('show');const info=document.getElementById('testkitInfo');if(info)info.textContent+='\n\n'+result;}
   else alert(result);
@@ -925,7 +1456,7 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
  });
  const btn=document.createElement('button');btn.textContent='⚠️ 오류 기록 복사';btn.id='aururaCopyErrors';
  btn.addEventListener('click',async()=>{
-  const value='aurura game v39 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음');
+  const value='aurura game v42 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음');
   try{await navigator.clipboard.writeText(value);alert('오류 기록을 복사했어!');}
   catch{prompt('오류 기록을 길게 눌러 복사해 줘',value);}
  });
@@ -951,7 +1482,7 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
   if('serviceWorker' in navigator){try{const reg=await navigator.serviceWorker.getRegistration();add('PWA 캐시 등록',!!reg,reg?'등록됨':'아직 등록되지 않음');}catch{add('PWA 캐시 등록',false,'확인 실패');}}
   const required=['map','joystick','testkit','testkitPanel','aururaErrorIndicator'];
   const missing=required.filter(id=>!document.getElementById(id));add('필수 UI',missing.length===0,missing.length?'누락: '+missing.join(', '):'요소 확인됨');
-  output.textContent='aurura game v39 · 자동 환경 점검\n'+rows.join('\n')+'\n\n※ 환경 점검은 실제 게임 플레이·멀티플레이 정상 작동을 보장하지 않아.';
+  output.textContent='aurura game v42 · 자동 환경 점검\n'+rows.join('\n')+'\n\n※ 환경 점검은 실제 게임 플레이·멀티플레이 정상 작동을 보장하지 않아.';
   button.disabled=false;button.textContent='🔎 자동 환경 점검';
  });
 })();
