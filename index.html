@@ -142,7 +142,7 @@ if(!document.createElement('canvas').getContext('webgl2')&&!document.createEleme
  document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
  throw new Error('WebGL unavailable');
 }
-const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0055);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,1450);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
+const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0027);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,1450);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
 const QUALITY_PRESETS={"절전":0.75,"균형":1,"선명":1.5};
 let qualityChoice='균형';try{qualityChoice=localStorage.getItem('aurura_quality')||'균형'}catch(e){}
 if(!QUALITY_PRESETS[qualityChoice])qualityChoice='균형';
@@ -628,14 +628,13 @@ function artScene(region){
  }
 }
 // Iceland mountain scenery: imported user's mountain-peak.glb, reused with shared geometry.
-// Scale original 3,600m terrain so multiple peaks surround the 5x-sized map.
+// Scale original 3,600m terrain so several peaks surround the 3x-sized map.
 const icelandMountainGroup=new THREE.Group();scene.add(icelandMountainGroup);
 const icelandMountainSpots=[
- // Mountain ring sits 280–410 m from spawn, visible from the central snowfield.
- // Keep a clear open plain around the player and room to walk around mountains.
- [-330,-310,.080,.20],[-75,-390,.087,1.25],[255,-355,.084,2.15],[390,-205,.080,3.5],
- [400,80,.078,.70],[315,340,.085,1.90],[80,390,.081,2.90],[-225,365,.083,.80],
- [-395,165,.078,2.3],[-395,-115,.082,3.5]
+ // Smaller Iceland map (3x). Mountains rise within sight of the spawn area.
+ [-185,-120,.046,.20],[-60,-220,.048,1.25],[90,-210,.050,2.15],[215,-100,.046,3.5],
+ [205,95,.049,.70],[105,225,.048,1.90],[-55,230,.045,2.90],[-225,115,.048,.80],
+ [-245,-35,.043,2.3],[0,-280,.044,3.5]
 ];
 // Soft-edged collision footprints for the imported mountain terrain.
 // Low-cost horizontal blockers keep the avatar on the snow without climbing slopes.
@@ -702,7 +701,7 @@ function updateIcelandSnowTiles(px,pz){
 }
 
 function icelandSnowHeight(x,z){
- if(current!==0||!icelandSnowReady||Math.abs(x)>650||Math.abs(z)>650)return null;
+ if(current!==0||!icelandSnowReady||Math.abs(x)>390||Math.abs(z)>390)return null;
  icelandSnowRay.set(new THREE.Vector3(x,55,z),new THREE.Vector3(0,-1,0));
  // Only test the tile under the player and its immediate neighbors.
  const close=icelandSnowMeshes.filter(obj=>Math.abs(obj.userData.tileX-x)<25&&Math.abs(obj.userData.tileZ-z)<25);
@@ -1466,69 +1465,72 @@ dogModelLoader.load('./winter_puppy.glb',gltf=>{
   for(const child of [...dog.children])if(child!==puppy)child.visible=false;
 },undefined,err=>console.warn('Puppy GLB fallback',err));
 
-// Wide, slowly flowing aurora curtains. World-space sky canopy follows the explorer.
-// Procedural GPU shaders: no external textures or 3D assets to upload.
+// Iceland integration: broad, sky-sized aurora curtains with reliable distant directional glow.
+// The visual canopy tracks the player while pointing toward the scheduled aurora location.
+// Its transparent additive sheets don't rely on depth testing against distant mountains.
 const aurora=[];
+const auroraSky=new THREE.Group();scene.add(auroraSky);
 const auroraVertex=`
  uniform float uTime;
  varying vec2 vUv;
  varying float vWave;
  void main(){
-  vUv=uv;
-  vec3 p=position;
-  float t=uTime;
-  float wave=sin(p.x*.024+t*.26+uv.y*3.0)*10.0
-           +sin(p.x*.051-t*.16+uv.y*5.0)*4.0;
-  p.x+=sin(uv.y*4.7+t*.15+p.x*.008)*4.0;
-  p.z+=wave*(.2+uv.y*.8);
-  p.y+=sin(p.x*.017+t*.19)*5.0;
-  vWave=.6+.4*sin(p.x*.042-t*.3);
+  vUv=uv;vec3 p=position;
+  float ripple=sin(p.x*.018+uTime*.24+uv.y*3.5)*9.0+sin(p.x*.046-uTime*.18)*4.5;
+  p.z+=ripple*(.24+.76*uv.y);
+  p.y+=sin(p.x*.015+uTime*.17)*5.0;
+  vWave=.78+.22*sin(p.x*.04-uTime*.32);
   gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
  }`;
 const auroraFragment=`
  precision mediump float;
- uniform float uTime;
- uniform float uOpacity;
- uniform vec3 uGreen;
- uniform vec3 uPurple;
- varying vec2 vUv;
- varying float vWave;
+ uniform float uTime;uniform float uOpacity;
+ uniform vec3 uGreen;uniform vec3 uPurple;
+ varying vec2 vUv;varying float vWave;
  void main(){
-  float x=vUv.x, y=vUv.y;
-  float columns=.60+.40*pow(sin(x*155.0+sin(x*23.0+uTime*.14)*5.0),2.0);
-  float fine=.72+.28*sin(x*420.0+uTime*.3);
-  float top=smoothstep(1.0,.69,y);
-  float bottom=smoothstep(.02,.30,y);
-  float ends=smoothstep(0.0,.10,x)*(1.0-smoothstep(.90,1.0,x));
-  float wavy=.75+.25*sin(x*21.0+uTime*.2+y*3.0);
-  float alpha=uOpacity*top*bottom*ends*columns*fine*wavy*(.78+.22*vWave);
-  vec3 tint=mix(uGreen,uPurple,smoothstep(.35,.93,y)*(.58+.42*sin(x*16.0+uTime*.13)));
-  // retain soft luminous green lower band and a lavender high veil
-  gl_FragColor=vec4(tint*1.15,alpha);
+  float x=vUv.x,y=vUv.y;
+  float strands=.66+.34*pow(sin(x*145.0+sin(x*21.0+uTime*.16)*5.0),2.0);
+  float lower=smoothstep(0.0,.19,y);
+  float upper=1.0-smoothstep(.67,1.0,y);
+  float side=smoothstep(.0,.09,x)*(1.0-smoothstep(.91,1.0,x));
+  float shimmer=.82+.18*sin(x*16.0+y*5.0+uTime*.26);
+  float alpha=uOpacity*strands*lower*upper*side*shimmer*vWave;
+  vec3 tint=mix(uGreen,uPurple,smoothstep(.34,.91,y)*(.62+.38*sin(x*12.0+uTime*.12)));
+  gl_FragColor=vec4(tint*1.23,alpha);
  }`;
-for(let i=0;i<8;i++){
- const geo=new THREE.PlaneGeometry(425,115,112,20);
+for(let i=0;i<6;i++){
+ const geo=new THREE.PlaneGeometry(330,125,80,14);
  const uniforms={uTime:{value:0},uOpacity:{value:0},uGreen:{value:new THREE.Color(0x47ffb5)},uPurple:{value:new THREE.Color(0xa483ff)}};
- const mat=new THREE.ShaderMaterial({uniforms,vertexShader:auroraVertex,fragmentShader:auroraFragment,
-  transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,blending:THREE.AdditiveBlending,fog:false});
- const mesh=new THREE.Mesh(geo,mat);
- const angle=i*Math.PI*2/8+.15;
- mesh.position.set(Math.sin(angle)*295,105+(i%3)*12,Math.cos(angle)*295);
- mesh.rotation.y=angle+Math.PI;
- mesh.frustumCulled=false;
- mesh.renderOrder=8;
- mesh.userData.offset=i*1.37;
- scene.add(mesh);aurora.push(mesh);
+ const material=new THREE.ShaderMaterial({uniforms,vertexShader:auroraVertex,fragmentShader:auroraFragment,
+  transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:false,
+  blending:THREE.AdditiveBlending,fog:false});
+ const mesh=new THREE.Mesh(geo,material);
+ mesh.position.set((i-2.5)*13,64+(i%3)*12,-7-i*5);
+ mesh.rotation.y=(i-2.5)*.08;
+ mesh.renderOrder=20;mesh.frustumCulled=false;
+ auroraSky.add(mesh);aurora.push(mesh);
 }
-// v55: low-cost, localized aurora glow on the snow. This is a transparent
-// additive decal (not an expensive realtime shadow-casting light).
+// Feathered directional sky-haze: visible even before individual ripples are discernible.
+const auroraHaze=new THREE.Group();scene.add(auroraHaze);
+const auroraHazeMaterials=[];
+for(let i=0;i<5;i++){
+ const m=new THREE.MeshBasicMaterial({color:i%2?0x9b86ec:0x52e8b5,
+  transparent:true,opacity:0,depthWrite:false,depthTest:false,
+  side:THREE.DoubleSide,blending:THREE.AdditiveBlending,fog:false});
+ const plane=new THREE.Mesh(new THREE.PlaneGeometry(280+i*28,72+i*12),m);
+ plane.position.set((i-2)*18,52+i*8,-24-i*3);
+ plane.rotation.z=(i-2)*.08;
+ plane.renderOrder=19;auroraHaze.add(plane);auroraHazeMaterials.push(m);
+}
+// A low-cost subtle green reflection near the player, only when the sky is active.
 const auroraGroundGlow=new THREE.Mesh(
- new THREE.CircleGeometry(1,48),
- new THREE.MeshBasicMaterial({color:0x66e8c9,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide})
+ new THREE.CircleGeometry(1,40),
+ new THREE.MeshBasicMaterial({color:0x56cda4,transparent:true,opacity:0,depthWrite:false,
+  blending:THREE.AdditiveBlending,side:THREE.DoubleSide})
 );
 auroraGroundGlow.rotation.x=-Math.PI/2;
-auroraGroundGlow.position.y=.075;
-auroraGroundGlow.scale.set(26,26,1);
+auroraGroundGlow.position.y=.11;
+auroraGroundGlow.scale.set(34,34,1);
 auroraGroundGlow.visible=false;
 scene.add(auroraGroundGlow);
 // Optional Supabase Realtime Broadcast. Configure only PUBLIC URL and publishable key in config.js.
@@ -1669,7 +1671,7 @@ viewCanvas.addEventListener('pointermove',e=>{
   if(pinchDistance>0&&gap>0){orbitRadius=THREE.MathUtils.clamp(orbitRadius*pinchDistance/gap,5,25)}
   pinchDistance=gap;
  }else if(orbitPointer===e.pointerId){
-  const mx=e.clientX-orbitX,my=e.clientY-orbitY;orbitX=e.clientX;orbitY=e.clientY;
+  const mx=THREE.MathUtils.clamp(e.clientX-orbitX,-70,70),my=THREE.MathUtils.clamp(e.clientY-orbitY,-70,70);orbitX=e.clientX;orbitY=e.clientY;
   orbitYaw-=mx*.008*cameraSensitivity;
   orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.0048*cameraSensitivity,-1.05,.80);
  }
@@ -1681,7 +1683,7 @@ for(const ev of ['pointerup','pointercancel','lostpointercapture'])viewCanvas.ad
  else if(activeViewTouches.size===0){orbitPointer=null;pinchDistance=0}
  else {orbitPointer=null;pinchDistance=pointerGap()}
 });
-viewCanvas.addEventListener('wheel',e=>{orbitRadius=THREE.MathUtils.clamp(orbitRadius+Math.sign(e.deltaY)*1.3,5,25);e.preventDefault()},{passive:false});
+viewCanvas.addEventListener('wheel',e=>{if(e.ctrlKey)return;orbitRadius=THREE.MathUtils.clamp(orbitRadius+Math.sign(e.deltaY)*1.3,5,25);e.preventDefault()},{passive:false});
 addEventListener('blur',resetJoystick);document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoystick();orbitPointer=null;activeViewTouches.clear();pinchDistance=0}});
 // Prevent iPhone double-tap zoom and browser gesture interference on directional pad.
 document.querySelector('.pad').addEventListener('contextmenu',e=>e.preventDefault());
@@ -1853,30 +1855,43 @@ function updateLakeReflections(t,slot){
  }
 }
 function updateAuroraVisibility(t){
- const slot=cycle();
- applyAuroraPalette(current,slot);updateLakeReflections(t,slot);
+ const slot=cycle();applyAuroraPalette(current,slot);updateLakeReflections(t,slot);
  const activeSky=auroraVisibleNow();
- // Sky canopy surrounds the player, so it is visible across the entire enlarged map.
- // Preserve original 5-min on / 10-min off schedule.
+ // Sky direction indicates the real scheduled observation point; no need to reach it to see the sky.
+ const point=observationPoint(current,slot);
+ const dx=point.x-player.position.x,dz=point.z-player.position.z;
+ const dist=Math.max(1,Math.hypot(dx,dz));
+ const x=dx/dist,z=dz/dist;
+ // Keep sky effects within 115 game metres, so they remain visible inside the far plane
+ // regardless of where the player stands on the 3x Iceland map.
+ const skyX=player.position.x+x*105,skyZ=player.position.z+z*105;
+ auroraSky.position.set(skyX,0,skyZ);
+ auroraHaze.position.set(skyX,0,skyZ);
+ const facing=Math.atan2(x,z);
+ auroraSky.rotation.y=facing;
+ auroraHaze.rotation.y=facing;
+ const pulse=.93+.07*Math.sin(t*.35);
  for(let i=0;i<aurora.length;i++){
-  const m=aurora[i],u=m.material.uniforms;
-  const angle=i*Math.PI*2/8+.15;
-  m.position.x=player.position.x+Math.sin(angle)*295;
-  m.position.z=player.position.z+Math.cos(angle)*295;
-  u.uTime.value=t+i*.71;
-  const shimmer=.82+.18*Math.sin(t*.32+i*1.2);
-  u.uOpacity.value=activeSky?(current===0?.31:.25)*shimmer:0;
-  m.visible=activeSky;
+  const mesh=aurora[i],u=mesh.material.uniforms;
+  u.uTime.value=t+i*.67;
+  u.uOpacity.value=activeSky?(current===0?.45:.34)*pulse*(1-.07*i):0;
+  mesh.visible=activeSky;
  }
+ auroraHaze.visible=activeSky;
+ for(let i=0;i<auroraHazeMaterials.length;i++){
+  auroraHazeMaterials[i].opacity=activeSky?(.035+i*.008)*pulse:0;
+ }
+ auroraGroundGlow.visible=activeSky;
+ auroraGroundGlow.position.set(player.position.x,.13,player.position.z);
+ auroraGroundGlow.material.opacity=activeSky?.07*pulse:0;
  distantGlow.visible=false;
- auroraGroundGlow.visible=false;
 }
 
 function checkDiscovery(){
  if(isAtAurora()&&!hasDiscovered()){
   discoveredSlot=cycle()*10+current;
   try{const next=discoveries();next.push(cycle()+':'+current);localStorage.setItem(discoveryKey,JSON.stringify(next.slice(-80)))}catch(e){console.warn('Discovery storage unavailable',e)}
-  notice('🌌 오로라 관측 지점을 발견했어요! 사진을 찍어보세요.');
+  // Observation notices removed by request.
  }
 }
 document.getElementById('compass').onclick=()=>{
@@ -2092,7 +2107,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  velocity.x+=(targetVX-velocity.x)*responsiveness;
  velocity.y+=(targetVZ-velocity.y)*responsiveness;
  // Check each horizontal axis independently so the player can naturally slide along a mountain edge.
- const minBound=current===0?-650:-130,maxBound=current===0?650:130;
+ const minBound=current===0?-390:-130,maxBound=current===0?390:130;
  const nextX=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,minBound,maxBound);
  if(!mountainBlocks(nextX,player.position.z))player.position.x=nextX;
  else velocity.x=0;
@@ -2135,7 +2150,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const dogDistance=Math.hypot(dogDx,dogDz);
  dog.position.y=dogDistance>.15?Math.abs(Math.sin(time*9))*.045:0;
  if(dogDistance>.12){const dogHeading=Math.atan2(dogDx,dogDz);dog.rotation.y+=Math.atan2(Math.sin(dogHeading-dog.rotation.y),Math.cos(dogHeading-dog.rotation.y))*(1-Math.exp(-7*dt));}
- recordExplorationTrail();sendPosition();checkDiscovery();animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));cameraCenter.set(player.position.x,2.4+Math.min(speed/8,1)*.13,player.position.z);
+ recordExplorationTrail();sendPosition();animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));cameraCenter.set(player.position.x,2.4+Math.min(speed/8,1)*.13,player.position.z);
  // v78: true look pitch, not a camera orbit that keeps staring at the avatar.
  // Drag up -> look up; drag down -> look down. The camera stays behind the
  // avatar while the sightline itself tilts, so the horizon actually moves.
