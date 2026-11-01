@@ -142,7 +142,7 @@ if(!document.createElement('canvas').getContext('webgl2')&&!document.createEleme
  document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
  throw new Error('WebGL unavailable');
 }
-const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0055);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
+const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0055);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,1100);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
 const QUALITY_PRESETS={"절전":0.75,"균형":1,"선명":1.5};
 let qualityChoice='균형';try{qualityChoice=localStorage.getItem('aurura_quality')||'균형'}catch(e){}
 if(!QUALITY_PRESETS[qualityChoice])qualityChoice='균형';
@@ -375,7 +375,7 @@ const regionAtmospheres=[
  {sky:0x1a2043,fog:0x586c8c,star:0xffe9d6,snow:.70}
 ];
 function setRegionAtmosphere(region){
- const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);
+ const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0022:.0055;
  starsMaterial.color.setHex(a.star);snowfallMaterial.opacity=a.snow;
 }
 function animateAtmosphere(t,dt){
@@ -641,9 +641,28 @@ const icelandSnowLoader=new GLTFLoader();
 let icelandSnowReady=false;
 const icelandSnowRay=new THREE.Raycaster();
 const icelandSnowMeshes=[];
+const icelandSnowTileRecords=[];
+let icelandSnowCellX=NaN,icelandSnowCellZ=NaN;
+let icelandSnowWidth=24,icelandSnowDepth=24;
+// Recycle the same 169 visual tiles around the player as they explore a 5x wider map.
+// Keeping the pool fixed avoids creating 4,225 individual copies on mobile.
+function updateIcelandSnowTiles(px,pz){
+ if(!icelandSnowReady||current!==0)return;
+ const cx=Math.round(px/icelandSnowWidth),cz=Math.round(pz/icelandSnowDepth);
+ if(cx===icelandSnowCellX&&cz===icelandSnowCellZ)return;
+ icelandSnowCellX=cx;icelandSnowCellZ=cz;
+ for(const r of icelandSnowTileRecords){
+  const worldX=(cx+r.ix)*icelandSnowWidth,worldZ=(cz+r.iz)*icelandSnowDepth;
+  r.tile.position.x=r.startX+worldX;
+  r.tile.position.z=r.startZ+worldZ;
+  r.tile.updateMatrixWorld(true);
+  for(const obj of r.meshes){obj.userData.tileX=worldX;obj.userData.tileZ=worldZ;}
+ }
+}
+
 function icelandSnowHeight(x,z){
- if(current!==0||!icelandSnowReady||Math.abs(x)>154||Math.abs(z)>154)return null;
- icelandSnowRay.set(new THREE.Vector3(x,12,z),new THREE.Vector3(0,-1,0));
+ if(current!==0||!icelandSnowReady||Math.abs(x)>650||Math.abs(z)>650)return null;
+ icelandSnowRay.set(new THREE.Vector3(x,55,z),new THREE.Vector3(0,-1,0));
  // Only test the tile under the player and its immediate neighbors.
  const close=icelandSnowMeshes.filter(obj=>Math.abs(obj.userData.tileX-x)<25&&Math.abs(obj.userData.tileZ-z)<25);
  const hit=icelandSnowRay.intersectObjects(close,false);
@@ -654,16 +673,18 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
  const bounds=new THREE.Box3().setFromObject(original);
  const center=bounds.getCenter(new THREE.Vector3());
  const size=bounds.getSize(new THREE.Vector3());
+ icelandSnowWidth=size.x;icelandSnowDepth=size.z;
  // Source is 24m square in XZ; align the lowest snow point to y=0.
  original.position.set(-center.x,-bounds.min.y,-center.z);
  original.updateMatrixWorld(true);
  for(let x=-6;x<=6;x++)for(let z=-6;z<=6;z++){
   const tile=original.clone(true);
-  tile.position.x+=x*size.x;tile.position.z+=z*size.z;
-  tile.traverse(obj=>{if(obj.isMesh){obj.receiveShadow=true;obj.castShadow=false;obj.material=obj.material.clone();if('side' in obj.material)obj.material.side=THREE.DoubleSide;obj.userData.tileX=x*size.x;obj.userData.tileZ=z*size.z;icelandSnowMeshes.push(obj)}});
+  const meshes=[];
+  tile.traverse(obj=>{if(obj.isMesh){obj.receiveShadow=true;obj.castShadow=false;obj.material=obj.material.clone();if('side' in obj.material)obj.material.side=THREE.DoubleSide;meshes.push(obj);icelandSnowMeshes.push(obj)}});
+  icelandSnowTileRecords.push({tile,meshes,ix:x,iz:z,startX:tile.position.x,startZ:tile.position.z});
   icelandSnowTiles.add(tile);
  }
- icelandSnowReady=true;icelandSnowTiles.visible=current===0;if(current===0)ground.position.y=-1.1;
+ icelandSnowReady=true;updateIcelandSnowTiles(player.position.x,player.position.z);icelandSnowTiles.visible=current===0;if(current===0)ground.position.y=-1.1;
  // Hide the old flat ground beneath the imported patch; retain it for the rest of the world.
  // The imported surface sits just above the existing base to avoid z-fighting.
 
@@ -671,7 +692,7 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 },undefined,err=>console.warn('Snow-field GLB could not be loaded; procedural terrain remains.',err));
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
@@ -1998,14 +2019,15 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const responsiveness=1-Math.exp(-(moving?11:15)*dt);
  velocity.x+=(targetVX-velocity.x)*responsiveness;
  velocity.y+=(targetVZ-velocity.y)*responsiveness;
- player.position.x=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,-130,130);
- player.position.z=THREE.MathUtils.clamp(player.position.z+velocity.y*dt,-130,130);
+ player.position.x=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,current===0?-650:-130,current===0?650:130);
+ player.position.z=THREE.MathUtils.clamp(player.position.z+velocity.y*dt,current===0?-650:-130,current===0?650:130);
  const speed=velocity.length();
  animateColdBreath(time,speed);
  animateSnowSteps(dt,speed);
  updatePhotoSpot(dt);
  if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
  walkingPhase+=speed*dt*.60;
+ updateIcelandSnowTiles(player.position.x,player.position.z);
  const snowSurface=icelandSnowHeight(player.position.x,player.position.z);
  player.position.y=(snowSurface===null?0:snowSurface)+(speed>.3?Math.sin(walkingPhase*2)*.09*(Math.min(speed,8)/8):0);
  player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.026:0);
