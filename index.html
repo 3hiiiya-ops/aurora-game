@@ -199,7 +199,7 @@ function disposeRegion(){
 }
 function build(i){
  setRegionAtmosphere(i);
- if(typeof trackPool!=="undefined")trackPool.forEach(mark=>mark.visible=false);
+ trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=material([0xd4d8e5,0xd4d7e8,0xe0e7f0,0xd5dfec][i]);
  const count=[45,80,120,65][i];
@@ -774,7 +774,7 @@ document.getElementById('album').onclick=()=>{
  photos.forEach((p,i)=>{const item=document.createElement('div');const img=document.createElement('img');img.src=p.src;img.alt=p.region+'에서 촬영한 사진';img.style='width:100%;border-radius:12px';const label=document.createElement('small');label.textContent=p.region+' · '+p.date;item.append(img,label);grid.append(item)});
 };
 document.getElementById('content').addEventListener('click',e=>{if(e.target.id==='clearAlbum'&&confirm('이 브라우저의 앨범 사진을 모두 지울까요?')){localStorage.removeItem(albumKey);document.getElementById('dialog').classList.remove('show');notice('앨범을 비웠어요. 다운로드한 사진은 그대로예요.')}});
-function status(){const seconds=600-Math.floor((Date.now()+clockOffset)/1000)%600;document.getElementById('status').innerHTML='🌌 '+('4개 지역 모두 오로라 활동 중 · '+names[current])+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>'+skyMode+'</small>';updateAuroraVisibility(time)}let last=performance.now(),time=0;setInterval(status,1000);status();build(current);
+function status(){const seconds=600-Math.floor((Date.now()+clockOffset)/1000)%600;document.getElementById('status').innerHTML='🌌 '+('4개 지역 모두 오로라 활동 중 · '+names[current])+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🎨 '+auroraPalette(current,cycle()).name+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>'+skyMode+'</small>';updateAuroraVisibility(time)}let last=performance.now(),time=0;setInterval(status,1000);status();
 // Cap expensive per-frame aurora geometry updates on mobile while keeping animation smooth.
 // Mobile-friendly snow tracks: capped pooled meshes, no geometry allocation per step.
 const trackGeometry=new THREE.CircleGeometry(1,12);
@@ -856,7 +856,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
   a.setZ(j,Math.sin(x*.092+time*.58+i*.85)*4.2*v+Math.sin(x*.035-time*.27+i)*2.4);
  }
  a.needsUpdate=true;
-});if(now-lastAuroraGeometry>=45)lastAuroraGeometry=now;renderer.render(scene,camera)}requestAnimationFrame(frame);function resizeGameViewport(){
+});if(now-lastAuroraGeometry>=45)lastAuroraGeometry=now;renderer.render(scene,camera)}build(current);requestAnimationFrame(frame);function resizeGameViewport(){
  const width=Math.max(1,document.documentElement.clientWidth),height=Math.max(1,window.innerHeight);
  camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);
  renderer.domElement.style.width=width+'px';renderer.domElement.style.height=height+'px';
