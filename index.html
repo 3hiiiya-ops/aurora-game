@@ -377,15 +377,36 @@ const regionAtmospheres=[
  {sky:0x1a2043,fog:0x586c8c,star:0xffe9d6,snow:.70}
 ];
 let realNightSky=null;
+let photographicSkySphere=null;
+const nightSkyIndicator=document.createElement('div');
+nightSkyIndicator.style.cssText='position:fixed;top:calc(58px + env(safe-area-inset-top));left:10px;z-index:9;padding:5px 9px;border-radius:9px;background:#132540bc;color:#e4f6ff;font:11px system-ui;pointer-events:none';
+nightSkyIndicator.textContent='🌌 밤하늘 이미지 불러오는 중';
+document.body.appendChild(nightSkyIndicator);
+
 new THREE.TextureLoader().load('./night-sky.jpg', tex=>{
  tex.mapping=THREE.EquirectangularReflectionMapping;tex.wrapS=THREE.RepeatWrapping;
  tex.colorSpace=THREE.SRGBColorSpace;
  realNightSky=tex;
+ // Explicit inward-facing sky sphere avoids device-dependent equirectangular background behavior.
+ photographicSkySphere=new THREE.Mesh(
+  new THREE.SphereGeometry(820,56,32),
+  new THREE.MeshBasicMaterial({map:tex,side:THREE.BackSide,depthWrite:false,depthTest:false,fog:false,toneMapped:false})
+ );
+ photographicSkySphere.renderOrder=-100;
+ photographicSkySphere.frustumCulled=false;
+ scene.add(photographicSkySphere);
+ photographicSkySphere.visible=current===0||current===2;
  if(current===0||current===2)scene.background=tex;
+ nightSkyIndicator.textContent='🌌 실제 밤하늘 이미지 적용됨';
  console.info('Night sky panorama loaded');
-},undefined,()=>console.info('night-sky.jpg not found; using current background'));
+},undefined,err=>{
+ nightSkyIndicator.textContent='⚠️ night-sky.jpg 로딩 실패 · 파일 위치 확인';
+ console.warn('night-sky.jpg not found',err);
+});
 function setRegionAtmosphere(region){
- const a=regionAtmospheres[region];if((region===0||region===2)&&realNightSky)scene.background=realNightSky;else scene.background=new THREE.Color(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.00045:.0055;
+ const a=regionAtmospheres[region];if(photographicSkySphere)photographicSkySphere.visible=(region===0||region===2);
+ nightSkyIndicator.style.display=(region===0||region===2)?'block':'none';
+ if((region===0||region===2)&&realNightSky)scene.background=realNightSky;else scene.background=new THREE.Color(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.00045:.0055;
  starsMaterial.color.setHex(a.star);snowfallMaterial.opacity=a.snow;
 }
 function animateAtmosphere(t,dt){
@@ -863,48 +884,9 @@ for(const spec of landscapeSpecs){
   console.info('Real Iceland GLB loaded:',spec.file,'dimensions:',dim.toArray());
  },undefined,()=>console.info('Optional Iceland GLB not uploaded yet:',spec.file));
 }
-// Authentic external snowy tree GLB, downloaded separately from the asset provider.
+// Waiting for a user-approved realistic snow-covered evergreen GLB.
+// Do not display the rejected multi-object biome pack or primitive stand-ins.
 const importedSnowForest=new THREE.Group();scene.add(importedSnowForest);
-new GLTFLoader().load('./snowy-tree.glb', gltf=>{
- // The uploaded asset is a *biome pack*. Select its authored spruce subtree,
- // excluding rocks, shrubbery and terrain meshes, before cloning.
- const pack=gltf.scene;
- const source=pack.getObjectByName('000-wind-flagged-spruce');
- if(!source){console.warn('Snowy tree model pack has no spruce node');return;}
- source.updateWorldMatrix(true,true);
- const bounds=new THREE.Box3().setFromObject(source);
- if(bounds.isEmpty()){console.warn('Spruce bounding box is empty');return;}
- const center=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());
- // Force landscape pack into a single tree-sized normalized preview, preserving proportions.
- const unit=7/Math.max(size.y,.01);
- const rng=random(85132);
- let treeCount=0;
- function addTree(x,z,h){
-  const obj=source.clone(true),f=unit*h;
-  obj.scale.setScalar(f);obj.rotation.y=rng()*Math.PI*2;
-  obj.position.set(x-center.x*f,-bounds.min.y*f,z-center.z*f);
-  obj.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;o.frustumCulled=true;}});
-  importedSnowForest.add(obj);treeCount++;
- }
- // Keep this first phone test to 38 copies: the uploaded pack's spruce has
- // ~69 mesh subparts, so hundreds of clones would tank mobile GPU frame rate.
- for(let i=0;i<26;i++){
-  const angle=2*Math.PI*(i+rng()*.3)/26;
-  const r=1.12+rng()*.32;
-  const x=-205+Math.cos(angle)*72*r,z=75+Math.sin(angle)*57*r;
-  if(x>-155&&z>0&&z<120)continue;
-  addTree(x,z,.72+rng()*.6);
- }
- for(let i=0;i<17;i++){
-  const x=-240+rng()*480,z=-220+rng()*460;
-  if(Math.hypot(x+205,z-75)<100)continue;
-  if(Math.hypot(x-iceLakeCenter.x,z-iceLakeCenter.z)<105)continue;
-  addTree(x,z,.7+rng()*.7);
- }
- importedSnowForest.visible=current===0;
- console.info('Uploaded real spruce loaded:',treeCount,'trees from bundled GLB');
-},undefined,err=>console.warn('snowy-tree.glb could not load',err));
-// Iceland only: imported real GLB snow terrain, repeated as a walkable patch.
 const icelandSnowTiles=new THREE.Group();scene.add(icelandSnowTiles);
 const icelandSnowLoader=new GLTFLoader();
 let icelandSnowReady=false;
@@ -1024,14 +1006,8 @@ function build(i){
   const drift=oval(terrain,3+rnd()*6,.22+rnd()*.45,1.2+rnd()*2.8,driftMat,x,.05,z);
   drift.rotation.y=rnd()*Math.PI;
  }
- if(i===0){ // Iceland: dark basalt stacks and blue glacial spires.
-  for(let k=0;k<9;k++){
-   const x=-80+k*7,z=-45-(k%3)*8;
-   const h=4+(k%4)*2.1;
-   const pillar=shape(terrain,new THREE.CylinderGeometry(.95,1.2,h,6),material(0x303b4c),x,h/2,z);
-   pillar.rotation.z=(k%2?-.05:.06);
-   oval(terrain,1.1,.28,1.0,driftMat,x,h+.03,z);
-  }
+ if(i===0){
+  // No primitive basalt columns or ice spires; lake and snow terrain remain.
  }else if(i===1){ // Norway: clusters of red shore houses with snow roofs.
   for(let k=0;k<5;k++){
    const x=-62-k*10,z=-45-(k%2)*13;
@@ -1069,7 +1045,7 @@ function build(i){
   darkForest.frustumCulled=false;snowyTips.frustumCulled=false;
   terrain.add(darkForest,snowyTips);
  }
- baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
+ if(i!==0){baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);}
  document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
  // Landmark discovery UI removed.
 }
@@ -2205,7 +2181,7 @@ function renderNavigationMap(){
  // Mountain glyphs mark the actual GLB positions, including while a model fails to load.
  if(current===0){
   ctx.save();
-  for(const [mx,mz] of icelandMountainSpots){
+  for(const [mx,mz] of []){
    const xx=px(mx),yy=py(mz);
    if(xx<pad-10||yy<pad-10||xx>w-pad+10||yy>h-pad+10)continue;
    ctx.translate(xx,yy);ctx.fillStyle='#eaf4fa';ctx.strokeStyle='#475b6f';ctx.lineWidth=1.6;
@@ -2271,7 +2247,7 @@ function renderNavigationMap(){
 }
 function openNavigationMap(){
  const buttons=[0,2].map(i=>{const n=names[i],c=regionClock(i);return `<button data-region="${i}" style="margin:3px;padding:8px">${n} ${c.visible?'🌌':'🌙'} · ${Math.floor(c.remaining/60)}분 ${c.remaining%60}초</button>`}).join('');
- modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 🏔️ 하얀 산 아이콘은 설산 위치 · 파란 구역은 얼음 지형</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 아이슬란드 · 캐나다</h3>'+buttons);
+ modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 파란 구역은 얼음 지형</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 아이슬란드 · 캐나다</h3>'+buttons);
  renderNavigationMap();
  const trailToggle=document.getElementById('trailToggle');
  if(trailToggle){
