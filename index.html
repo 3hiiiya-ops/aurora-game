@@ -1,10 +1,86 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>aururo game</title><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block}</style></head><body><div id="ui"><header><b>✦ Aurora Journey</b><small>나만의 오로라 여행 · aururo game</small></header><div class="top"><button id="map">🗺️ 지도</button><button id="photo">📷 사진</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="look">👀 하늘</button><button id="wave">👋 인사</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><script type="module">
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>aurura game · 테스트</title><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
+.top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
+.status{top:120px;right:9px;font-size:11px;max-width:175px}
+.region{bottom:calc(130px + env(safe-area-inset-bottom));font-size:11px;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.pad{bottom:calc(12px + env(safe-area-inset-bottom));left:10px}
+.actions{bottom:calc(12px + env(safe-area-inset-bottom));right:10px;flex-direction:column}
+.actions button{padding:10px}
+#chatPanel{bottom:calc(130px + env(safe-area-inset-bottom));right:8px}
+#panel{max-height:80dvh;overflow-y:auto}
+} </style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top"><button id="map">🗺️ 지도</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="diagnostics">🧪 상태 점검</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="look">👀 하늘</button><button id="wave">👋 인사</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
-const scene=new THREE.Scene();scene.background=new THREE.Color('#19254f');scene.fog=new THREE.FogExp2(0x6479a2,.008);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));document.body.prepend(renderer.domElement);scene.add(new THREE.HemisphereLight(0xb5cfff,0x4c4465,2.7));const light=new THREE.DirectionalLight(0xffe7dc,2);light.position.set(-20,50,-40);scene.add(light);
-const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,12,9),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}function tree(x,z,s){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,.5*s,3*s,.5*s,wood,0,1.5*s,0);for(let j=0;j<3;j++){cone(g,(2.1-j*.4)*s,2.8*s,green,0,(2.8+j*.9)*s,0);cone(g,(2.1-j*.4)*s,.3*s,snow,0,(4+j*.9)*s,0)}}function hut(x,z,red){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,7,4,6,material(red?0xa85461:0x8f6c72),0,2,0);let a=cube(g,8,.7,7,material(0x695275),-1.3,5,0);a.rotation.z=-.43;let b=cube(g,8,.7,7,material(0x695275),1.3,5,0);b.rotation.z=.43;cube(g,1.5,1.7,.1,new THREE.MeshBasicMaterial({color:0xffdc9a}),-1.7,2.4,3.1);cube(g,1.5,1.7,.1,new THREE.MeshBasicMaterial({color:0xffdc9a}),1.7,2.4,3.1)}function mountain(x,z,r,h){cone(terrain,r,h,material(0x72819d),x,h/2-3,z);cone(terrain,r*.36,h*.3,snow,x,h-3-h*.15,z)}const names=['아이슬란드','노르웨이','캐나다','알래스카'];let current=0;function build(i){terrain.clear();const rnd=random(29+i*93);ground.material=material([0xc8d3e5,0xc6d0e3,0xdbe3ed,0xc2cde0][i]);for(let j=0;j<95;j++){let x=(rnd()-.5)*240,z=(rnd()-.5)*240;if(Math.hypot(x,z)<20)continue;if(i===0&&j<35)ball(terrain,1+rnd()*2,dark,x,1,z);else tree(x,z,.5+rnd()*.9)}for(let j=0;j<22;j++)mountain((rnd()-.5)*350,-80-rnd()*150,14+rnd()*22,32+rnd()*55);hut(-17,-14,i===1);if(i===1)hut(-29,-24,true);if(i===0||i===2){let p=shape(terrain,new THREE.CircleGeometry(23,40),material(0x89bacc),30,.08,-28);p.rotation.x=-Math.PI/2}document.getElementById('region').textContent='❄️ '+names[i]+' · 베이스캠프'}
+// If WebGL is unsupported, show a useful diagnostic rather than a blank page.
+if(!document.createElement('canvas').getContext('webgl2')&&!document.createElement('canvas').getContext('webgl')){
+ document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
+ throw new Error('WebGL unavailable');
+}
+const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.008);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);document.body.prepend(renderer.domElement);scene.add(new THREE.HemisphereLight(0xb5cfff,0x4c4465,2.7));const light=new THREE.DirectionalLight(0xffe7dc,2);light.position.set(-20,50,-40);scene.add(light);
+const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.86});const snow=material(0xe9eaff),wood=material(0x896a70),green=material(0x3d7770),dark=material(0x3b3d52);function shape(g,geo,m,x,y,z){let o=new THREE.Mesh(geo,m);o.position.set(x,y,z);g.add(o);return o}function ball(g,r,m,x,y,z){return shape(g,new THREE.SphereGeometry(r,12,9),m,x,y,z)}function cube(g,w,h,d,m,x,y,z){return shape(g,new THREE.BoxGeometry(w,h,d),m,x,y,z)}function cone(g,r,h,m,x,y,z){return shape(g,new THREE.ConeGeometry(r,h,7),m,x,y,z)}const ground=shape(scene,new THREE.PlaneGeometry(900,900),snow,0,0,0);ground.rotation.x=-Math.PI/2;const terrain=new THREE.Group();scene.add(terrain);function random(seed){return()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}}function tree(x,z,s){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,.5*s,3*s,.5*s,wood,0,1.5*s,0);for(let j=0;j<3;j++){cone(g,(2.1-j*.4)*s,2.8*s,green,0,(2.8+j*.9)*s,0);cone(g,(2.1-j*.4)*s,.3*s,snow,0,(4+j*.9)*s,0)}}function hut(x,z,red){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,7,4,6,material(red?0xa85461:0x8f6c72),0,2,0);let a=cube(g,8,.7,7,material(0x695275),-1.3,5,0);a.rotation.z=-.43;let b=cube(g,8,.7,7,material(0x695275),1.3,5,0);b.rotation.z=.43;cube(g,1.5,1.7,.1,new THREE.MeshBasicMaterial({color:0xffdc9a}),-1.7,2.4,3.1);cube(g,1.5,1.7,.1,new THREE.MeshBasicMaterial({color:0xffdc9a}),1.7,2.4,3.1)}function mountain(x,z,r,h){cone(terrain,r,h,material(0x72819d),x,h/2-3,z);cone(terrain,r*.36,h*.3,snow,x,h-3-h*.15,z)}function lake(x,z,rx,rz){const g=new THREE.Mesh(new THREE.CircleGeometry(1,64),new THREE.MeshStandardMaterial({color:0x86c6db,roughness:.19,metalness:.12,transparent:true,opacity:.86}));g.rotation.x=-Math.PI/2;g.scale.set(rx,rz,1);g.position.set(x,.045,z);terrain.add(g);for(let k=0;k<16;k++){let a=k*Math.PI*2/16;ball(terrain,.8+Math.random()*.7,snow,x+Math.cos(a)*rx,.3,z+Math.sin(a)*rz)}}
+function rock(x,z,r,volcanic=false){let m=new THREE.Mesh(new THREE.DodecahedronGeometry(r,0),material(volcanic?0x292e3b:0x8895ac));m.scale.set(1,.55,1.2);m.position.set(x,r*.28,z);terrain.add(m)}
+function lantern(x,z){const g=new THREE.Group();g.position.set(x,0,z);terrain.add(g);cube(g,.16,2.1,.16,wood,0,1.05,0);cube(g,.8,.85,.8,new THREE.MeshBasicMaterial({color:0xffd39d}),0,2.15,0);cone(g,.66,.42,material(0x6c566a),0,2.8,0);const l=new THREE.PointLight(0xffc88c,3,13);l.position.y=2.2;g.add(l)}
+function iceShard(x,z,s){const m=new THREE.Mesh(new THREE.OctahedronGeometry(s,0),new THREE.MeshStandardMaterial({color:0xb9edff,transparent:true,opacity:.72,roughness:.2}));m.scale.set(.7,1.6,.65);m.position.set(x,s*.9,z);terrain.add(m)}
+// Lightweight landmark geometry: region-specific silhouettes, deliberately stylized.
+function column(x,z,h){const basalt=material(0x333a48);for(let k=0;k<6;k++){const angle=k*Math.PI/3;const c=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,h*(.6+k*.06),6),basalt);c.position.set(x+Math.cos(angle)*2.1,h*(.6+k*.06)/2,z+Math.sin(angle)*2.1);terrain.add(c)}}
+function waterfall(x,z){const cliff=material(0x495466);cube(terrain,23,13,5,cliff,x,6,z-3);const water=new THREE.MeshStandardMaterial({color:0x8fdbed,transparent:true,opacity:.73,roughness:.25});for(let i=0;i<5;i++)cube(terrain,2.1,11,.4,water,x-7+i*3.5,5.5,z+.1);lake(x,z+7,15,7)}
+function dock(x,z){const plank=material(0x77616a);for(let j=0;j<7;j++)cube(terrain,2.6,.25,1.6,plank,x+j*2.7,.65,z);for(let j=0;j<4;j++)cube(terrain,.45,2,.45,wood,x+j*5.3,.1,z+1.1)}
+function fishingBoat(x,z){const hull=material(0x8e454f);const b=new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.1,5,8),hull);b.rotation.z=Math.PI/2;b.position.set(x,.6,z);terrain.add(b);cube(terrain,.12,4,.12,wood,x,2.3,z);const sail=new THREE.Mesh(new THREE.ConeGeometry(1.5,3,3),material(0xe9e5dc));sail.rotation.z=Math.PI/2;sail.position.set(x+1,2.7,z);terrain.add(sail)}
+function frozenStream(x,z){const ice=new THREE.Mesh(new THREE.PlaneGeometry(10,105),new THREE.MeshStandardMaterial({color:0xaed6e6,roughness:.28,transparent:true,opacity:.75}));ice.rotation.x=-Math.PI/2;ice.rotation.z=.17;ice.position.set(x,.055,z);terrain.add(ice)}
+function tundraPatch(x,z,s){const moss=material(0x8994a0);const m=new THREE.Mesh(new THREE.SphereGeometry(1,10,7),moss);m.scale.set(s,.12,s*.7);m.position.set(x,.08,z);terrain.add(m)}
+const names=['아이슬란드','노르웨이','캐나다','알래스카'];
+const subtitles=['검은 화산암과 푸른 빙하 호수','피오르와 붉은 어촌 마을','눈 덮인 침엽수 숲과 얼음 호수','툰드라와 거대한 설산'];
+// Region preference survives page refresh on the same device.
+let current=0;
+try {const savedRegion=Number(localStorage.getItem('aurura-region-v1'));if(Number.isInteger(savedRegion)&&savedRegion>=0&&savedRegion<4)current=savedRegion;} catch(e){}
+// Release old region-only GPU assets when moving between regions.
+function disposeRegion(){
+ const geometries=new Set(),materials=new Set();
+ terrain.traverse(o=>{
+  if(o.geometry)geometries.add(o.geometry);
+  if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>materials.add(m));
+ });
+ terrain.clear();
+ geometries.forEach(g=>g.dispose());
+ materials.forEach(m=>m.dispose());
+}
+function build(i){
+ disposeRegion();const rnd=random(29+i*93);
+ ground.material=material([0xd4d8e5,0xd4d7e8,0xe0e7f0,0xd5dfec][i]);
+ const count=[45,80,120,65][i];
+ for(let j=0;j<count;j++){
+  let x=(rnd()-.5)*260,z=(rnd()-.5)*260;
+  if(Math.hypot(x,z)<21 || (x>10&&x<75&&z<10&&z>-75))continue;
+  if(i===0 && j<30)rock(x,z,1+rnd()*3,true);
+  else if(i===3&&j<20)rock(x,z,1+rnd()*2);
+  else tree(x,z,.55+rnd()*.85);
+ }
+ for(let j=0;j<24;j++){
+  const x=(rnd()-.5)*350,z=-85-rnd()*155;
+  mountain(x,z,(i===1?18:13)+rnd()*22,(i===1?55:30)+rnd()*(i===3?75:55));
+ }
+ if(i===0){
+  lake(39,-30,29,19);
+  for(let k=0;k<22;k++)iceShard(20+rnd()*48,-49+rnd()*36,.5+rnd()*2);
+  for(let k=0;k<28;k++)rock(-15-rnd()*85,-15-rnd()*90,.6+rnd()*2.4,true);
+  hut(-17,-15,false);column(-45,-62,9);column(-56,-68,7);waterfall(-70,-103);
+ }else if(i===1){
+  lake(42,-37,43,29);hut(-18,-14,true);hut(-31,-24,true);hut(-44,-37,true);
+  for(let k=0;k<14;k++)rock(60+rnd()*30,-70+rnd()*70,2+rnd()*4);dock(-18,-38);fishingBoat(15,-35);
+ }else if(i===2){
+  lake(42,-30,31,24);hut(-18,-15,false);
+  for(let k=0;k<40;k++){let x=-80+rnd()*170,z=-100+rnd()*150;if(Math.hypot(x,z)>24)tree(x,z,.65+rnd()*.8)}frozenStream(-65,-68);
+ }else{
+  lake(45,-42,19,13);hut(-18,-15,false);
+  for(let k=0;k<32;k++)rock(-95+rnd()*190,-65+rnd()*130,.6+rnd()*2.4);
+  for(let k=0;k<12;k++)iceShard(28+rnd()*45,-65+rnd()*40,1+rnd()*2);for(let k=0;k<38;k++)tundraPatch((rnd()-.5)*210,(rnd()-.5)*210,1+rnd()*3);
+ }
+ for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
+ document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
+}
 // Reference-inspired character: chubby proportions, sleepy eyes, quilted puffer and knit hat.
 // First-visit character and three fixed outfit/scarf palettes are stored locally, not yet account-synced.
-const savedKey='aururo-character-v3';
+const savedKey='aururo-character-v3'; // Legacy localStorage key retained to preserve existing character appearances.
 let appearance;
 try { appearance=JSON.parse(localStorage.getItem(savedKey)); } catch(e) {}
 if(!appearance){
@@ -65,6 +141,239 @@ if(appearance.variant==='girl'){
 }else{
  for(const x of [-.76,.76])oval(player,.13,.18,.14,hair,x,2.48,-.06);
 }
+// Prototype shared-space avatars: presence is temporary and does not store account identity.
+const others=new Map();
+function otherAvatar(data){
+ let entry=others.get(data.id);
+ if(!entry){
+  const group=new THREE.Group();scene.add(group);
+  const coatColors=[0xf4e8e2,0xdfcce9,0xc9d9e8];
+  const body=material(coatColors[(data.palette||0)%3]);
+  oval(group,.72,.76,.5,body,0,1.45,0);
+  oval(group,.85,.83,.7,material(0xffd8c8),0,2.63,.07);
+  oval(group,.9,.21,.77,material(0xf5e8e7),0,3.15,.03);
+  for(const x of [-.32,.32])oval(group,.2,.075,.03,material(0x322b38),x,2.59,.75);
+  for(const x of [-.35,.35])oval(group,.31,.43,.34,body,x,.59,0);
+  entry={group,target:new THREE.Vector3(),region:data.region};others.set(data.id,entry);
+ }
+ entry.region=data.region;entry.target.set(data.x||0,0,data.z||0);
+ entry.group.visible=data.region===current;
+}
+function removeOther(id){const entry=others.get(id);if(entry){scene.remove(entry.group);others.delete(id)}}
 const dog=new THREE.Group();scene.add(dog);const fur=material(0xffeee5);ball(dog,.43,fur,0,.47,0);ball(dog,.37,fur,0,.96,.15);for(const x of [-.33,.33])ball(dog,.18,fur,x,.96,.09);for(const x of [-.14,.14])ball(dog,.05,faceDark,x,1.02,.48);ball(dog,.07,faceDark,0,.86,.5);
-const stars=[];let r=random(2026);for(let i=0;i<220;i++)ball(scene,.05+r()*.09,new THREE.MeshBasicMaterial({color:0xffffff}),(r()-.5)*250,35+r()*100,(r()-.5)*250);const aurora=[];for(let i=0;i<5;i++){let m=new THREE.Mesh(new THREE.PlaneGeometry(130,18),new THREE.MeshBasicMaterial({color:i%2?0xa88cff:0x67ffce,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));m.position.set((i-2)*18,58+i*7,-90-i*8);scene.add(m);aurora.push(m)}
-const keys={};addEventListener('keydown',e=>{keys[e.key]=true;if(e.key.startsWith('Arrow'))e.preventDefault()});addEventListener('keyup',e=>keys[e.key]=false);document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;b.addEventListener('pointerdown',e=>{b.setPointerCapture(e.pointerId);keys[k]=true});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>keys[k]=false)});let looking=false;document.getElementById('look').onclick=()=>looking=!looking;function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}document.getElementById('wave').onclick=()=>notice('👋 안녕! 반가워요!');function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show')}document.getElementById('close').onclick=()=>document.getElementById('dialog').classList.remove('show');document.getElementById('help').onclick=()=>modal('❄️ 게임 안내','<p>방향키로 이동하고 지도로 지역을 변경해 보세요. 하늘 보기와 사진 촬영도 가능해요.</p><p>현재는 첫 3D 시제품으로 멀티플레이, 계정별 캐릭터 저장, 정확한 원본 캐릭터 모델은 아직 구현되지 않았어요.</p>');function active(){const slot=Math.floor(Date.now()/600000);return names.map((_,i)=>random(slot*111+i*37)()>.4)}document.getElementById('map').onclick=()=>modal('🗺️ 지역 선택',names.map((n,i)=>`<button data-region="${i}">${n} ${active()[i]?'✨':'🌙'}</button>`).join('')+'<p>✨ 표시는 오로라 활동을 뜻해요.</p>');document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);build(current);player.position.set(0,0,0);document.getElementById('dialog').classList.remove('show')}};document.getElementById('photo').onclick=()=>{renderer.render(scene,camera);let a=document.createElement('a');a.href=renderer.domElement.toDataURL('image/png');a.download='aururo-photo.png';a.click()};function status(){const seconds=600-Math.floor(Date.now()/1000)%600;document.getElementById('status').innerHTML='🌌 '+(active()[current]?'오로라 활동 중!':'지금은 오로라가 잠잠해요')+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>시제품: 기기 시간 기준</small>';aurora.forEach(a=>a.visible=active()[current])}setInterval(status,1000);status();build(0);let last=performance.now(),time=0;function frame(now){requestAnimationFrame(frame);let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a)),dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w));if(dx||dz){let length=Math.hypot(dx,dz);player.position.x+=dx/length*dt*8;player.position.z+=dz/length*dt*8;player.rotation.y=Math.atan2(dx,dz)}dog.position.lerp(new THREE.Vector3(player.position.x+1.5,0,player.position.z+1.4),.06);camera.position.lerp(new THREE.Vector3(player.position.x,looking?13:7,player.position.z+13),.06);camera.lookAt(player.position.x,looking?27:2.4,player.position.z-9);aurora.forEach((m,i)=>{m.rotation.z=Math.sin(time*.4+i)*.14;m.material.opacity=.11+.05*Math.sin(time+i)});renderer.render(scene,camera)}requestAnimationFrame(frame);addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});notice('🌌 aururo game에 오신 걸 환영해요!');</script></body></html>
+const stars=[];let r=random(2026);for(let i=0;i<140;i++)ball(scene,.05+r()*.09,new THREE.MeshBasicMaterial({color:0xffffff}),(r()-.5)*250,35+r()*100,(r()-.5)*250);const aurora=[];for(let i=0;i<5;i++){let m=new THREE.Mesh(new THREE.PlaneGeometry(130,18,48,4),new THREE.MeshBasicMaterial({color:i%2?0xa88cff:0x67ffce,transparent:true,opacity:.14,side:THREE.DoubleSide,depthWrite:false}));m.position.set((i-2)*18,58+i*7,-90-i*8);scene.add(m);aurora.push(m)}
+// Optional Supabase Realtime Broadcast. Configure only PUBLIC URL and publishable key in config.js.
+let room=null, onlineState='오프라인', onlineId='player-'+crypto.randomUUID(), lastBroadcast=0, client=null, account=null;
+let config={};
+try {config=(await import('./config.js')).default||{}} catch(e) {}
+
+async function getClient(){
+ if(!config.url||!config.publishableKey)throw Error('config.js에 공개 URL과 Publishable key를 먼저 설정해야 해요.');
+ if(!client){const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');client=createClient(config.url,config.publishableKey)}
+ return client;
+}
+async function syncAccount(){
+ try{
+  const c=await getClient();const {data:{user},error}=await c.auth.getUser();if(error||!user){account=null;return}
+  account=user;onlineId=user.id;
+  const {data:existing,error:readError}=await c.from('character_profiles').select('variant,palette').eq('user_id',user.id).maybeSingle();
+  if(readError)throw readError;
+  let profile=existing;
+  if(!profile){
+   const generated={user_id:user.id,variant:Math.random()<.5?'girl':'boy',palette:Math.floor(Math.random()*3)};
+   const {data, error:insertError}=await c.from('character_profiles').insert(generated).select('variant,palette').single();
+   if(insertError){
+    // Another session may have created it first.
+    const retry=await c.from('character_profiles').select('variant,palette').eq('user_id',user.id).single();
+    if(retry.error)throw insertError;
+    profile=retry.data;
+   }else profile=data;
+  }
+  const next={variant:profile.variant,palette:profile.palette};
+  if(JSON.stringify(next)!==JSON.stringify(appearance)){
+   localStorage.setItem(savedKey,JSON.stringify(next));
+   location.reload();
+  }
+  notice('🔐 내 고유 캐릭터를 불러왔어요!');
+ }catch(e){console.error(e);notice('계정 동기화 실패: Supabase 테이블과 RLS 설정을 확인해 주세요.')}
+}
+document.getElementById('account').onclick=async()=>{
+ let logged=false;try{const c=await getClient();logged=!!(await c.auth.getUser()).data.user}catch(e){}
+ if(logged){modal('🔐 내 계정','<p>로그인된 계정입니다. 캐릭터 외형은 최초 생성 후 변경할 수 없어요.</p><button id="logoutAccount">로그아웃</button>')}
+ else{modal('🔐 내 캐릭터 계정','<p>이메일로 로그인 링크를 받아요. 첫 로그인 때 고유 캐릭터가 랜덤 생성되어 계정에 저장됩니다.</p><form id="loginForm"><input type="email" id="loginEmail" required placeholder="이메일 주소" style="width:100%;padding:12px;border-radius:12px"><button type="submit">로그인 링크 보내기</button></form><p style="font-size:12px">로그인 링크가 다른 브라우저에서 열리면 그 브라우저에 로그인될 수 있어요.</p>')}
+};
+document.getElementById('content').addEventListener('submit',async e=>{
+ if(e.target.id!=='loginForm')return;e.preventDefault();
+ const email=document.getElementById('loginEmail').value.trim();
+ try{const c=await getClient();const {error}=await c.auth.signInWithOtp({email,emailRedirectTo:location.origin+location.pathname});if(error)throw error;notice('📩 이메일로 로그인 링크를 보냈어요!');document.getElementById('dialog').classList.remove('show')}
+ catch(err){console.error(err);notice('이메일 발송 실패. Supabase Auth 설정을 확인해 주세요.')}
+});
+document.getElementById('content').addEventListener('click',async e=>{
+ if(e.target.id==='logoutAccount'){
+  const c=await getClient();await c.auth.signOut();account=null;
+  if(room){await c.removeChannel(room);room=null;onlineState='오프라인'}
+  document.getElementById('dialog').classList.remove('show');notice('로그아웃했어요.');
+ }
+});
+if(config.url&&config.publishableKey){
+ getClient().then(c=>{c.auth.onAuthStateChange((event)=>{if(event==='SIGNED_IN')setTimeout(syncAccount,0)});return syncAccount()}).catch(console.warn);
+}
+
+async function joinOnline(){
+ if(!config.url||!config.publishableKey){
+  notice('현재는 온라인 연결 전이에요. Supabase 공개 연결 설정이 필요해요.');
+  return;
+ }
+ if(room){notice('이미 접속했어요!');return}
+ if(!account){notice('먼저 계정에서 이메일 로그인을 해주세요.');return}
+ try {
+  client=await getClient();
+  room=client.channel('aurura-explore-v1',{config:{broadcast:{self:false},presence:{key:onlineId}}});
+  room.on('broadcast',{event:'move'},({payload})=>{if(payload?.id!==onlineId&&typeof payload?.x==='number'&&typeof payload?.z==='number'&&Math.abs(payload.x)<450&&Math.abs(payload.z)<450)otherAvatar(payload)});
+  room.on('broadcast',{event:'chat'},({payload})=>{if(payload?.id!==onlineId && payload?.region===current && typeof payload?.message==='string')appendChat('여행자',payload.message.slice(0,120))});
+  room.on('broadcast',{event:'wave'},({payload})=>{if(payload?.id!==onlineId)notice('👋 다른 여행자가 인사했어요!')});
+  room.on('presence',{event:'sync'},()=>{
+   const state=room.presenceState();const seen=new Set();
+   Object.values(state).flat().forEach(p=>{if(p.id!==onlineId){seen.add(p.id);otherAvatar(p)}});
+   for(const id of others.keys())if(!seen.has(id))removeOther(id);
+  });
+  await new Promise((resolve,reject)=>{
+   room.subscribe(async status=>{
+    if(status==='SUBSCRIBED'){
+     await room.track({id:onlineId,region:current,x:player.position.x,z:player.position.z,palette:appearance.palette});
+     resolve();
+    }else if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')reject(new Error(status));
+   });
+  });
+  onlineState='온라인';notice('👥 실시간 탐험방에 연결됐어요!');
+ }catch(err){console.error(err);room=null;onlineState='연결 실패';notice('온라인 연결 실패. 공개 키와 Realtime 설정을 확인해 주세요.')}
+}
+document.getElementById('online').onclick=()=>modal('👥 함께 탐험하기',
+ `<p>현재 상태: ${onlineState}</p><p>Supabase 연결 설정이 완료되면 다른 접속자의 위치가 실시간으로 보여요. 채팅은 일시적인 메시지만 지원하며 계정 로그인과 고유 캐릭터 저장은 SQL 설정 후 이용할 수 있어요.</p><button id="joinRoom">실시간 방 연결</button>`);
+document.getElementById('content').addEventListener('click',e=>{if(e.target.id==='joinRoom'){document.getElementById('dialog').classList.remove('show');joinOnline()}});
+function sendPosition(force=false){
+ if(!room||onlineState!=='온라인')return;
+ const now=performance.now();if(!force&&now-lastBroadcast<180)return;lastBroadcast=now;
+ const payload={id:onlineId,region:current,x:player.position.x,z:player.position.z,palette:appearance.palette};
+ room.send({type:'broadcast',event:'move',payload});
+ room.track(payload);
+}
+let lastChatAt=0;
+function appendChat(who,message){const p=document.createElement('p');const b=document.createElement('b');b.textContent=who+': ';p.append(b,document.createTextNode(message));const log=document.getElementById('chatLog');log.append(p);while(log.children.length>35)log.firstChild.remove();log.scrollTop=log.scrollHeight}
+document.getElementById('chatToggle').onclick=()=>document.getElementById('chatPanel').classList.toggle('show');
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();const input=document.getElementById('chatInput');const message=input.value.trim().slice(0,120);if(!message)return;if(!room||onlineState!=='온라인'){notice('👥 먼저 함께하기에서 실시간 방에 연결해 주세요.');return}if(Date.now()-lastChatAt<1500){notice('잠시 후 다시 보내 주세요.');return}lastChatAt=Date.now();appendChat('나',message);room.send({type:'broadcast',event:'chat',payload:{id:onlineId,region:current,message}});input.value=''});
+const keys={};
+function typing(){const a=document.activeElement;return !!a&&(a.matches('input,textarea,select')||a.isContentEditable)}
+addEventListener('keydown',e=>{if(typing())return;keys[e.key]=true;if(e.key.startsWith('Arrow'))e.preventDefault()});
+addEventListener('keyup',e=>keys[e.key]=false);
+addEventListener('blur',()=>{for(const k in keys)keys[k]=false});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)for(const k in keys)keys[k]=false});document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;b.addEventListener('pointerdown',e=>{b.setPointerCapture(e.pointerId);keys[k]=true});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>keys[k]=false)});let looking=false,photoMode=false;
+// Prevent iPhone double-tap zoom and browser gesture interference on directional pad.
+document.querySelector('.pad').addEventListener('contextmenu',e=>e.preventDefault());
+document.getElementById('photoMode').onclick=()=>{
+ photoMode=!photoMode;
+ document.getElementById('photoMode').textContent=photoMode?'🎞️ 일반 모드':'🎞️ 촬영 모드';
+ document.body.classList.toggle('photo-mode',photoMode);
+ document.querySelectorAll('#ui .top button:not(#photo):not(#photoMode),#ui .pad,#ui .actions,#ui .status,#ui .region,#ui header').forEach(el=>{if(photoMode){el.dataset.beforePhotoDisplay=el.style.display;el.style.display='none'}else{el.style.display=el.dataset.beforePhotoDisplay||''}});
+ notice(photoMode?'촬영 모드: 사진 버튼을 누르세요.':'일반 모드로 돌아왔어요.');
+};document.getElementById('look').onclick=()=>looking=!looking;function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}document.getElementById('wave').onclick=()=>{notice('👋 안녕! 반가워요!');if(room)room.send({type:'broadcast',event:'wave',payload:{id:onlineId}})};function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show')}document.getElementById('close').onclick=()=>document.getElementById('dialog').classList.remove('show');document.getElementById('help').onclick=()=>modal('❄️ 게임 안내','<p>방향키로 이동하고 지도로 지역을 변경해 보세요. 하늘 보기와 사진 촬영도 가능해요.</p><p>현재는 3D 탐험 시제품입니다. 네 지역의 지형 요소를 구분했지만 실제 지형 재현은 아니며, 실시간 연결은 Supabase 설정 후 시범 사용이 가능하지만, 계정 저장은 SQL 설정 후 가능하며, 채팅 기록 저장·원본과 동일한 정교한 3D 모델은 아직 구현되지 않았어요.</p>');// The server returns a shared 10-minute cycle. Until configured, show a labeled offline demo.
+let skyState=null, clockOffset=0, skyMode='오프라인 시연',lastSkySlot=-1,discoveredSlot=-1;
+const discoveryKey='aurura-discoveries-v10';
+function discoveries(){try{const d=JSON.parse(localStorage.getItem(discoveryKey)||'[]');return Array.isArray(d)?d:[]}catch{return []}}
+function journal(){
+ const found=discoveries();const perRegion=names.map((name,i)=>({name,count:found.filter(k=>String(k).endsWith(':'+i)).length}));
+ const rows=perRegion.map(r=>'<p>❄️ '+r.name+' — '+r.count+'회 발견</p>').join('');
+ modal('📖 나의 탐험 기록','<p>오로라 관측 기록은 현재 브라우저에만 저장돼요. 다른 기기와 동기화되지 않습니다.</p>'+rows+'<p>🌌 총 관측 횟수: '+found.length+'회</p><p>현재 지역: '+names[current]+'</p><p>지도에서 지역을 바꿔 탐험해 보세요!</p>');
+}
+document.getElementById('journal').onclick=journal;
+// Local diagnostics report configuration and runtime status without claiming remote connectivity.
+document.getElementById('diagnostics').onclick=()=>{
+ const webgl=!!renderer.getContext();
+ const configured=!!(config.url&&config.publishableKey);
+ const safe=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const rows=[['3D 그래픽',webgl?'초기화됨':'실패'],['현재 지역',names[current]],['오로라 시계',skyMode],['Supabase 설정',configured?'공개 키 입력됨 (연결 검증 아님)':'설정 안 됨'],['로그인',account?'로그인 상태':'로그인 안 됨'],['멀티플레이',room?'채널 참여 시도됨':'미접속'],['사진 앨범',getAlbum().length+'장'],['탐험 기록',discoveries().length+'건']];
+ modal('🧪 게임 상태 점검','<p>이 화면은 현재 기기의 상태만 표시해요. 다른 사람과의 실제 접속 성공을 보증하지 않아요.</p>'+rows.map(([a,b])=>'<p><b>'+safe(a)+'</b>: '+safe(b)+'</p>').join(''));
+};
+function hasDiscovered(){return discoveries().includes(cycle()+':'+current)}
+function cycle(){return Math.floor((Date.now()+clockOffset)/600000)}
+function active(){if(skyState&&skyState.cycle===cycle())return skyState.active;const slot=cycle();return names.map((_,i)=>random(slot*111+i*37)()>.4)}
+async function refreshSky(){
+ if(!config.url||!config.publishableKey)return;
+ try{
+  const c=await getClient();const t0=Date.now();
+  const {data,error}=await c.rpc('aurora_cycle');if(error)throw error;
+  const t1=Date.now();if(!data||!Array.isArray(data.active)||data.active.length!==4)throw Error('Invalid sky data');
+  const serverMs=Number(data.server_ms);
+  if(!Number.isFinite(serverMs)||Math.abs(serverMs-Date.now())>86400000)throw Error('Unexpected server timestamp');
+  clockOffset=serverMs-(t0+t1)/2;
+  skyState={cycle:Number(data.cycle),active:data.active.map(Boolean)};
+  skyMode='서버 동기화';
+ }catch(e){console.warn('Aurora sync unavailable',e);skyMode='오프라인 시연';skyState=null}
+}
+setInterval(refreshSky,15000);refreshSky();
+document.addEventListener('visibilitychange',()=>{
+ if(!document.hidden){refreshSky();for(const k in keys)keys[k]=false;}
+});
+function observationPoint(i,slot){const r=random(slot*619+i*197+53);const a=r()*Math.PI*2;const distance=32+r()*48;return {x:Math.cos(a)*distance,z:Math.sin(a)*distance}}
+function isAtAurora(){if(!active()[current])return false;const spot=observationPoint(current,cycle());return Math.hypot(player.position.x-spot.x,player.position.z-spot.z)<17}
+function checkDiscovery(){
+ if(isAtAurora()&&!hasDiscovered()){
+  discoveredSlot=cycle()*10+current;
+  try{const next=discoveries();next.push(cycle()+':'+current);localStorage.setItem(discoveryKey,JSON.stringify(next.slice(-80)))}catch(e){console.warn('Discovery storage unavailable',e)}
+  notice('🌌 오로라 관측 지점을 발견했어요! 사진을 찍어보세요.');
+ }
+}
+document.getElementById('compass').onclick=()=>{
+ if(!active()[current]){notice('🌙 지금 이 지역에는 오로라가 없어요. 다른 지역을 확인해 보세요.');return}
+ if(isAtAurora()){notice('🌌 바로 여기예요! 하늘을 올려다보세요.');return}
+ const spot=observationPoint(current,cycle());const dx=spot.x-player.position.x,dz=spot.z-player.position.z;
+ const ns=dz<0?'북':'남',ew=dx<0?'서':'동';
+ const direction=Math.abs(dx)>Math.abs(dz)*1.8?ew:Math.abs(dz)>Math.abs(dx)*1.8?ns:ns+ew;
+ const distance=Math.hypot(dx,dz);
+ const hint=distance>65?'아직 멀리 있어요':distance>35?'조금 더 이동해 보세요':'거의 다 왔어요';
+ notice('🧭 '+direction+'쪽 하늘이 희미하게 빛나요. '+hint);
+};document.getElementById('map').onclick=()=>modal('🗺️ 지역 선택',names.map((n,i)=>`<button data-region="${i}">${n} ${active()[i]?'✨':'🌙'}</button>`).join('')+'<p>✨ 표시는 오로라 활동을 뜻해요. 관측 위치는 지도에 나오지 않아요. 🧭 단서 버튼으로 방향을 짐작할 수 있어요.</p>');document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);player.position.set(0,0,0);velocity.set(0,0);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
+const albumKey='aurura-album-v1';
+function getAlbum(){try{return JSON.parse(localStorage.getItem(albumKey)||'[]')}catch{return []}}
+function savePhoto(){
+ // Preserve screenshot output independently from interface visibility.
+ const ui=document.getElementById('ui');
+ const dialog=document.getElementById('dialog');
+ const message=document.getElementById('message');
+ const previous=[ui.style.visibility,dialog.style.visibility,message.style.visibility];
+ ui.style.visibility='hidden';dialog.style.visibility='hidden';message.style.visibility='hidden';
+ renderer.render(scene,camera);
+ [ui.style.visibility,dialog.style.visibility,message.style.visibility]=previous;
+ let snapshot;
+ try{snapshot=renderer.domElement.toDataURL('image/png')}catch(e){notice('사진 저장 실패: 브라우저에서 캔버스를 저장할 수 없어요.');return;}
+ const a=document.createElement('a');a.href=snapshot;a.download='aurura-'+['iceland','norway','canada','alaska'][current]+'-'+Date.now()+'.png';a.click();
+ try{
+  const small=document.createElement('canvas');small.width=400;small.height=225;
+  small.getContext('2d').drawImage(renderer.domElement,0,0,400,225);
+  const photos=getAlbum();photos.unshift({region:names[current],date:new Date().toLocaleString('ko-KR'),src:small.toDataURL('image/jpeg',.65)});
+  localStorage.setItem(albumKey,JSON.stringify(photos.slice(0,8)));
+  notice('📷 풍경 사진을 저장하고 앨범에 추가했어요!');
+ }catch(e){notice('사진은 다운로드했지만 기기 저장 공간 때문에 앨범에 추가하지 못했어요.')}
+}
+document.getElementById('photo').onclick=savePhoto;
+document.getElementById('album').onclick=()=>{
+ const photos=getAlbum();modal('🖼️ 나의 오로라 앨범','<p>이 앨범은 현재 브라우저에만 저장돼요. 최대 8장까지 보관합니다.</p><div id="albumGrid" style="max-height:55vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>'+ (photos.length?'<button id="clearAlbum">앨범 비우기</button>':'<p>아직 찍은 사진이 없어요.</p>'));
+ const grid=document.getElementById('albumGrid');
+ photos.forEach((p,i)=>{const item=document.createElement('div');const img=document.createElement('img');img.src=p.src;img.alt=p.region+'에서 촬영한 사진';img.style='width:100%;border-radius:12px';const label=document.createElement('small');label.textContent=p.region+' · '+p.date;item.append(img,label);grid.append(item)});
+};
+document.getElementById('content').addEventListener('click',e=>{if(e.target.id==='clearAlbum'&&confirm('이 브라우저의 앨범 사진을 모두 지울까요?')){localStorage.removeItem(albumKey);document.getElementById('dialog').classList.remove('show');notice('앨범을 비웠어요. 다운로드한 사진은 그대로예요.')}});
+function status(){const seconds=600-Math.floor((Date.now()+clockOffset)/1000)%600;document.getElementById('status').innerHTML='🌌 '+(active()[current]?'이 지역에 오로라가 있어요':'지금은 오로라가 잠잠해요')+(hasDiscovered()?' · 📍 발견 완료':'')+'<br>🕒 다음 변화: '+Math.floor(seconds/60)+'분 '+seconds%60+'초<br><small>'+skyMode+'</small>';aurora.forEach(a=>a.visible=isAtAurora())}setInterval(status,1000);status();build(current);let last=performance.now(),time=0;
+// Cap expensive per-frame aurora geometry updates on mobile while keeping animation smooth.
+let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden){last=now;return;}let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a)),dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w));const moving=!!(dx||dz);const len=Math.hypot(dx,dz)||1;
+ const targetVX=dx/len*(moving?8:0),targetVZ=dz/len*(moving?8:0);
+ const responsiveness=1-Math.exp(-(moving?11:15)*dt);
+ velocity.x+=(targetVX-velocity.x)*responsiveness;
+ velocity.y+=(targetVZ-velocity.y)*responsiveness;
+ player.position.x=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,-130,130);
+ player.position.z=THREE.MathUtils.clamp(player.position.z+velocity.y*dt,-130,130);
+ const speed=velocity.length();
+ if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
+ walkingPhase+=speed*dt*1.7;
+ player.position.y=(speed>.3?Math.sin(walkingPhase*2)*.065*(Math.min(speed,8)/8):0);
+ player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.018:0);
+ sendPosition();checkDiscovery();const visibleAurora=isAtAurora();aurora.forEach(a=>a.visible=visibleAurora);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));dog.position.lerp(new THREE.Vector3(player.position.x+1.5,0,player.position.z+1.4),1-Math.exp(-4*dt));camera.position.lerp(new THREE.Vector3(player.position.x,looking?13:7,player.position.z+13),1-Math.exp(-4*dt));camera.lookAt(player.position.x,looking?27:2.4,player.position.z-9);aurora.forEach((m,i)=>{m.rotation.z=Math.sin(time*.4+i)*.14;m.material.opacity=.11+.05*Math.sin(time+i);if(now-lastAuroraGeometry<45)return;const a=m.geometry.attributes.position;for(let j=0;j<a.count;j++){const x=a.getX(j);const y=a.getY(j);a.setZ(j,Math.sin(x*.07+time*.65+i*1.2)*5+Math.cos(y*.12+time*.3)*2)}a.needsUpdate=true});if(now-lastAuroraGeometry>=45)lastAuroraGeometry=now;renderer.render(scene,camera)}requestAnimationFrame(frame);addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});notice('🌌 aurura game에 오신 걸 환영해요!');</script></body></html>
