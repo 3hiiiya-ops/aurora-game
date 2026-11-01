@@ -226,6 +226,8 @@ const spruceSnowGeo=(()=>{
  p.needsUpdate=true;geo.computeVertexNormals();return geo;
 })();
 function tree(x,z,s){
+ if(current===0)return; // Iceland uses only imported snowy-tree.glb, not geometry trees.
+
  const g=new THREE.Group();g.position.set(x,0,z);g.scale.setScalar(s);terrain.add(g);
  const variation=(Math.sin(x*13.13+z*7.31)+1)*.5;
  const leaves=[spruceDeep,spruceMid,spruceBright][Math.floor(variation*2.99)];
@@ -374,8 +376,16 @@ const regionAtmospheres=[
  {sky:0x102a3d,fog:0x4e7890,star:0xd0fcff,snow:.82},
  {sky:0x1a2043,fog:0x586c8c,star:0xffe9d6,snow:.70}
 ];
+let realNightSky=null;
+new THREE.TextureLoader().load('./night-sky.jpg', tex=>{
+ tex.mapping=THREE.EquirectangularReflectionMapping;tex.wrapS=THREE.RepeatWrapping;
+ tex.colorSpace=THREE.SRGBColorSpace;
+ realNightSky=tex;
+ if(current===0||current===2)scene.background=tex;
+ console.info('Night sky panorama loaded');
+},undefined,()=>console.info('night-sky.jpg not found; using current background'));
 function setRegionAtmosphere(region){
- const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.00045:.0055;
+ const a=regionAtmospheres[region];if((region===0||region===2)&&realNightSky)scene.background=realNightSky;else scene.background=new THREE.Color(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.00045:.0055;
  starsMaterial.color.setHex(a.star);snowfallMaterial.opacity=a.snow;
 }
 function animateAtmosphere(t,dt){
@@ -796,11 +806,12 @@ function referenceWaterHeight(x,z){
 // Scale original 3,600m terrain so several peaks surround the 3x-sized map.
 const icelandMountainGroup=new THREE.Group();scene.add(icelandMountainGroup);
 const icelandMountainSpots=[
- // Bring clear mountain silhouettes into the starting panorama.
- // Spacing prevents all ten large terrain tiles from stacking at the origin.
- [-130,-115,.062,.20],[-15,-160,.065,1.25],[125,-135,.063,2.15],[160,-20,.060,3.5],
- [135,125,.060,.70],[25,175,.060,1.90],[-125,135,.061,2.90],[-165,10,.058,.80],
- [-180,-85,.054,2.3],[95,-185,.056,3.5]
+ // The supplied terrain tile is 3600m across: keep each copy ~75–95m wide,
+ // and OUTSIDE the frozen lake / fractured water route rather than on top of it.
+ [-300,-275,.023,.20],[-170,-310,.026,1.25],[10,-315,.026,2.15],
+ [205,-280,.025,3.5],[315,-145,.024,.70],[330,25,.025,1.90],
+ [280,275,.022,2.90],[115,330,.024,.80],[-80,330,.023,2.3],
+ [-305,260,.024,3.5]
 ];
 // Soft-edged collision footprints for the imported mountain terrain.
 // Low-cost horizontal blockers keep the avatar on the snow without climbing slopes.
@@ -821,34 +832,9 @@ const mountainLoadIndicator=document.createElement('div');
 mountainLoadIndicator.style.cssText='position:fixed;left:10px;top:230px;z-index:1200;background:rgba(12,25,39,.80);border:1px solid #82b6cb;border-radius:10px;padding:6px 10px;color:#eefaff;font-size:12px;pointer-events:none;';
 mountainLoadIndicator.textContent='🏔️ 설산 모델 불러오는 중…';
 document.body.appendChild(mountainLoadIndicator);
-new GLTFLoader().load('./mountain-peak.glb',gltf=>{
- const source=gltf.scene;
- const bbox=new THREE.Box3().setFromObject(source);
- const center=bbox.getCenter(new THREE.Vector3());
- for(const [x,z,scale,rotation] of icelandMountainSpots){
-  // GLTF .clone shares GPU geometry and textures, limiting mobile memory use.
-  const peak=source.clone(true);
-  peak.scale.setScalar(scale);
-  peak.rotation.y=rotation;
-  peak.position.set(x-center.x*scale,-bbox.min.y*scale-1.2,z-center.z*scale);
-  peak.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true; if(o.material){o.material=o.material.clone();o.material.fog=false; if(o.material.isMeshStandardMaterial){o.material.emissive=new THREE.Color(0x202b37);o.material.emissiveIntensity=.42;}}}});
-  icelandMountainGroup.add(peak);
-  // Conservative ellipsoidal footprint; a margin keeps the avatar off steep lower slopes.
-  // Unlike a per-triangle physics collider this stays fast on a phone.
-  const radialX=(bbox.max.x-bbox.min.x)*scale*.40+MOUNTAIN_AVATAR_RADIUS;
-  const radialZ=(bbox.max.z-bbox.min.z)*scale*.40+MOUNTAIN_AVATAR_RADIUS;
-  icelandMountainBlockers.push({x,z,rx:radialX,rz:radialZ,cos:Math.cos(rotation),sin:Math.sin(rotation)});
- }
- icelandMountainStatus.loaded=true;
- mountainLoadIndicator.textContent='🏔️ 설산 '+icelandMountainSpots.length+'개 로딩 성공 · 지도에 위치 표시';
- mountainLoadIndicator.style.borderColor='#66d0b6';
- console.info('Iceland mountain-peak.glb loaded: '+icelandMountainSpots.length+' peaks');
-},undefined,err=>{
- icelandMountainStatus.failed=true;
- mountainLoadIndicator.textContent='⚠️ 설산 로딩 오류: '+(err?.message||String(err)).slice(0,90);
- mountainLoadIndicator.style.borderColor='#f89e9e';
- console.warn('mountain-peak.glb failed to load. Keep it next to index.html',err);
-});
+// User requested all mountain scenery removed; no mountain asset request is made.
+icelandMountainGroup.visible=false;
+mountainLoadIndicator.style.display='none';
 // Optional real 3D landscape assets. Place downloaded GLB files beside index.html.
 // Missing assets do not prevent the snowfield and existing mountain from loading.
 const icelandLandmarkGroup=new THREE.Group();scene.add(icelandLandmarkGroup);
@@ -877,6 +863,47 @@ for(const spec of landscapeSpecs){
   console.info('Real Iceland GLB loaded:',spec.file,'dimensions:',dim.toArray());
  },undefined,()=>console.info('Optional Iceland GLB not uploaded yet:',spec.file));
 }
+// Authentic external snowy tree GLB, downloaded separately from the asset provider.
+const importedSnowForest=new THREE.Group();scene.add(importedSnowForest);
+new GLTFLoader().load('./snowy-tree.glb', gltf=>{
+ // The uploaded asset is a *biome pack*. Select its authored spruce subtree,
+ // excluding rocks, shrubbery and terrain meshes, before cloning.
+ const pack=gltf.scene;
+ const source=pack.getObjectByName('000-wind-flagged-spruce');
+ if(!source){console.warn('Snowy tree model pack has no spruce node');return;}
+ source.updateWorldMatrix(true,true);
+ const bounds=new THREE.Box3().setFromObject(source);
+ if(bounds.isEmpty()){console.warn('Spruce bounding box is empty');return;}
+ const center=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());
+ // Force landscape pack into a single tree-sized normalized preview, preserving proportions.
+ const unit=7/Math.max(size.y,.01);
+ const rng=random(85132);
+ let treeCount=0;
+ function addTree(x,z,h){
+  const obj=source.clone(true),f=unit*h;
+  obj.scale.setScalar(f);obj.rotation.y=rng()*Math.PI*2;
+  obj.position.set(x-center.x*f,-bounds.min.y*f,z-center.z*f);
+  obj.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;o.frustumCulled=true;}});
+  importedSnowForest.add(obj);treeCount++;
+ }
+ // Keep this first phone test to 38 copies: the uploaded pack's spruce has
+ // ~69 mesh subparts, so hundreds of clones would tank mobile GPU frame rate.
+ for(let i=0;i<26;i++){
+  const angle=2*Math.PI*(i+rng()*.3)/26;
+  const r=1.12+rng()*.32;
+  const x=-205+Math.cos(angle)*72*r,z=75+Math.sin(angle)*57*r;
+  if(x>-155&&z>0&&z<120)continue;
+  addTree(x,z,.72+rng()*.6);
+ }
+ for(let i=0;i<17;i++){
+  const x=-240+rng()*480,z=-220+rng()*460;
+  if(Math.hypot(x+205,z-75)<100)continue;
+  if(Math.hypot(x-iceLakeCenter.x,z-iceLakeCenter.z)<105)continue;
+  addTree(x,z,.7+rng()*.7);
+ }
+ importedSnowForest.visible=current===0;
+ console.info('Uploaded real spruce loaded:',treeCount,'trees from bundled GLB');
+},undefined,err=>console.warn('snowy-tree.glb could not load',err));
 // Iceland only: imported real GLB snow terrain, repeated as a walkable patch.
 const icelandSnowTiles=new THREE.Group();scene.add(icelandSnowTiles);
 const icelandSnowLoader=new GLTFLoader();
@@ -934,7 +961,7 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 },undefined,err=>console.warn('Snow-field GLB could not be loaded; procedural terrain remains.',err));
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowCellX=NaN;icelandSnowCellZ=NaN;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display=i===0?'block':'none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
