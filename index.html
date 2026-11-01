@@ -1183,6 +1183,100 @@ for(let k=0;k<3;k++){
  mist.scale.set(.085,.055,.038);mist.position.set(0,2.31,.84);
  player.add(mist);breathPuffs.push(mist);
 }
+
+// v79: FULL PLAYER VISUAL SWAP. Previous geometry is hidden rather than decorated.
+// The old player transform, network position, controls, camera and map stay intact.
+for(const oldVisual of [...player.children])oldVisual.visible=false;
+walkLegs.length=0;walkArms.length=0;
+const avatarV79=new THREE.Group();player.add(avatarV79);
+const avMat=(c,r=1)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:0});
+const avSkin=avMat(0xf4d3c9),avHair=avMat(0x38313d),avCoat=avMat(palette[0]),avShade=avMat(palette[0]),avPants=avMat(palette[2]),avHat=avMat(0xf8eee9),avScarf=avMat(palette[1]),avBoot=avMat(0x756d7e),avEye=avMat(0x302a36),avBlush=avMat(0xea9b9e);
+avShade.color.multiplyScalar(.87);
+function avSmooth(parent,mat,x,y,z,sx,sy,sz){
+ const mesh=new THREE.Mesh(new THREE.SphereGeometry(1,32,24),mat);
+ mesh.position.set(x,y,z);mesh.scale.set(sx,sy,sz);mesh.castShadow=true;mesh.receiveShadow=true;parent.add(mesh);return mesh;
+}
+function avSculpt(mat, profile, zScale=1){
+ const mesh=new THREE.Mesh(new THREE.LatheGeometry(profile.map(p=>new THREE.Vector2(...p)),48),mat);
+ mesh.scale.z=zScale;mesh.castShadow=true;mesh.receiveShadow=true;avatarV79.add(mesh);return mesh;
+}
+// One continuous jacket silhouette with soft shoulder and down-filled waist.
+avSculpt(avCoat,[[0,.90],[.37,.90],[.58,.96],[.69,1.10],[.74,1.35],[.73,1.62],[.65,1.84],[.47,2.01],[0,2.03]],.84);
+// Sculpted face is a single continuous mesh with cheek volume, not cheek balls.
+function avHeadGeometry(){
+ const geo=new THREE.SphereGeometry(1,48,36),p=geo.attributes.position;
+ for(let i=0;i<p.count;i++){
+  const x=p.getX(i),y=p.getY(i),z=p.getZ(i);
+  const cheek=Math.exp(-Math.pow((y+.24)/.28,2))*Math.pow(Math.abs(x),1.6);
+  const chin=Math.max(0,-y-.38);
+  p.setXYZ(i,x*(.83+.10*cheek-.11*chin),2.62+y*.81-.04*chin,.06+z*(.67+.05*cheek));
+ }
+ geo.computeVertexNormals();return geo;
+}
+const avHead=new THREE.Mesh(avHeadGeometry(),avSkin);avHead.castShadow=true;avatarV79.add(avHead);
+for(const side of [-1,1])avSmooth(avatarV79,avSkin,side*.82,2.55,.035,.14,.20,.13);
+// Sleepy half-lidded expression integrated on the forward surface.
+for(const side of [-1,1]){
+ avSmooth(avatarV79,avEye,side*.32,2.58,.705,.205,.091,.024);
+ avSmooth(avatarV79,avSkin,side*.32,2.64,.726,.216,.045,.026);
+ const brow=avSmooth(avatarV79,avEye,side*.32,2.79,.699,.218,.028,.023);brow.rotation.z=side*.065;
+ avSmooth(avatarV79,avBlush,side*.52,2.38,.644,.125,.060,.012);
+ for(const off of [-.045,.045])avSmooth(avatarV79,avEye,side*.58+off,2.35,.657,.013,.022,.01);
+}
+avSmooth(avatarV79,avEye,0,2.32,.737,.072,.018,.018);
+avSmooth(avatarV79,avSkin,0,2.43,.746,.047,.034,.03);
+// Hair is its own sculpted crown with curved tapered ribbons; three persistent variants.
+const avCapGeo=new THREE.SphereGeometry(1,40,28,0,Math.PI*2,0,Math.PI*.64);
+const ac=avCapGeo.attributes.position;
+for(let i=0;i<ac.count;i++)ac.setXYZ(i,ac.getX(i)*.88,2.91+ac.getY(i)*.63,ac.getZ(i)*.69-.08);
+avCapGeo.computeVertexNormals();avatarV79.add(new THREE.Mesh(avCapGeo,avHair));
+function avRibbon(points,w,depth){
+ const curve=new THREE.CatmullRomCurve3(points.map(a=>new THREE.Vector3(...a)));
+ const verts=[],idx=[];for(let i=0;i<=18;i++){
+  const t=i/18,v=curve.getPoint(t),size=w*(1-.88*Math.pow(t,2.3));
+  verts.push(v.x-size,v.y,v.z-depth/2,v.x+size,v.y,v.z+depth/2);
+  if(i<18){const k=i*2;idx.push(k,k+1,k+2,k+1,k+3,k+2)}
+ }
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));g.setIndex(idx);g.computeVertexNormals();
+ const m=new THREE.Mesh(g,avHair);m.material.side=THREE.DoubleSide;m.castShadow=true;avatarV79.add(m);
+}
+for(const [x,shift] of [[-.55,-.10],[-.32,-.07],[-.08,.03],[.18,.06],[.42,.11],[.57,.13]])avRibbon([[x,3.27,.49],[x+shift*.5,3.05,.65],[x+shift,2.86,.68]],.115,.12);
+if(appearance.variant==='girl-long'){
+ avSmooth(avatarV79,avHair,0,2.34,-.50,.72,.81,.24);
+ for(const side of [-1,1])for(let j=0;j<3;j++)avRibbon([[side*(.68+j*.045),2.99,.01],[side*(.79+j*.025),2.38,.02],[side*(.74+j*.02),1.54,-.05]],.12,.15);
+}else if(appearance.variant==='girl'){
+ for(const side of [-1,1])for(let j=0;j<3;j++)avRibbon([[side*(.69+j*.035),2.98,.04],[side*(.79+j*.025),2.70,.04],[side*(.73+j*.025),2.46,.02]],.12,.15);
+}else{
+ for(const side of [-1,1])avRibbon([[side*.72,3.10,.04],[side*.80,2.82,.08],[side*.72,2.61,.04]],.15,.12);
+}
+// Soft ribbed beanie, knitted cuff and wool pom-pom.
+avSmooth(avatarV79,avHat,0,3.34,-.035,.88,.43,.72);
+avSmooth(avatarV79,avHat,0,3.12,.02,.92,.145,.77);
+for(let i=-7;i<=7;i++){
+ const x=i*.112,z=.02+Math.sqrt(Math.max(0,1-(x/.94)**2))*.77;
+ avSmooth(avatarV79,avShade,x,3.12,z,.010,.086,.009);
+}
+avSmooth(avatarV79,avHat,0,3.75,-.03,.18,.18,.18);
+// Wrapped scarf with a sculpted hanging end.
+avSmooth(avatarV79,avScarf,0,2.055,.18,.62,.22,.51);
+avSmooth(avatarV79,avScarf,.38,1.76,.50,.18,.36,.13);
+// Quilt seams follow the coat volume rather than separate giant armor rings.
+for(const [y,r] of [[1.10,.67],[1.36,.73],[1.62,.72],[1.83,.63]]){
+ const seam=new THREE.Mesh(new THREE.TorusGeometry(r,.023,7,44),avShade);
+ seam.rotation.x=Math.PI/2;seam.scale.y=.84;seam.position.y=y;avatarV79.add(seam);
+}
+avSmooth(avatarV79,avShade,0,1.48,.618,.015,.43,.013);
+// Independently articulated limbs reuse the game's existing walk cycle.
+for(const side of [-1,1]){
+ const leg=new THREE.Group();leg.position.set(side*.35,.91,0);avatarV79.add(leg);walkLegs.push(leg);
+ avSmooth(leg,avPants,0,-.28,0,.30,.41,.29);
+ avSmooth(leg,avBoot,0,-.69,.13,.32,.19,.41);
+ const arm=new THREE.Group();arm.position.set(side*.70,1.88,0);avatarV79.add(arm);walkArms.push(arm);
+ const sleeve=avSmooth(arm,avCoat,side*.055,-.36,.02,.29,.46,.31);sleeve.rotation.z=side*.12;
+ avSmooth(arm,avCoat,side*.09,-.69,.03,.28,.16,.30);
+ avSmooth(arm,avSkin,side*.09,-.78,.045,.16,.13,.17);
+}
+
 // Prototype shared-space avatars: presence is temporary and does not store account identity.
 const others=new Map();
 function otherAvatar(data){
@@ -1355,7 +1449,7 @@ addEventListener('blur',()=>{for(const k in keys)keys[k]=false});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)for(const k in keys)keys[k]=false});document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;b.addEventListener('pointerdown',e=>{b.setPointerCapture(e.pointerId);keys[k]=true});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>keys[k]=false)});let looking=false,photoMode=false;
 // Independent touch joystick and drag-to-orbit camera. UI taps never rotate the view.
 const stickEl=document.getElementById('stick'),joyEl=document.getElementById('joystick');
-const joy={x:0,y:0,id:null};let orbitYaw=0,orbitPitch=.20,orbitRadius=13;
+const joy={x:0,y:0,id:null};let orbitYaw=0,orbitPitch=0,orbitRadius=9.5;
 let cameraSensitivity=Number(localStorage.getItem('aurura-camera-sensitivity')||1);
 if(!Number.isFinite(cameraSensitivity)||cameraSensitivity<.5||cameraSensitivity>2)cameraSensitivity=1;
 // v66: true two-finger pinch zoom; one-finger drag rotates only.
@@ -1368,6 +1462,7 @@ joyEl.addEventListener('pointerdown',e=>{if(joy.id!==null)return;joy.id=e.pointe
 joyEl.addEventListener('pointermove',e=>{if(joy.id===e.pointerId){updateJoystick(e);e.preventDefault()}});
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])joyEl.addEventListener(ev,e=>{if(joy.id===e.pointerId)resetJoystick()});
 const viewCanvas=renderer.domElement;
+viewCanvas.style.touchAction="none";
 viewCanvas.addEventListener('pointerdown',e=>{
  if(e.pointerType==='mouse'&&e.button!==0)return;
  activeViewTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
@@ -1386,7 +1481,7 @@ viewCanvas.addEventListener('pointermove',e=>{
  }else if(orbitPointer===e.pointerId){
   const mx=e.clientX-orbitX,my=e.clientY-orbitY;orbitX=e.clientX;orbitY=e.clientY;
   orbitYaw-=mx*.008*cameraSensitivity;
-  orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.006*cameraSensitivity,-1.15,.85);
+  orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.0048*cameraSensitivity,-1.05,.80);
  }
  e.preventDefault();
 });
@@ -1406,7 +1501,7 @@ document.getElementById('photoMode').onclick=()=>{
  document.body.classList.toggle('photo-mode',photoMode);
  document.querySelectorAll('#ui .top button:not(#photo):not(#photoMode),#ui .pad,#ui .actions,#ui .status,#ui .region,#ui header,#joystick,#viewHint').forEach(el=>{if(photoMode){el.dataset.beforePhotoDisplay=el.style.display;el.style.display='none'}else{el.style.display=el.dataset.beforePhotoDisplay||''}});
  notice(photoMode?'촬영 모드: 사진 버튼을 누르세요.':'일반 모드로 돌아왔어요.');
-};document.getElementById('resetView').onclick=()=>{orbitYaw=0;orbitPitch=.20;orbitRadius=13;notice('🎯 시점을 초기화했어요')};document.getElementById('zoomIn').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius-2,5,25);document.getElementById('zoomOut').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius+2,5,25);document.getElementById('look').onclick=()=>{orbitPitch=-1.05;looking=true;notice('하늘 보기 · 화면을 밀면 다시 둘러볼 수 있어요')};function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}document.getElementById('wave').onclick=()=>{notice('👋 안녕! 반가워요!');if(room)room.send({type:'broadcast',event:'wave',payload:{id:onlineId}})};function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show');resetJoystick()}document.getElementById('content').addEventListener('click',e=>{
+};document.getElementById('resetView').onclick=()=>{orbitYaw=0;orbitPitch=0;orbitRadius=9.5;notice('🎯 시점을 초기화했어요')};document.getElementById('zoomIn').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius-2,5,25);document.getElementById('zoomOut').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius+2,5,25);document.getElementById('look').onclick=()=>{orbitPitch=-.88;looking=true;notice('하늘 보기 · 화면을 밀면 다시 둘러볼 수 있어요')};function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}document.getElementById('wave').onclick=()=>{notice('👋 안녕! 반가워요!');if(room)room.send({type:'broadcast',event:'wave',payload:{id:onlineId}})};function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show');resetJoystick()}document.getElementById('content').addEventListener('click',e=>{
  const levels={sensitivityLow:.6,sensitivityNormal:1,sensitivityHigh:1.6};
  if(Object.prototype.hasOwnProperty.call(levels,e.target.id)){
   cameraSensitivity=levels[e.target.id];localStorage.setItem('aurura-camera-sensitivity',String(cameraSensitivity));notice('🎥 카메라 감도를 저장했어요');
@@ -1836,18 +1931,20 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  dog.position.y=dogDistance>.15?Math.abs(Math.sin(time*9))*.045:0;
  if(dogDistance>.12){const dogHeading=Math.atan2(dogDx,dogDz);dog.rotation.y+=Math.atan2(Math.sin(dogHeading-dog.rotation.y),Math.cos(dogHeading-dog.rotation.y))*(1-Math.exp(-7*dt));}
  recordExplorationTrail();sendPosition();checkDiscovery();checkLandmarks();updateLandmarkSigns(time);updatePhotoZoneDecor(time);animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));cameraCenter.set(player.position.x,2.4+Math.min(speed/8,1)*.13,player.position.z);
- // Third-person camera stays above the ground; drag vertically to tilt the view, not bury the camera.
- // v59: true orbit pitch: the camera moves on a spherical arc instead of
- // forcing the look-at target underground. Negative pitch raises the camera
- // to frame the aurora; positive pitch lowers it for a ground-level view.
- const pitch=THREE.MathUtils.clamp(orbitPitch,-1.15,.85);
- const horizontal=orbitRadius*Math.cos(pitch);
- const height=THREE.MathUtils.clamp(2.6-orbitRadius*Math.sin(pitch),1.05,orbitRadius+3);
- cameraDesired.set(cameraCenter.x+horizontal*Math.sin(orbitYaw),height,cameraCenter.z+horizontal*Math.cos(orbitYaw));
+ // v78: true look pitch, not a camera orbit that keeps staring at the avatar.
+ // Drag up -> look up; drag down -> look down. The camera stays behind the
+ // avatar while the sightline itself tilts, so the horizon actually moves.
+ const pitch=THREE.MathUtils.clamp(orbitPitch,-1.05,.80);
+ const horizontal=orbitRadius;
+ const cameraHeight=THREE.MathUtils.clamp(3.5+orbitRadius*.055,3.6,5.0);
+ cameraDesired.set(cameraCenter.x+horizontal*Math.sin(orbitYaw),cameraHeight,cameraCenter.z+horizontal*Math.cos(orbitYaw));
  if(!cameraReady){camera.position.copy(cameraDesired);cameraReady=true;}
- else camera.position.lerp(cameraDesired,1-Math.exp(-(speed>.2?5.8:7.5)*dt));
- camera.position.y=Math.max(1.05,camera.position.y);
- camera.lookAt(cameraCenter.x,cameraCenter.y,cameraCenter.z);aurora.forEach((m,i)=>{
+ else camera.position.lerp(cameraDesired,1-Math.exp(-(speed>.2?7.5:9.0)*dt));
+ // Aim along the line from the camera toward the player, then tilt that
+ // direction. Negative pitch points toward the sky (screen swipe upward).
+ const aimY=cameraCenter.y-pitch*orbitRadius*1.9;
+ camera.lookAt(cameraCenter.x,cameraCenter.y-pitch*orbitRadius*1.9,cameraCenter.z);
+ aurora.forEach((m,i)=>{
  m.rotation.z=Math.sin(time*.24+i*.7)*.055;
  if(now-lastAuroraGeometry<50)return;
  const a=m.geometry.attributes.position;

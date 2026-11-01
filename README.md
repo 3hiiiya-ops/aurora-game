@@ -236,3 +236,11 @@ Replaced stacked-cone nearby spruce with continuous custom scalloped foliage and
 
 ## v77 — environment mesh replacements
 Replaced the old cuboid cabin shell with a custom pitched-house mesh and continuous roof surfaces; replaced angular peak mountains with an irregular connected ridgeline mesh; replaced dodecahedron rocks with deformed smooth boulder meshes. Existing game systems were not intentionally modified. Browser/mobile runtime QA remains necessary.
+
+
+## v78 — camera usability hotfix
+Upward swipe now tilts the actual viewing direction skyward instead of moving the camera while it keeps looking at the avatar. Downward swipe tilts down. Starting camera distance reduced 13 -> 9.5. Pinch-to-zoom and movement retained. Static JS checks only; verify on device.
+
+
+## v79 visual replacement
+New standalone avatarV79 visual group replaces all legacy player geometry (hidden). New sculpted face, hair, jacket, scarf, hat and articulated arms/legs; old player movement and game logic preserved. This is a custom procedural 3D character, not a generated photorealistic GLB asset. Mobile runtime test required.
