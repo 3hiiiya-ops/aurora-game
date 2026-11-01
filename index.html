@@ -1723,60 +1723,72 @@ dogModelLoader.load('./winter_puppy.glb',gltf=>{
 
 // Panoramic borealis glow: gently moving cyan/violet bands across the SKY itself.
 // It sits far behind terrain and is visible before the brighter aurora curtains.
-const auroraSkyDomeUniforms={uTime:{value:0},uActive:{value:0},uMint:{value:new THREE.Color(0x48d9c1)},uViolet:{value:new THREE.Color(0x897ade)}};
+const auroraSkyDomeUniforms={uTime:{value:0},uActive:{value:0},uMint:{value:new THREE.Color(0x4fae76)},uViolet:{value:new THREE.Color(0x3a8f70)}};
 const auroraSkyDome=new THREE.Mesh(new THREE.SphereGeometry(680,40,18),
  new THREE.ShaderMaterial({uniforms:auroraSkyDomeUniforms,
  vertexShader:`varying vec3 vD;void main(){vD=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
  fragmentShader:`precision mediump float;varying vec3 vD;uniform float uTime;uniform float uActive;uniform vec3 uMint;uniform vec3 uViolet;
- void main(){vec3 d=normalize(vD);float az=atan(d.z,d.x);
- float wind=sin(az*3.6+sin(az*5.+uTime*.08)*.7+uTime*.085);
- float curtain=smoothstep(.06,.35,d.y)*(1.-smoothstep(.59,.90,d.y));
- float ridge=exp(-pow((d.y-(.28+.12*wind))/.27,2.));
- float bands=.45+.55*sin(az*7.-uTime*.10+sin(az*2.+uTime*.07));
- float alpha=uActive*curtain*ridge*(.035+.14*bands);
- vec3 c=mix(uMint,uViolet,.45+.37*sin(az*2.2-uTime*.09+d.y*5.));
- gl_FragColor=vec4(c,alpha);}`,
+ void main(){
+ vec3 d=normalize(vD);float az=atan(d.z,d.x);
+ float drift=sin(az*3.7+uTime*.035)*.07+sin(az*8.2-uTime*.022)*.027;
+ float altitude=d.y-(.35+drift);
+ float softBand=exp(-pow(altitude/.17,2.));
+ float patches=.5+.5*sin(az*7.1+sin(az*2.3+uTime*.04)-uTime*.055);
+ float alpha=uActive*softBand*(.006+.025*patches)*smoothstep(.07,.25,d.y);
+ vec3 tint=mix(uMint,uViolet,.35+.3*sin(az*2.1+uTime*.035));
+ gl_FragColor=vec4(tint,alpha);
+ }`,
  transparent:true,depthWrite:false,depthTest:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,fog:false}));
 auroraSkyDome.frustumCulled=false;auroraSkyDome.renderOrder=5;scene.add(auroraSkyDome);
 
 const aurora=[];
 const auroraSky=new THREE.Group();scene.add(auroraSky);
+// Natural Iceland-style green aurora: layered translucent curtains, subtly drifting and irregularly fading.
 const auroraVertex=`
  uniform float uTime;
  varying vec2 vUv;
  varying float vWave;
  void main(){
   vUv=uv;vec3 p=position;
-  float ripple=sin(p.x*.018+uTime*.24+uv.y*3.5)*9.0+sin(p.x*.046-uTime*.18)*4.5;
-  p.z+=ripple*(.24+.76*uv.y);
-  p.y+=sin(p.x*.015+uTime*.17)*5.0;
-  vWave=.78+.22*sin(p.x*.04-uTime*.32);
-  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
+  float slow=uTime*.085;
+  float fold=sin(p.x*.018+slow+uv.y*1.9)*12.0
+            +sin(p.x*.041-slow*.62+uv.y*2.8)*5.5
+            +sin(p.x*.009+slow*.43)*7.0;
+  p.z+=fold*(.35+.65*uv.y);
+  p.y+=sin(p.x*.013+slow*.8)*3.8+sin(p.x*.029-slow*.5)*1.9;
+  vWave=.75+.25*sin(p.x*.021-slow*.6);
+  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.);
  }`;
 const auroraFragment=`
  precision mediump float;
  uniform float uTime;uniform float uOpacity;
  uniform vec3 uGreen;uniform vec3 uPurple;
  varying vec2 vUv;varying float vWave;
+ float hash(float n){return fract(sin(n*127.1)*43758.5453);}
+ float noise(float x){float i=floor(x),f=fract(x);f=f*f*(3.-2.*f);return mix(hash(i),hash(i+1.),f);}
  void main(){
   float x=vUv.x,y=vUv.y;
-  float strands=.43+.57*pow(sin(x*145.0+sin(x*21.0+uTime*.16)*5.0),2.0);
-  float lower=smoothstep(0.0,.19,y);
-  float upper=1.0-smoothstep(.67,1.0,y);
-  float side=smoothstep(.0,.09,x)*(1.0-smoothstep(.91,1.0,x));
-  float shimmer=.79+.21*sin(x*16.0+y*5.0+uTime*.26);
-  float alpha=uOpacity*strands*lower*upper*side*shimmer*vWave;
-  vec3 tint=mix(uGreen,uPurple,smoothstep(.34,.91,y)*(.62+.38*sin(x*12.0+uTime*.12)));
-  gl_FragColor=vec4(tint*1.23,alpha);
+  float motion=uTime*.032;
+  float edge=noise(x*13.+motion)*.18+noise(x*31.-motion*.7)*.075;
+  float cut=1.-smoothstep(.45+edge,.92+edge,y);
+  float base=smoothstep(.015,.27,y);
+  float sides=smoothstep(.0,.065,x)*(1.-smoothstep(.935,1.,x));
+  float threads=pow(.25+.75*noise(x*260.+sin(y*3.+motion)*3.),1.6);
+  float veils=.35+.65*noise(x*21.+motion*.8+y*1.4);
+  float fine=.62+.38*noise(x*490.-motion*2.);
+  float alpha=uOpacity*base*cut*sides*threads*veils*fine*vWave;
+  float top=smoothstep(.38,.95,y);
+  vec3 tint=mix(uGreen,uPurple,top*.12);
+  gl_FragColor=vec4(tint,alpha);
  }`;
 for(let i=0;i<6;i++){
  const geo=new THREE.PlaneGeometry(330,125,80,14);
- const uniforms={uTime:{value:0},uOpacity:{value:0},uGreen:{value:new THREE.Color(0x47ffb5)},uPurple:{value:new THREE.Color(0xa483ff)}};
+ const uniforms={uTime:{value:0},uOpacity:{value:0},uGreen:{value:new THREE.Color(0x73d990)},uPurple:{value:new THREE.Color(0x79d4ac)}};
  const material=new THREE.ShaderMaterial({uniforms,vertexShader:auroraVertex,fragmentShader:auroraFragment,
   transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:false,
   blending:THREE.AdditiveBlending,fog:false});
  const mesh=new THREE.Mesh(geo,material);
- mesh.position.set((i-2.5)*13,64+(i%3)*12,-7-i*5);
+ mesh.position.set((i-2.5)*17,71+(i%3)*10,-7-i*6);
  mesh.rotation.y=(i-2.5)*.08;
  mesh.renderOrder=20;mesh.frustumCulled=false;
  auroraSky.add(mesh);aurora.push(mesh);
@@ -1785,7 +1797,7 @@ for(let i=0;i<6;i++){
 const auroraHaze=new THREE.Group();scene.add(auroraHaze);
 const auroraHazeMaterials=[];
 for(let i=0;i<5;i++){
- const m=new THREE.MeshBasicMaterial({color:i%2?0x9b86ec:0x52e8b5,
+ const m=new THREE.MeshBasicMaterial({color:i%2?0x50a77a:0x5ac38b,
   transparent:true,opacity:0,depthWrite:false,depthTest:false,
   side:THREE.DoubleSide,blending:THREE.AdditiveBlending,fog:false});
  const plane=new THREE.Mesh(new THREE.PlaneGeometry(280+i*28,72+i*12),m);
@@ -2094,8 +2106,8 @@ function applyAuroraPalette(region,slot){
  if(region===appliedPaletteRegion&&slot===appliedPaletteSlot)return;
  const palette=auroraPalette(region,slot);
  aurora.forEach((mesh,i)=>{
-  mesh.material.uniforms.uGreen.value.setHex(palette.colors[i%palette.colors.length]);
-  mesh.material.uniforms.uPurple.value.setHex(region===0?0xb69df9:palette.colors[(i+2)%palette.colors.length]);
+  mesh.material.uniforms.uGreen.value.setHex(region===0?[0x75d987,0x5ac77d,0x91e2a4,0x65cf91,0x7bd89b,0x57bb80][i%6]:palette.colors[i%palette.colors.length]);
+  mesh.material.uniforms.uPurple.value.setHex(region===0?0x8cdab1:palette.colors[(i+2)%palette.colors.length]);
  });
  glowMats.forEach((mat,i)=>mat.color.setHex(palette.colors[(i+1)%palette.colors.length]));
  appliedPaletteRegion=region;appliedPaletteSlot=slot;
@@ -2144,7 +2156,7 @@ function updateAuroraVisibility(t){
  const pulse=.93+.07*Math.sin(t*.35);
  auroraSkyDome.position.copy(camera.position);
  auroraSkyDomeUniforms.uTime.value=t;
- auroraSkyDomeUniforms.uActive.value=activeSky?(current===0?1:.70):0;
+ auroraSkyDomeUniforms.uActive.value=activeSky?(current===0?.65:.70):0;
  lakeLightUniforms.uTime.value=t;
  lakeLightUniforms.uActive.value=activeSky?(current===0?1:.7):0;
  waterCourseUniforms.uTime.value=t;
@@ -2154,12 +2166,12 @@ function updateAuroraVisibility(t){
  for(let i=0;i<aurora.length;i++){
   const mesh=aurora[i],u=mesh.material.uniforms;
   u.uTime.value=t+i*.67;
-  u.uOpacity.value=activeSky?(current===0?.55:.38)*pulse*(1-.06*i):0;
+  u.uOpacity.value=activeSky?(current===0?.88:.38)*pulse*(.89+.11*Math.sin(t*.17+i*1.7))*(1-.055*i):0;
   mesh.visible=activeSky;
  }
  auroraHaze.visible=activeSky;
  for(let i=0;i<auroraHazeMaterials.length;i++){
-  auroraHazeMaterials[i].opacity=activeSky?(.035+i*.008)*pulse:0;
+  auroraHazeMaterials[i].opacity=activeSky?(current===0?.008+i*.002:.035+i*.008)*pulse:0;
  }
  auroraGroundGlow.visible=activeSky;
  auroraGroundGlow.position.set(player.position.x,.13,player.position.z);
