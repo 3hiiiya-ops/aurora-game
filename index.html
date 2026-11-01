@@ -375,7 +375,7 @@ const regionAtmospheres=[
  {sky:0x1a2043,fog:0x586c8c,star:0xffe9d6,snow:.70}
 ];
 function setRegionAtmosphere(region){
- const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0011:.0055;
+ const a=regionAtmospheres[region];scene.background.setHex(a.sky);scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.00045:.0055;
  starsMaterial.color.setHex(a.star);snowfallMaterial.opacity=a.snow;
 }
 function animateAtmosphere(t,dt){
@@ -627,14 +627,145 @@ function artScene(region){
   artMesh(terrain,artSphere,artSnow,x,.81,z,r*.98,.23,r*.79);
  }
 }
+// ICE LAKE: user's genuine textured ice_floor.glb surface, not generated ice geometry.
+// The 1x1m source tile is repeated across a broad lake; a soft shoreline opacity mask
+// makes the lake boundary blend into the existing 3D snowfield.
+const icelandIceLakeGroup=new THREE.Group();scene.add(icelandIceLakeGroup);
+const iceLakeCenter={x:-205,z:75},iceLakeWidth=116,iceLakeDepth=88,iceLakeSurfaceY=.57;
+// Reference-based terrain: forest-enclosed frozen lake + later a meandering dark-water gap.
+// Ice floor stays sourced from the uploaded real GLB; shoreline and water geometry are handcrafted.
+const icelandWaterZones=[{x:-205,z:75,rx:56,rz:42},{x:60,z:160,rx:100,rz:27}];
+let iceLakeLoaded=false;
+const iceLakeMaskCanvas=document.createElement('canvas');iceLakeMaskCanvas.width=iceLakeMaskCanvas.height=256;
+const iceMaskCtx=iceLakeMaskCanvas.getContext('2d');
+const iceMaskImg=iceMaskCtx.createImageData(256,256);
+for(let y=0;y<256;y++)for(let x=0;x<256;x++){
+ const u=(x-127.5)/127.5,v=(y-127.5)/127.5;
+ const ang=Math.atan2(v,u),r=Math.sqrt(u*u+v*v);
+ const shore=.86+.035*Math.sin(ang*7+1.1)+.021*Math.sin(ang*13-1.3)+.015*Math.sin(ang*21+.8);
+ const alpha=THREE.MathUtils.smoothstep(shore-r,0,.17);
+ const k=(y*256+x)*4;
+ iceMaskImg.data[k]=iceMaskImg.data[k+1]=iceMaskImg.data[k+2]=Math.round(alpha*255);
+ iceMaskImg.data[k+3]=255;
+}
+iceMaskCtx.putImageData(iceMaskImg,0,0);
+const iceLakeAlphaMap=new THREE.CanvasTexture(iceLakeMaskCanvas);
+iceLakeAlphaMap.colorSpace=THREE.NoColorSpace;
+new GLTFLoader().load('./ice_floor.glb',gltf=>{
+ const lake=gltf.scene;
+ const bounds=new THREE.Box3().setFromObject(lake);
+ const sz=bounds.getSize(new THREE.Vector3());
+ if(sz.x<.001||sz.z<.001){console.error('Ice floor has no flat surface');return;}
+ const center=bounds.getCenter(new THREE.Vector3());
+ lake.position.set(iceLakeCenter.x-center.x*iceLakeWidth/sz.x,iceLakeSurfaceY-bounds.min.y,iceLakeCenter.z-center.z*iceLakeDepth/sz.z);
+ lake.scale.set(iceLakeWidth/sz.x,1,iceLakeDepth/sz.z);
+ lake.traverse(o=>{
+  if(!o.isMesh)return;
+  const m=o.material.clone();
+  if(m.map){m.map=m.map.clone();m.map.wrapS=m.map.wrapT=THREE.RepeatWrapping;
+   m.map.repeat.set(11,9);m.map.needsUpdate=true;}
+  m.alphaMap=iceLakeAlphaMap;m.transparent=true;m.opacity=.95;
+  m.depthWrite=true;m.side=THREE.DoubleSide;m.roughness=.32;
+  m.needsUpdate=true;o.material=m;
+  o.receiveShadow=true;o.castShadow=false;
+ });
+ icelandIceLakeGroup.add(lake);iceLakeLoaded=true;
+ console.info('Real textured ice_floor.glb loaded: broad Iceland ice lake');
+},undefined,err=>console.warn('ice_floor.glb failed to load beside index.html',err));
+// TWO REFERENCE LANDSCAPES (no flat circle 'lake' placeholder).
+const referenceLandscapeGroup=new THREE.Group();scene.add(referenceLandscapeGroup);
+const refWaterMat=new THREE.MeshPhysicalMaterial({color:0x183f47,roughness:.22,metalness:.19,transparent:true,opacity:.96,clearcoat:.6,clearcoatRoughness:.15,side:THREE.DoubleSide});
+const refIceRimMat=new THREE.MeshStandardMaterial({color:0xc9e7ed,roughness:.75,side:THREE.DoubleSide});
+const refSnowMat=new THREE.MeshStandardMaterial({color:0xe5f0f5,roughness:1,side:THREE.DoubleSide});
+function makeWaterPath(points,widths,level,mat=refWaterMat){
+ const verts=[],uvs=[],faces=[],n=points.length;
+ for(let i=0;i<n;i++){
+  const p=points[i],q0=points[Math.max(0,i-1)],q1=points[Math.min(n-1,i+1)];
+  const dx=q1[0]-q0[0],dz=q1[1]-q0[1],len=Math.max(.0001,Math.hypot(dx,dz));
+  const nx=-dz/len,nz=dx/len;
+  for(const side of [-1,1]){
+   const wave=1+.07*Math.sin(i*1.31+side*2.3)+.035*Math.sin(i*2.73);
+   verts.push(p[0]+nx*side*widths[i]*wave,level+.012*Math.sin(i*.8),p[1]+nz*side*widths[i]*wave);
+   uvs.push(side<0?0:1,i/5);
+  }
+  if(i<n-1){const a=2*i;faces.push(a,a+2,a+1,a+1,a+2,a+3);}
+ }
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+ geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geo.setIndex(faces);geo.computeVertexNormals();
+ const mesh=new THREE.Mesh(geo,mat);mesh.receiveShadow=true;referenceLandscapeGroup.add(mesh);return mesh;
+}
+// Winding open channel near the first lake, evocative of the narrow water route in photo 1.
+const firstChannel=[[-256,89],[-245,91],[-236,88],[-223,88],[-213,83],[-199,79],[-186,76],[-172,72],[-157,67],[-141,64],[-121,60],[-104,55]];
+makeWaterPath(firstChannel,[3,5,8,9,10,11,10,11,10,9,7,4],.60);
+// Further into the 3x world: an irregular long break in the frozen plateau.
+const fracturePath=[];const fractureWidths=[];
+for(let i=0;i<=64;i++){
+ const t=i/64,x=-78+t*235;
+ fracturePath.push([x,149+15*Math.sin(t*5.1+.25)+9*Math.sin(t*12.3)]);
+ fractureWidths.push(7+6*Math.sin(Math.PI*t)**.55+2.1*Math.sin(19*t)**2);
+}
+makeWaterPath(fracturePath,fractureWidths,.62);
+// Loose, discontinuous ice shelves follow both banks of the fracture.
+function makeIceBank(points,widths,side,seed){
+ const verts=[],cols=[],idx=[];
+ for(let i=0;i<points.length;i++){
+  const p=points[i],bef=points[Math.max(0,i-1)],aft=points[Math.min(points.length-1,i+1)];
+  const vx=aft[0]-bef[0],vz=aft[1]-bef[1],l=Math.max(.001,Math.hypot(vx,vz));
+  const nx=-vz/l*side,nz=vx/l*side;
+  const f=widths[i]+1.0+1.3*Math.sin(i*.85+seed),outer=f+2.5+2*Math.sin(i*.57+seed)**2;
+  for(const [d,y] of [[f,.64],[outer,1.05+.4*Math.sin(i*.69+seed)**2]]){
+   verts.push(p[0]+nx*d,y,p[1]+nz*d);
+   cols.push(1,1,1);
+  }
+  if(i<points.length-1){const a=i*2;idx.push(a,a+2,a+1,a+1,a+2,a+3);}
+ }
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));g.setIndex(idx);g.computeVertexNormals();
+ const m=new THREE.Mesh(g,side===1?refIceRimMat:refSnowMat);m.receiveShadow=true;referenceLandscapeGroup.add(m);
+}
+for(const side of [-1,1]){makeIceBank(fracturePath,fractureWidths,side,1.2+side);makeIceBank(firstChannel,[4,6,8,10,11,12,11,12,11,10,8,5],side,2+side);}
+// Existing tree model grouped into a naturalistic shoreline forest; no new cones or cartoon props.
+// Trees remain the game's existing stylized spruce meshes until the user supplies a realistic tree GLB.
+const shoreForest=new THREE.Group();referenceLandscapeGroup.add(shoreForest);
+// Build when the Iceland terrain is active; existing `tree()` attaches to `terrain`.
+function plantReferenceForest(){
+ const rnd=random(18375);const count=142;
+ for(let i=0;i<count;i++){
+  const a=(i+(.5-rnd())*.7)*Math.PI*2/count;
+  const rx=65+12*rnd()+7*Math.sin(a*4.8),rz=51+14*rnd()+6*Math.cos(a*3.9);
+  const x=-205+Math.cos(a)*rx,z=75+Math.sin(a)*rz;
+  // Keep first channel and entrance shoreline walkable, with a narrow corridor from spawn.
+  if(x>-151&&z<110&&z>22)continue;
+  tree(x,z,.85+rnd()*.95);
+ }
+ // Additional forest patches uphill, separated by walkable breaks.
+ for(let i=0;i<88;i++){
+  const x=-205+(rnd()-.5)*190,z=75+(rnd()-.5)*155;
+  const d=((x+205)/60)**2+((z-75)/49)**2;
+  if(d<1.08||x>-140&&z<105&&z>5)continue;
+  tree(x,z,.7+rnd()*1.1);
+ }
+}
+// Map regions and player travel use these same source coordinates.
+function referenceWaterHeight(x,z){
+ const dx=(x-iceLakeCenter.x)/(iceLakeWidth*.44),dz=(z-iceLakeCenter.z)/(iceLakeDepth*.44);
+ if(dx*dx+dz*dz<1)return iceLakeSurfaceY;
+ for(const pts of [firstChannel,fracturePath])for(let i=0;i<pts.length-1;i++){
+  const a=pts[i],b=pts[i+1],vx=b[0]-a[0],vz=b[1]-a[1];
+  const t=THREE.MathUtils.clamp(((x-a[0])*vx+(z-a[1])*vz)/(vx*vx+vz*vz),0,1);
+  const dd=Math.hypot(x-a[0]-t*vx,z-a[1]-t*vz);
+  if(dd<(pts===firstChannel?7:fractureWidths[i]-1))return .62;
+ }
+ return null;
+}
 // Iceland mountain scenery: imported user's mountain-peak.glb, reused with shared geometry.
 // Scale original 3,600m terrain so several peaks surround the 3x-sized map.
 const icelandMountainGroup=new THREE.Group();scene.add(icelandMountainGroup);
 const icelandMountainSpots=[
- // Smaller Iceland map (3x). Mountains rise within sight of the spawn area.
- [-185,-120,.046,.20],[-60,-220,.048,1.25],[90,-210,.050,2.15],[215,-100,.046,3.5],
- [205,95,.049,.70],[105,225,.048,1.90],[-55,230,.045,2.90],[-225,115,.048,.80],
- [-245,-35,.043,2.3],[0,-280,.044,3.5]
+ // Bring clear mountain silhouettes into the starting panorama.
+ // Spacing prevents all ten large terrain tiles from stacking at the origin.
+ [-130,-115,.062,.20],[-15,-160,.065,1.25],[125,-135,.063,2.15],[160,-20,.060,3.5],
+ [135,125,.060,.70],[25,175,.060,1.90],[-125,135,.061,2.90],[-165,10,.058,.80],
+ [-180,-85,.054,2.3],[95,-185,.056,3.5]
 ];
 // Soft-edged collision footprints for the imported mountain terrain.
 // Low-cost horizontal blockers keep the avatar on the snow without climbing slopes.
@@ -651,6 +782,10 @@ function mountainBlocks(x,z){
  return false;
 }
 const icelandMountainStatus={loaded:false,failed:false};
+const mountainLoadIndicator=document.createElement('div');
+mountainLoadIndicator.style.cssText='position:fixed;left:10px;top:66px;z-index:1200;background:rgba(12,25,39,.80);border:1px solid #82b6cb;border-radius:10px;padding:6px 10px;color:#eefaff;font-size:12px;pointer-events:none;';
+mountainLoadIndicator.textContent='🏔️ 설산 모델 불러오는 중…';
+document.body.appendChild(mountainLoadIndicator);
 new GLTFLoader().load('./mountain-peak.glb',gltf=>{
  const source=gltf.scene;
  const bbox=new THREE.Box3().setFromObject(source);
@@ -661,7 +796,7 @@ new GLTFLoader().load('./mountain-peak.glb',gltf=>{
   peak.scale.setScalar(scale);
   peak.rotation.y=rotation;
   peak.position.set(x-center.x*scale,-bbox.min.y*scale-1.2,z-center.z*scale);
-  peak.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;}});
+  peak.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true; if(o.material){o.material=o.material.clone();o.material.fog=false; if(o.material.isMeshStandardMaterial){o.material.emissive=new THREE.Color(0x202b37);o.material.emissiveIntensity=.42;}}}});
   icelandMountainGroup.add(peak);
   // Conservative ellipsoidal footprint; a margin keeps the avatar off steep lower slopes.
   // Unlike a per-triangle physics collider this stays fast on a phone.
@@ -670,11 +805,43 @@ new GLTFLoader().load('./mountain-peak.glb',gltf=>{
   icelandMountainBlockers.push({x,z,rx:radialX,rz:radialZ,cos:Math.cos(rotation),sin:Math.sin(rotation)});
  }
  icelandMountainStatus.loaded=true;
+ mountainLoadIndicator.textContent='🏔️ 설산 '+icelandMountainSpots.length+'개 로딩 성공 · 지도에 위치 표시';
+ mountainLoadIndicator.style.borderColor='#66d0b6';
  console.info('Iceland mountain-peak.glb loaded: '+icelandMountainSpots.length+' peaks');
 },undefined,err=>{
  icelandMountainStatus.failed=true;
+ mountainLoadIndicator.textContent='⚠️ 설산 GLB 로딩 실패 — mountain-peak.glb 파일 위치 확인';
+ mountainLoadIndicator.style.borderColor='#f89e9e';
  console.warn('mountain-peak.glb failed to load. Keep it next to index.html',err);
 });
+// Optional real 3D landscape assets. Place downloaded GLB files beside index.html.
+// Missing assets do not prevent the snowfield and existing mountain from loading.
+const icelandLandmarkGroup=new THREE.Group();scene.add(icelandLandmarkGroup);
+const landscapeSpecs=[
+ {file:'rock-cluster.glb',positions:[[-225,-175,3.4],[-240,-153,2.5],[-205,-188,2.7],[-185,-135,2.1]]},
+ {file:'cliff-face.glb',positions:[[220,145,2.7],[245,171,2.5],[192,178,2.9]]},
+ {file:'glacier.glb',positions:[[170,145,1]]},
+ {file:'frozen-lake.glb',positions:[[-205,75,1]]}
+];
+const loadedLandscapeAssets=new Set();
+for(const spec of landscapeSpecs){
+ new GLTFLoader().load('./'+spec.file,gltf=>{
+  const source=gltf.scene,box=new THREE.Box3().setFromObject(source);
+  if(box.isEmpty())return;
+  const ctr=box.getCenter(new THREE.Vector3()),dim=box.getSize(new THREE.Vector3());
+  for(const [x,z,size] of spec.positions){
+   const obj=source.clone(true);
+   // Imported rocks and cliff pieces are scaled uniformly to a consistent footprint.
+   const factor=(spec.file==='rock-cluster.glb'||spec.file==='cliff-face.glb')?size:1;
+   obj.scale.setScalar(factor);
+   obj.position.set(x-ctr.x*factor,-box.min.y*factor,z-ctr.z*factor);
+   obj.traverse(mesh=>{if(mesh.isMesh){mesh.castShadow=false;mesh.receiveShadow=true;}});
+   icelandLandmarkGroup.add(obj);
+  }
+  loadedLandscapeAssets.add(spec.file);
+  console.info('Real Iceland GLB loaded:',spec.file,'dimensions:',dim.toArray());
+ },undefined,()=>console.info('Optional Iceland GLB not uploaded yet:',spec.file));
+}
 // Iceland only: imported real GLB snow terrain, repeated as a walkable patch.
 const icelandSnowTiles=new THREE.Group();scene.add(icelandSnowTiles);
 const icelandSnowLoader=new GLTFLoader();
@@ -732,7 +899,7 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 },undefined,err=>console.warn('Snow-field GLB could not be loaded; procedural terrain remains.',err));
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowCellX=NaN;icelandSnowCellZ=NaN;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=i===0;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display=i===0?'block':'none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
@@ -740,7 +907,7 @@ function build(i){
  for(let j=0;j<count;j++){
   let x=(rnd()-.5)*260,z=(rnd()-.5)*260;
   if(Math.hypot(x,z)<21 || (x>10&&x<75&&z<10&&z>-75))continue;
-  if(i===0 && j<30)rock(x,z,1+rnd()*3,true);
+  if(i===0)continue;
   else if(i===3&&j<20)rock(x,z,1+rnd()*2);
   else tree(x,z,.55+rnd()*.85);
  }
@@ -749,10 +916,10 @@ function build(i){
   if(i!==0)mountain(x,z,(i===1?18:13)+rnd()*22,(i===1?55:30)+rnd()*(i===3?75:55));
  }
  if(i===0){
-  lake(39,-30,29,19);
-  for(let k=0;k<22;k++)iceShard(20+rnd()*48,-49+rnd()*36,.5+rnd()*2);
-  for(let k=0;k<28;k++)rock(-15-rnd()*85,-15-rnd()*90,.6+rnd()*2.4,true);
-  column(-45,-62,9);column(-56,-68,7);waterfall(-70,-103);
+  // Broad ice lake is loaded from ice_floor.glb; the other GLBs load only if supplied.
+  plantReferenceForest();
+  // Old primitive lake, crystals, rocks, and waterfall intentionally removed.
+  // Wait for real asset files rather than making more placeholder geometry.
  }else if(i===1){
   lake(42,-37,43,29);hut(-31,-24,true);hut(-44,-37,true);villageDetails(-31,-24,true);
   for(let k=0;k<14;k++)rock(60+rnd()*30,-70+rnd()*70,2+rnd()*4);dock(-18,-38);fishingBoat(15,-35);
@@ -768,7 +935,7 @@ function build(i){
  // More readable silhouettes in the near/mid distance; no expensive textures.
  const bankSnow=material([0xe6efff,0xe9f1ff,0xf5f8ff,0xeaf4ff][i]);
  const bankShade=material([0xaebdd4,0xaeb9d5,0xb7c9d5,0xa8c4d5][i]);
- for(let k=0;k<48;k++){
+ for(let k=0;k<(i===0?0:48);k++){
   const angle=rnd()*Math.PI*2,dist=17+rnd()*85;
   const x=Math.cos(angle)*dist,z=Math.sin(angle)*dist;
   if(x>-11&&x<11&&z>-24&&z<16)continue;
@@ -779,7 +946,7 @@ function build(i){
  }
  // Individual icy pebbles add foreground depth without cluttering the spawn.
  const frostStone=material(i===0?0x566579:0xa7b6c9);
- for(let k=0;k<38;k++){
+ for(let k=0;k<(i===0?0:38);k++){
   const a=rnd()*Math.PI*2,d=15+rnd()*66,x=Math.cos(a)*d,z=Math.sin(a)*d;
   if(Math.abs(x)<7&&z>-19&&z<14)continue;
   const pebble=oval(terrain,.16+rnd()*.34,.11+rnd()*.16,.2+rnd()*.45,frostStone,x,.1,z);
@@ -788,7 +955,7 @@ function build(i){
  // v64: large, recognizable foreground formations for each destination.
  // All objects are terrain-owned, so switching regions cleans them up.
  const driftMat=material([0xeaf5ff,0xe7edf9,0xf8fbff,0xe8f2ff][i]);
- for(let k=0;k<34;k++){
+ for(let k=0;k<(i===0?0:34);k++){
   const angle=rnd()*Math.PI*2,dist=24+rnd()*110;
   const x=Math.cos(angle)*dist,z=Math.sin(angle)*dist;
   if(Math.abs(x)<11&&z>-35&&z<15)continue;
@@ -1934,7 +2101,7 @@ function renderNavigationMap(){
  const ctx=canvas.getContext('2d');if(!ctx)return;
  const w=canvas.width,h=canvas.height,pad=18;
  // Zoom mode follows the player; full-region mode remains north-up.
- const viewSpan=260/navigationZoom;
+ const viewSpan=(current===0?780:260)/navigationZoom;
  const centerX=navigationZoom===1?0:player.position.x;
  const centerZ=navigationZoom===1?0:player.position.z;
  const px=x=>pad+(x-centerX+viewSpan/2)/viewSpan*(w-pad*2);
@@ -1942,9 +2109,39 @@ function renderNavigationMap(){
  ctx.clearRect(0,0,w,h);
  const bg=['#243e50','#29455a','#1c4644','#38465a'][current];ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
  ctx.strokeStyle='rgba(220,242,250,.13)';ctx.lineWidth=1;
- for(let v=-100;v<=100;v+=50){ctx.beginPath();ctx.moveTo(px(v),pad);ctx.lineTo(px(v),h-pad);ctx.stroke();ctx.beginPath();ctx.moveTo(pad,py(v));ctx.lineTo(w-pad,py(v));ctx.stroke()}
+ for(let v=-(current===0?350:100);v<=(current===0?350:100);v+=(current===0?100:50)){ctx.beginPath();ctx.moveTo(px(v),pad);ctx.lineTo(px(v),h-pad);ctx.stroke();ctx.beginPath();ctx.moveTo(pad,py(v));ctx.lineTo(w-pad,py(v));ctx.stroke()}
  // Decorative terrain cues, deterministic for each region.
  for(let i=0;i<42;i++){const r=random(current*311+i*47+21);const x=(r()-.5)*250,z=(r()-.5)*250;ctx.fillStyle=current===2?'#6b9a87':current===0?'#536574':current===1?'#537c88':'#7c90a7';ctx.globalAlpha=.38;ctx.beginPath();ctx.arc(px(x),py(z),1.5+r()*3,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+ // Mountain glyphs mark the actual GLB positions, including while a model fails to load.
+ if(current===0){
+  ctx.save();
+  for(const [mx,mz] of icelandMountainSpots){
+   const xx=px(mx),yy=py(mz);
+   if(xx<pad-10||yy<pad-10||xx>w-pad+10||yy>h-pad+10)continue;
+   ctx.translate(xx,yy);ctx.fillStyle='#eaf4fa';ctx.strokeStyle='#475b6f';ctx.lineWidth=1.6;
+   ctx.beginPath();ctx.moveTo(-9,7);ctx.lineTo(-2,-7);ctx.lineTo(3,0);ctx.lineTo(6,-5);ctx.lineTo(11,7);ctx.closePath();
+   ctx.fill();ctx.stroke();ctx.setTransform(1,0,0,1,0,0);
+  }
+  ctx.restore();
+
+ }
+ // Location marker for the actual imported ice-floor surface.
+ if(current===0){
+  ctx.save();ctx.fillStyle='rgba(101,207,232,.83)';ctx.strokeStyle='rgba(229,250,255,.9)';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.ellipse(px(iceLakeCenter.x),py(iceLakeCenter.z),
+   iceLakeWidth/2/viewSpan*(w-pad*2),iceLakeDepth/2/viewSpan*(h-pad*2),-.16,0,Math.PI*2);
+  ctx.fill();ctx.stroke();ctx.restore();
+ }
+ // Two actual waterway paths and shoreline forest, matching the 3D world.
+ if(current===0){
+  ctx.save();ctx.strokeStyle='rgba(99,207,227,.87)';ctx.lineCap='round';
+  for(const [points,width] of [[firstChannel,7],[fracturePath,11]]){
+   ctx.lineWidth=Math.max(2,width/viewSpan*(w-pad*2)*2);
+   ctx.beginPath();points.forEach((p,i)=>{if(i===0)ctx.moveTo(px(p[0]),py(p[1]));else ctx.lineTo(px(p[0]),py(p[1]));});ctx.stroke();
+  }
+  ctx.strokeStyle='rgba(94,156,142,.8)';ctx.lineWidth=3;ctx.setLineDash([2,3]);
+  ctx.beginPath();ctx.ellipse(px(-205),py(75),64/viewSpan*(w-pad*2),53/viewSpan*(h-pad*2),0,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+ }
  // A translucent breadcrumb path shows where the player has actually walked.
  recordExplorationTrail();
  if(showTrail&&explorationTrail.length>1){
@@ -1966,7 +2163,7 @@ function renderNavigationMap(){
  ctx.fillStyle='#fff';ctx.font='bold 12px system-ui';ctx.fillText('나',Math.min(w-20,x+12),Math.max(15,y-10));
  ctx.font='bold 14px system-ui';ctx.fillText('N ↑',w-46,22);
  // Scale reference: grid distance is measured in game-world metres.
- const scaleMetres=navigationZoom===1?50:navigationZoom===2?25:10;
+ const scaleMetres=current===0?(navigationZoom===1?150:navigationZoom===2?75:25):(navigationZoom===1?50:navigationZoom===2?25:10);
  const scalePixels=scaleMetres/viewSpan*(w-pad*2);
  ctx.save();ctx.strokeStyle='#f5e8d0';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(22,h-23);ctx.lineTo(22+scalePixels,h-23);ctx.stroke();
  ctx.fillStyle='#f5e8d0';ctx.font='bold 11px system-ui';ctx.fillText(scaleMetres+'m',22,h-30);ctx.restore();
@@ -1984,7 +2181,7 @@ function renderNavigationMap(){
 }
 function openNavigationMap(){
  const buttons=names.map((n,i)=>{const c=regionClock(i);return `<button data-region="${i}" style="margin:3px;padding:8px">${n} ${c.visible?'🌌':'🌙'} · ${Math.floor(c.remaining/60)}분 ${c.remaining%60}초</button>`}).join('');
- modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 작은 점은 탐험 장소</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 다른 지역으로 이동</h3>'+buttons);
+ modal('🗺️ 나의 탐험 지도','<p style="margin:4px 0">🔴 내 위치 · 🟡 베이스캠프 · 🟠 지나온 길 · 🏔️ 하얀 산 아이콘은 설산 위치 · 파란 구역은 얼음 지형</p><button id="trailToggle" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🟠 경로 숨기기</button><button id="trailClear" type="button" style="padding:9px 13px;margin:6px 4px 6px 0;border-radius:12px">🧹 경로 지우기</button><button id="mapZoomToggle" type="button" style="padding:9px 13px;margin:6px 0;border-radius:12px">🔍 지도 확대 · 전체 보기</button><canvas id="navigationCanvas" width="360" height="360" role="img" aria-label="현재 지역 탐험 지도, 현재 위치와 베이스캠프 및 랜드마크 표시" style="display:block;width:min(100%,360px);height:auto;aspect-ratio:1;border-radius:14px;border:1px solid #ffffff55;margin:8px auto;background:#203c52"></canvas><p id="mapPositionText" style="font-size:12px"></p><p id="mapHomeText" style="font-size:13px;font-weight:700;color:#ffe2b4"></p><p style="font-size:12px">지도를 켜둔 채 이동하면 내 위치와 지나온 길이 갱신돼요. 북쪽은 위쪽이에요. 흰 화살표는 캐릭터가 바라보는 방향이에요. 내 주변 확대와 근거리 확대에서는 지도가 캐릭터를 따라가요. 왼쪽 아래 축척으로 거리를 가늠할 수 있어요. 지역을 바꾸면 이동 경로는 초기화돼요. 오로라의 정확한 출몰 위치는 표시하지 않아요. 🧭 단서로 방향을 찾아보세요.</p><h3>🌍 다른 지역으로 이동</h3>'+buttons);
  renderNavigationMap();
  const trailToggle=document.getElementById('trailToggle');
  if(trailToggle){
@@ -2122,7 +2319,10 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  walkingPhase+=speed*dt*.60;
  updateIcelandSnowTiles(player.position.x,player.position.z);
  const snowSurface=icelandSnowHeight(player.position.x,player.position.z);
- player.position.y=(snowSurface===null?0:snowSurface)+(speed>.3?Math.sin(walkingPhase*2)*.09*(Math.min(speed,8)/8):0);
+ const dxIce=(player.position.x-iceLakeCenter.x)/(iceLakeWidth*.40), dzIce=(player.position.z-iceLakeCenter.z)/(iceLakeDepth*.40);
+ const referenceHeight=current===0?referenceWaterHeight(player.position.x,player.position.z):null;
+ const onIce=current===0&&iceLakeLoaded&&(dxIce*dxIce+dzIce*dzIce<1);
+ player.position.y=(referenceHeight!==null?referenceHeight:(onIce?iceLakeSurfaceY:(snowSurface===null?0:snowSurface)))+(speed>.3?Math.sin(walkingPhase*2)*.09*(Math.min(speed,8)/8):0);
  player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.026:0);
  const stride=THREE.MathUtils.smoothstep(speed,0.3,4.8);
  // Opposing arm/leg swing, with a smooth return to idle when stopping.
