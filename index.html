@@ -142,7 +142,7 @@ if(!document.createElement('canvas').getContext('webgl2')&&!document.createEleme
  document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
  throw new Error('WebGL unavailable');
 }
-const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0055);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,1100);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
+const scene=new THREE.Scene();scene.background=new THREE.Color('#18234d');scene.fog=new THREE.FogExp2(0x6479a2,.0055);const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,1450);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
 const QUALITY_PRESETS={"절전":0.75,"균형":1,"선명":1.5};
 let qualityChoice='균형';try{qualityChoice=localStorage.getItem('aurura_quality')||'균형'}catch(e){}
 if(!QUALITY_PRESETS[qualityChoice])qualityChoice='균형';
@@ -627,14 +627,54 @@ function artScene(region){
   artMesh(terrain,artSphere,artSnow,x,.81,z,r*.98,.23,r*.79);
  }
 }
-// Iceland distant ridge: a single triangulated GLB mesh, not a row of cone mountains.
+// Iceland mountain scenery: imported user's mountain-peak.glb, reused with shared geometry.
+// Scale original 3,600m terrain so multiple peaks surround the 5x-sized map.
 const icelandMountainGroup=new THREE.Group();scene.add(icelandMountainGroup);
-new GLTFLoader().load('./iceland-mountain-ridge.glb', gltf=>{
- const ridge=gltf.scene;
- ridge.position.set(0,-3,-153);
- ridge.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;o.material.side=THREE.DoubleSide;}});
- icelandMountainGroup.add(ridge);
-},undefined,e=>console.warn('Iceland mountain ridge could not load',e));
+const icelandMountainSpots=[
+ // x,z,scale,rotation; leave the central walking area and spawn unobstructed.
+ [-620,-580,.090,.20],[-230,-670,.103,1.25],[210,-680,.100,2.15],[630,-540,.096,3.5],
+ [690,-60,.092,.70],[675,420,.101,1.90],[285,680,.097,2.90],[-210,680,.104,.80],
+ [-660,460,.091,2.3],[-690,-55,.100,3.5]
+];
+// Soft-edged collision footprints for the imported mountain terrain.
+// Low-cost horizontal blockers keep the avatar on the snow without climbing slopes.
+const icelandMountainBlockers=[];
+const MOUNTAIN_AVATAR_RADIUS=1.05;
+function mountainBlocks(x,z){
+ if(current!==0||!icelandMountainStatus.loaded)return false;
+ for(const p of icelandMountainBlockers){
+  const dx=x-p.x,dz=z-p.z;
+  const u=(dx*p.cos+dz*p.sin)/p.rx;
+  const v=(-dx*p.sin+dz*p.cos)/p.rz;
+  if(u*u+v*v<1)return true;
+ }
+ return false;
+}
+const icelandMountainStatus={loaded:false,failed:false};
+new GLTFLoader().load('./mountain-peak.glb',gltf=>{
+ const source=gltf.scene;
+ const bbox=new THREE.Box3().setFromObject(source);
+ const center=bbox.getCenter(new THREE.Vector3());
+ for(const [x,z,scale,rotation] of icelandMountainSpots){
+  // GLTF .clone shares GPU geometry and textures, limiting mobile memory use.
+  const peak=source.clone(true);
+  peak.scale.setScalar(scale);
+  peak.rotation.y=rotation;
+  peak.position.set(x-center.x*scale,-bbox.min.y*scale-1.2,z-center.z*scale);
+  peak.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;}});
+  icelandMountainGroup.add(peak);
+  // Conservative ellipsoidal footprint; a margin keeps the avatar off steep lower slopes.
+  // Unlike a per-triangle physics collider this stays fast on a phone.
+  const radialX=(bbox.max.x-bbox.min.x)*scale*.40+MOUNTAIN_AVATAR_RADIUS;
+  const radialZ=(bbox.max.z-bbox.min.z)*scale*.40+MOUNTAIN_AVATAR_RADIUS;
+  icelandMountainBlockers.push({x,z,rx:radialX,rz:radialZ,cos:Math.cos(rotation),sin:Math.sin(rotation)});
+ }
+ icelandMountainStatus.loaded=true;
+ console.info('Iceland mountain-peak.glb loaded: '+icelandMountainSpots.length+' peaks');
+},undefined,err=>{
+ icelandMountainStatus.failed=true;
+ console.warn('mountain-peak.glb failed to load. Keep it next to index.html',err);
+});
 // Iceland only: imported real GLB snow terrain, repeated as a walkable patch.
 const icelandSnowTiles=new THREE.Group();scene.add(icelandSnowTiles);
 const icelandSnowLoader=new GLTFLoader();
@@ -802,7 +842,7 @@ function build(i){
  }
  baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);
  document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
- if(typeof updateLandmarkHUD==='function')updateLandmarkHUD();
+ // Landmark discovery UI removed.
 }
 // Region exploration goals: three discoverable sites per map, stored locally.
 const landmarkSets=[
@@ -831,7 +871,7 @@ function checkLandmarks(){
 }
 // v34: visible discoverable landmarks. Low-poly wooden trail signs and lanterns.
 // Signs are only visual guides; aurora spawn coordinates remain hidden.
-const landmarkDecor=new THREE.Group();scene.add(landmarkDecor);
+const landmarkDecor=new THREE.Group();scene.add(landmarkDecor);landmarkDecor.visible=false;
 const markerWood=new THREE.MeshStandardMaterial({color:0x735b63,roughness:.9});
 const markerSnow=new THREE.MeshStandardMaterial({color:0xe9e9fa,roughness:.9});
 const markerGlow=new THREE.MeshBasicMaterial({color:0xffd9a0});
@@ -856,7 +896,7 @@ const photoViewpoints=[
  [{x:120,z:-100},{x:-115,z:-125},{x:85,z:-145}],
  [{x:100,z:-115},{x:-125,z:-100},{x:10,z:-165}]
 ];
-const photoZoneDecor=new THREE.Group();scene.add(photoZoneDecor);
+const photoZoneDecor=new THREE.Group();scene.add(photoZoneDecor);photoZoneDecor.visible=false;
 const photoZoneGroups=[];
 const photoThemes=[0x82e8c5,0xe4a4dd,0x8ed8ff,0xffd5a3];
 const archWood=new THREE.MeshStandardMaterial({color:0x6e5260,roughness:.9});
@@ -1425,25 +1465,59 @@ dogModelLoader.load('./winter_puppy.glb',gltf=>{
   for(const child of [...dog.children])if(child!==puppy)child.visible=false;
 },undefined,err=>console.warn('Puppy GLB fallback',err));
 
-// Stars are rendered in one efficient Points draw call above.// Layered vertical curtains: vertex colors fade toward the edges and across the height.
+// Wide, slowly flowing aurora curtains. World-space sky canopy follows the explorer.
+// Procedural GPU shaders: no external textures or 3D assets to upload.
 const aurora=[];
-for(let i=0;i<5;i++){
- const geometry=new THREE.PlaneGeometry(110,31,48,12);
- const positions=geometry.attributes.position,colors=[];
- for(let j=0;j<positions.count;j++){
-  const u=Math.abs(positions.getX(j)/55),v=(positions.getY(j)+15.5)/31;
-  const edge=Math.pow(Math.max(0,1-u*u),1.6);
-  const vertical=.14+.86*Math.pow(Math.sin(Math.PI*v),.8);
-  const ray=.55+.45*Math.pow(Math.sin(positions.getX(j)*.43+i*1.7),2);
-  const intensity=edge*vertical*ray;
-  const upper=Math.max(0,Math.min(1,(v-.32)*1.45));
-  colors.push(intensity*(.65+.35*upper),intensity*(1-.22*upper),intensity*(.82+.18*upper));
- }
- geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
- const m=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color:0x66ffce,vertexColors:true,transparent:true,opacity:.15,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
- m.position.set((i-2)*8,64+i*5,-20-i*7);
- m.userData.baseX=m.position.x;m.userData.baseZ=m.position.z;
- scene.add(m);aurora.push(m);
+const auroraVertex=`
+ uniform float uTime;
+ varying vec2 vUv;
+ varying float vWave;
+ void main(){
+  vUv=uv;
+  vec3 p=position;
+  float t=uTime;
+  float wave=sin(p.x*.024+t*.26+uv.y*3.0)*10.0
+           +sin(p.x*.051-t*.16+uv.y*5.0)*4.0;
+  p.x+=sin(uv.y*4.7+t*.15+p.x*.008)*4.0;
+  p.z+=wave*(.2+uv.y*.8);
+  p.y+=sin(p.x*.017+t*.19)*5.0;
+  vWave=.6+.4*sin(p.x*.042-t*.3);
+  gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
+ }`;
+const auroraFragment=`
+ precision mediump float;
+ uniform float uTime;
+ uniform float uOpacity;
+ uniform vec3 uGreen;
+ uniform vec3 uPurple;
+ varying vec2 vUv;
+ varying float vWave;
+ void main(){
+  float x=vUv.x, y=vUv.y;
+  float columns=.60+.40*pow(sin(x*155.0+sin(x*23.0+uTime*.14)*5.0),2.0);
+  float fine=.72+.28*sin(x*420.0+uTime*.3);
+  float top=smoothstep(1.0,.69,y);
+  float bottom=smoothstep(.02,.30,y);
+  float ends=smoothstep(0.0,.10,x)*(1.0-smoothstep(.90,1.0,x));
+  float wavy=.75+.25*sin(x*21.0+uTime*.2+y*3.0);
+  float alpha=uOpacity*top*bottom*ends*columns*fine*wavy*(.78+.22*vWave);
+  vec3 tint=mix(uGreen,uPurple,smoothstep(.35,.93,y)*(.58+.42*sin(x*16.0+uTime*.13)));
+  // retain soft luminous green lower band and a lavender high veil
+  gl_FragColor=vec4(tint*1.15,alpha);
+ }`;
+for(let i=0;i<8;i++){
+ const geo=new THREE.PlaneGeometry(425,115,112,20);
+ const uniforms={uTime:{value:0},uOpacity:{value:0},uGreen:{value:new THREE.Color(0x47ffb5)},uPurple:{value:new THREE.Color(0xa483ff)}};
+ const mat=new THREE.ShaderMaterial({uniforms,vertexShader:auroraVertex,fragmentShader:auroraFragment,
+  transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,blending:THREE.AdditiveBlending,fog:false});
+ const mesh=new THREE.Mesh(geo,mat);
+ const angle=i*Math.PI*2/8+.15;
+ mesh.position.set(Math.sin(angle)*295,105+(i%3)*12,Math.cos(angle)*295);
+ mesh.rotation.y=angle+Math.PI;
+ mesh.frustumCulled=false;
+ mesh.renderOrder=8;
+ mesh.userData.offset=i*1.37;
+ scene.add(mesh);aurora.push(mesh);
 }
 // v55: low-cost, localized aurora glow on the snow. This is a transparent
 // additive decal (not an expensive realtime shadow-casting light).
@@ -1631,7 +1705,7 @@ function journal(){
  const rows=perRegion.map(r=>'<p>❄️ '+r.name+' — '+r.count+'회 발견</p>').join('');
  modal('📖 나의 탐험 기록','<p>오로라 관측 기록은 현재 브라우저에만 저장돼요. 다른 기기와 동기화되지 않습니다.</p>'+rows+'<p>🌌 총 관측 횟수: '+found.length+'회</p><p>현재 지역: '+names[current]+'</p><p>지도에서 지역을 바꿔 탐험해 보세요!</p>');
 }
-document.getElementById('journal').onclick=journal;
+document.getElementById('journal').remove();
 // Field guide: a persistent twelve-location checklist, with nearby photo-spot hints.
 function fieldGuide(){
  const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1645,8 +1719,9 @@ function fieldGuide(){
  }).join('');
  modal('📚 탐험 도감 · '+completed+'/12','<p>각 지역의 숨겨진 장소에 가까이 다가가면 자동으로 기록돼요. 발견 기록은 이 브라우저에 저장돼요.</p>'+groups+'<p>📸 포토존 발견: '+unlockedPhotoZones.size+'/12 · 포토존은 랜드마크 발견과 관계없이 독립적으로 탐험할 수 있어요. 아치 근처에 가면 안내가 나타나요.</p>');
 }
+document.getElementById('compass').style.display='none';
 const guideButton=document.createElement('button');guideButton.id='fieldGuide';guideButton.textContent='📚 탐험 도감';
-document.querySelector('#ui .top').appendChild(guideButton);guideButton.onclick=fieldGuide;
+// Field-guide collectible UI removed.
 // v47: photo zones are independent destinations, not gated by landmark discovery.
 // First approach gives a subtle clue; entering the arch unlocks the photo zone.
 const photoZoneStorageKey='aurura-photo-zones-v47';
@@ -1691,7 +1766,7 @@ document.getElementById('diagnostics').onclick=()=>{
  const webgl=!!renderer.getContext();
  const configured=!!(config.url&&config.publishableKey);
  const safe=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const rows=[['3D 그래픽',webgl?'초기화됨':'실패'],['화질 설정',qualityChoice],['프레임 속도',fpsEstimate?fpsEstimate+' FPS (추정)':'측정 중'],['현재 지역',names[current]],['오로라 시계',skyMode],['Supabase 설정',configured?'공개 키 입력됨 (연결 검증 아님)':'설정 안 됨'],['로그인',account?'로그인 상태':'로그인 안 됨'],['멀티플레이',room?'채널 참여 시도됨':'미접속'],['사진 앨범',getAlbum().length+'장'],['탐험 기록',discoveries().length+'건'],['탐험 도감',visitedLandmarks.size+'/12'],['포토존',unlockedPhotoZones.size+'/12']];
+ const rows=[['3D 그래픽',webgl?'초기화됨':'실패'],['화질 설정',qualityChoice],['프레임 속도',fpsEstimate?fpsEstimate+' FPS (추정)':'측정 중'],['현재 지역',names[current]],['오로라 시계',skyMode],['Supabase 설정',configured?'공개 키 입력됨 (연결 검증 아님)':'설정 안 됨'],['로그인',account?'로그인 상태':'로그인 안 됨'],['멀티플레이',room?'채널 참여 시도됨':'미접속'],['사진 앨범',getAlbum().length+'장'],['탐험 기록',discoveries().length+'건']];
  modal('🧪 게임 상태 점검','<p>이 화면은 현재 기기의 상태만 표시해요. 다른 사람과의 실제 접속 성공을 보증하지 않아요.</p>'+rows.map(([a,b])=>'<p><b>'+safe(a)+'</b>: '+safe(b)+'</p>').join(''));
 };
 // Region schedules are staggered. Each appearance lasts 5 minutes, then stays absent
@@ -1744,7 +1819,10 @@ let appliedPaletteRegion=-1,appliedPaletteSlot=-1;
 function applyAuroraPalette(region,slot){
  if(region===appliedPaletteRegion&&slot===appliedPaletteSlot)return;
  const palette=auroraPalette(region,slot);
- aurora.forEach((mesh,i)=>mesh.material.color.setHex(palette.colors[i%palette.colors.length]));
+ aurora.forEach((mesh,i)=>{
+  mesh.material.uniforms.uGreen.value.setHex(palette.colors[i%palette.colors.length]);
+  mesh.material.uniforms.uPurple.value.setHex(region===0?0xb28bff:palette.colors[(i+2)%palette.colors.length]);
+ });
  glowMats.forEach((mat,i)=>mat.color.setHex(palette.colors[(i+1)%palette.colors.length]));
  appliedPaletteRegion=region;appliedPaletteSlot=slot;
 }
@@ -1774,30 +1852,23 @@ function updateLakeReflections(t,slot){
  }
 }
 function updateAuroraVisibility(t){
- const slot=cycle(),distance=auroraDistance();
+ const slot=cycle();
  applyAuroraPalette(current,slot);updateLakeReflections(t,slot);
- if(slot!==lastGlowSlot||current!==lastGlowRegion){
-  const spot=observationPoint(current,slot);
-  distantGlow.position.set(spot.x,0,spot.z);
-  // Position the main ribbons above the active observation site, not a fixed world coordinate.
-  aurora.forEach((mesh,i)=>mesh.position.set(spot.x+mesh.userData.baseX,64+i*5,spot.z+mesh.userData.baseZ));
-  auroraGroundGlow.position.set(spot.x,.075,spot.z);
-  lastGlowSlot=slot;lastGlowRegion=current;
+ const activeSky=auroraVisibleNow();
+ // Sky canopy surrounds the player, so it is visible across the entire enlarged map.
+ // Preserve original 5-min on / 10-min off schedule.
+ for(let i=0;i<aurora.length;i++){
+  const m=aurora[i],u=m.material.uniforms;
+  const angle=i*Math.PI*2/8+.15;
+  m.position.x=player.position.x+Math.sin(angle)*295;
+  m.position.z=player.position.z+Math.cos(angle)*295;
+  u.uTime.value=t+i*.71;
+  const shimmer=.82+.18*Math.sin(t*.32+i*1.2);
+  u.uOpacity.value=activeSky?(current===0?.31:.25)*shimmer:0;
+  m.visible=activeSky;
  }
- // No exact marker: translucent atmospheric streaks become visible gradually within 100 m.
- const haze=auroraVisibleNow()?THREE.MathUtils.smoothstep(105-distance,0,80):0;
- const clear=auroraVisibleNow()?THREE.MathUtils.smoothstep(45-distance,0,30):0;
- distantGlow.visible=haze>.005;
- distantGlow.lookAt(camera.position.x,0,camera.position.z);
- glowMats.forEach((m,i)=>m.opacity=haze*(1-clear*.7)*(.035+.012*Math.sin(t*.8+i)));
- aurora.forEach((m,i)=>{m.visible=haze>.02;m.material.opacity=(.025*haze+.22*clear)*(.82+.18*Math.sin(t*.7+i))});
- // The snow brightens only while an aurora is visible and the explorer is near.
- const glowStrength=auroraVisibleNow()?Math.min(1,clear*.82+haze*.15):0;
- auroraGroundGlow.visible=glowStrength>.01;
- auroraGroundGlow.material.opacity=.065*glowStrength*(.90+.10*Math.sin(t*.62));
- auroraGroundGlow.material.color.setHex(auroraPalette(current,slot).colors[0]);
- auroraGroundGlow.rotation.z=t*.012;
-
+ distantGlow.visible=false;
+ auroraGroundGlow.visible=false;
 }
 
 function checkDiscovery(){
@@ -2019,12 +2090,18 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const responsiveness=1-Math.exp(-(moving?11:15)*dt);
  velocity.x+=(targetVX-velocity.x)*responsiveness;
  velocity.y+=(targetVZ-velocity.y)*responsiveness;
- player.position.x=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,current===0?-650:-130,current===0?650:130);
- player.position.z=THREE.MathUtils.clamp(player.position.z+velocity.y*dt,current===0?-650:-130,current===0?650:130);
+ // Check each horizontal axis independently so the player can naturally slide along a mountain edge.
+ const minBound=current===0?-650:-130,maxBound=current===0?650:130;
+ const nextX=THREE.MathUtils.clamp(player.position.x+velocity.x*dt,minBound,maxBound);
+ if(!mountainBlocks(nextX,player.position.z))player.position.x=nextX;
+ else velocity.x=0;
+ const nextZ=THREE.MathUtils.clamp(player.position.z+velocity.y*dt,minBound,maxBound);
+ if(!mountainBlocks(player.position.x,nextZ))player.position.z=nextZ;
+ else velocity.y=0;
  const speed=velocity.length();
  animateColdBreath(time,speed);
  animateSnowSteps(dt,speed);
- updatePhotoSpot(dt);
+ // Photo zone discovery disabled by user preference.
  if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
  walkingPhase+=speed*dt*.60;
  updateIcelandSnowTiles(player.position.x,player.position.z);
@@ -2057,7 +2134,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const dogDistance=Math.hypot(dogDx,dogDz);
  dog.position.y=dogDistance>.15?Math.abs(Math.sin(time*9))*.045:0;
  if(dogDistance>.12){const dogHeading=Math.atan2(dogDx,dogDz);dog.rotation.y+=Math.atan2(Math.sin(dogHeading-dog.rotation.y),Math.cos(dogHeading-dog.rotation.y))*(1-Math.exp(-7*dt));}
- recordExplorationTrail();sendPosition();checkDiscovery();checkLandmarks();updateLandmarkSigns(time);updatePhotoZoneDecor(time);animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));cameraCenter.set(player.position.x,2.4+Math.min(speed/8,1)*.13,player.position.z);
+ recordExplorationTrail();sendPosition();checkDiscovery();animateAtmosphere(time,dt);updateAuroraVisibility(time);for(const entry of others.values())entry.group.position.lerp(entry.target,1-Math.exp(-10*dt));cameraCenter.set(player.position.x,2.4+Math.min(speed/8,1)*.13,player.position.z);
  // v78: true look pitch, not a camera orbit that keeps staring at the avatar.
  // Drag up -> look up; drag down -> look down. The camera stays behind the
  // avatar while the sightline itself tilts, so the horizon actually moves.
@@ -2071,16 +2148,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  // direction. Negative pitch points toward the sky (screen swipe upward).
  const aimY=cameraCenter.y-pitch*orbitRadius*1.9;
  camera.lookAt(cameraCenter.x,cameraCenter.y-pitch*orbitRadius*1.9,cameraCenter.z);
- aurora.forEach((m,i)=>{
- m.rotation.z=Math.sin(time*.24+i*.7)*.055;
- if(now-lastAuroraGeometry<50)return;
- const a=m.geometry.attributes.position;
- for(let j=0;j<a.count;j++){
-  const x=a.getX(j),y=a.getY(j),v=(y+15.5)/31;
-  a.setZ(j,Math.sin(x*.092+time*.58+i*.85)*4.2*v+Math.sin(x*.035-time*.27+i)*2.4+Math.sin(x*.24+time*.9+i)*.75*v);
- }
- a.needsUpdate=true;
-});if(now-lastAuroraGeometry>=45)lastAuroraGeometry=now;renderer.render(scene,camera)}build(current);requestAnimationFrame(frame);function resizeGameViewport(){
+renderer.render(scene,camera)}build(current);requestAnimationFrame(frame);function resizeGameViewport(){
  const width=Math.max(1,document.documentElement.clientWidth),height=Math.max(1,window.innerHeight);
  camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);
  renderer.domElement.style.width=width+'px';renderer.domElement.style.height=height+'px';
@@ -2105,7 +2173,7 @@ document.getElementById('installHelp').addEventListener('click',()=>{
 </div></section>
 <script>
 (()=>{
-const checks=['게임 화면이 정상적으로 나타남','왼쪽 조이스틱으로 이동 가능','오른쪽 드래그로 360° 회전 가능','하늘을 올려다볼 수 있음','지역 4곳 이동 가능','지역별 오로라 색상 확인','탐험 표지판/포토존 발견','사진 촬영/앨범 열기','채팅과 계정 상태 확인','홈 화면에 추가 가능'];
+const checks=['게임 화면이 정상적으로 나타남','왼쪽 조이스틱으로 이동 가능','오른쪽 드래그로 360° 회전 가능','하늘을 올려다볼 수 있음','지역 4곳 이동 가능','지역별 오로라 색상 확인','자유롭게 설원 탐험','사진 촬영/앨범 열기','채팅과 계정 상태 확인','홈 화면에 추가 가능'];
 const panel=document.getElementById('testkitPanel'),items=document.getElementById('testkitChecks'),count=document.getElementById('testkitCount'),info=document.getElementById('testkitInfo');
 let state={};try{state=JSON.parse(localStorage.getItem('aurura-testkit-v37')||'{}')||{}}catch{}
 function persist(){try{localStorage.setItem('aurura-testkit-v37',JSON.stringify(state))}catch{}}
