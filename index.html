@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v104</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v106</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -150,6 +150,56 @@ function mountainRingSpots(region){
  return region===0?[[0,-252,1.48,0],[0,252,1.48,Math.PI]]:
         region===2?[[0,-94,.73,0],[0,94,.73,Math.PI]]:[];
 }
+// A low, continuous snow apron masks the terrain seam around the square GLB footprint.
+// The apron is a sloped 4-sided ring; it does not add another mountain asset.
+function addMountainSnowApron(cx,cz,scale,rotation){
+ const inner=70.5*scale,outer=87*scale;
+ const turns=64,verts=[],colors=[],indices=[];
+ const near=new THREE.Color(0xf4f5fa),far=new THREE.Color(0xe4e8f3);
+ for(let k=0;k<=turns;k++){
+  const a=k*Math.PI*2/turns;
+  const tx=Math.cos(a),tz=Math.sin(a);
+  const edge=Math.max(Math.abs(tx),Math.abs(tz));
+  for(const [r,h] of [[inner,.16],[outer,.02]]){
+   const localX=tx*r/edge,localZ=tz*r/edge;
+   const x=cx+Math.cos(rotation)*localX+Math.sin(rotation)*localZ;
+   const z=cz-Math.sin(rotation)*localX+Math.cos(rotation)*localZ;
+   verts.push(x,h,z);
+   const color=r===inner?near:far;
+   colors.push(color.r,color.g,color.b);
+  }
+  if(k<turns){const i=k*2;indices.push(i,i+2,i+1,i+1,i+2,i+3);}
+ }
+ const geo=new THREE.BufferGeometry();
+ geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+ geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+ geo.setIndex(indices);geo.computeVertexNormals();
+ const snowBlend=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,side:THREE.DoubleSide,depthWrite:true}));
+ snowBlend.receiveShadow=true;
+ importedGreatMountainGroup.add(snowBlend);
+}
+// Keep the mountain's actual surface climbable, but do not plant trees where it rises.
+function treeOverlapsMountain(x,z){
+ if(!snowMountainAsset||!climbingMountainMeshes.length)return false;
+ const h=climbableMountainHeight(x,z);
+ if(h!==null && h>.55)return true;
+ // Small margin at the cliff-like transition helps hide tree roots at model edges.
+ for(const b of climbingMountainBounds){
+  if(x>b.min.x+4&&x<b.max.x-4&&z>b.min.z+4&&z<b.max.z-4){
+   if(h!==null)return true;
+  }
+ }
+ return false;
+}
+function clearTreesFromMountains(){
+ if(!snowMountainAsset||!climbingMountainMeshes.length)return;
+ for(const group of [basecampForestGroup,importedSnowForest]){
+  for(let i=group.children.length-1;i>=0;i--){
+   const tree=group.children[i];
+   if(treeOverlapsMountain(tree.position.x,tree.position.z))group.remove(tree);
+  }
+ }
+}
 function placeImportedMountainRing(region){
  importedGreatMountainGroup.clear();
  climbingMountainMeshes.length=0;
@@ -164,17 +214,22 @@ function placeImportedMountainRing(region){
   const model=snowMountainAsset.clone(true);
   model.position.set(-center.x,-rawBounds.min.y,-center.z);
   const root=new THREE.Group();
-  root.position.set(x,0,z);
+  // Sink the imported mountain footprint slightly into the terrain. The source mesh
+  // has a razor-straight border; hiding the border avoids a floating shelf.
+  root.position.set(x,-2.65*scale,z);
   root.rotation.y=rotation;
   root.scale.setScalar(scale);
   root.add(model);
   importedGreatMountainGroup.add(root);
+  addMountainSnowApron(x,z,scale,rotation);
   root.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(root);
   climbingMountainBounds.push(box);
   root.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;climbingMountainMeshes.push(o);}});
  }
  importedGreatMountainGroup.visible=true;
+ // Forest assets may have loaded before the mountain: prune in either load order.
+ if(typeof basecampForestGroup!=='undefined')clearTreesFromMountains();
 }
 // Probe the real mountain triangle mesh, not a guessed circular height map.
 function climbableMountainHeight(x,z){
@@ -1016,6 +1071,7 @@ function populateBasecampForest(region){
   add(x,z,5.8+rand()*3.8);
  }
  for(const [x,z,height] of placements){
+  if(treeOverlapsMountain(x,z))continue;
   const treeModel=importedPineSource.clone(true);
   const scale=height/importedPineBaseHeight;
   treeModel.position.copy(importedPineCenterOffset);
@@ -1063,6 +1119,7 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  }
  const centerOffset=importedPineCenterOffset.clone();
  for(const [x,z,height] of placements){
+  if(treeOverlapsMountain(x,z))continue;
   const treeModel=source.clone(true);
   const scale=height/baseHeight;
   // An extra wrapper preserves the source model's internal transforms.
@@ -1077,6 +1134,7 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  importedSnowForest.visible=current===0;
  populateBasecampForest(current);
  basecampForestGroup.visible=(current===0||current===2);
+ clearTreesFromMountains();
  console.info('Real snow-covered pine GLB loaded:',placements.length,'trees');
 },undefined,err=>console.warn('snowy-tree.glb could not be loaded:',err));
 const icelandSnowTiles=new THREE.Group();scene.add(icelandSnowTiles);
@@ -1245,6 +1303,7 @@ function build(i){
   terrain.add(darkForest,snowyTips);
  }
  if(i===0){baseCamp(0);}else{baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);}
+ clearTreesFromMountains();
  document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
  // Landmark discovery UI removed.
 }
@@ -1949,14 +2008,14 @@ const fixedAuroraFragment=`
   float x=vUv.x,y=vUv.y;
   float t=uTime*.11+uPhase;
   // Vertical translucent striations: never a flat opaque neon rectangle.
-  float striae=.46+.54*pow(noise1(x*184.+t*.42+y*1.8),1.22);
-  float small=.79+.21*noise1(x*410.-t*.29+y*2.);
-  float fold=.72+.28*noise1(x*23.+t*.15);
-  float curvedTop=.88+.07*sin(x*15.+t*.17)+.03*sin(x*38.-t*.28);
-  float curvedBase=.02+.06*noise1(x*10.+t*.12);
+  float striae=.32+.68*pow(noise1(x*212.+t*.46+y*2.2),1.05);
+  float small=.74+.26*noise1(x*470.-t*.29+y*2.);
+  float fold=.62+.38*noise1(x*26.+t*.17);
+  float curvedTop=.93+.06*sin(x*15.+t*.17)+.025*sin(x*38.-t*.28);
+  float curvedBase=.01+.045*noise1(x*10.+t*.12);
   float low=smoothstep(curvedBase,curvedBase+.22,y);
   float high=1.-smoothstep(curvedTop-.18,curvedTop,y);
-  float side=smoothstep(0.,.065,x)*(1.-smoothstep(.935,1.,x));
+  float side=smoothstep(0.,.03,x)*(1.-smoothstep(.97,1.,x));
   float power=low*high*side*striae*small*fold;
   power*=.89+.11*sin(t*.75+x*11.);
   // Strong green at lower rim, cyan passing through, purple at higher folds.
@@ -1970,23 +2029,24 @@ const fixedAuroraFragment=`
   // Purple/cyan streaks drift sideways within the same curtains.
   float chroma=.5+.5*sin(x*16.+t*.26+sin(x*5.)*1.4);
   col=mix(col,mix(cyan,violet,chroma),.16);
-  float alpha=clamp(uOpacity*power,0.,.78);
+  float alpha=clamp(uOpacity*power,0.,.90);
   gl_FragColor=vec4(col,alpha);
  }`;
 function createAuroraRibbon(i){
- const cols=64,rows=16;
+ const cols=84,rows=20;
  const pos=[],uv=[],idx=[];
- const width=[175,154,148,165][i];
- const base=[31,39,47,43][i];
- const height=[81,82,75,78][i];
+ const width=[262,236,214,244,226][i];
+ const base=[24,30,38,34,28][i];
+ const height=[108,112,104,110,106][i];
  for(let j=0;j<=rows;j++)for(let k=0;k<=cols;k++){
   const u=k/cols,v=j/rows;
   const x=(u-.5)*width;
-  // A long continuous S-curve made of genuine curved mesh, not a straight card.
-  const centerZ=Math.sin(u*Math.PI*2.0+i*.71)*10+
-    Math.sin(u*Math.PI*4.0+i*.42)*3.9;
-  const z=centerZ+(v-.5)*Math.sin(u*12.0+i)*5.2+i*-9;
-  const bottomWave=4.5*Math.sin(u*10.0+i*.5)+2.0*Math.sin(u*25.0+i);
+  // Broader, sky-spanning A+B+D aurora: long S-band with tall curtain folds.
+  const centerZ=Math.sin(u*Math.PI*2.0+i*.56)*15+
+    Math.sin(u*Math.PI*4.0+i*.33)*5.6;
+  const curtainBend=(v-.5)*(Math.sin(u*14.0+i*.4)*6.8+Math.sin(u*28.0-i*.7)*2.2);
+  const z=centerZ+curtainBend+i*-8.5;
+  const bottomWave=5.3*Math.sin(u*9.4+i*.42)+2.8*Math.sin(u*22.0+i*.85);
   const y=base+bottomWave+height*v;
   pos.push(x,y,z);uv.push(u,v);
  }
@@ -1999,19 +2059,20 @@ function createAuroraRibbon(i){
  geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
  geo.setIndex(idx);geo.computeVertexNormals();
  const mat=new THREE.ShaderMaterial({
-  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:i*1.81}},
+  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:i*1.53}},
   vertexShader:fixedAuroraVertex,fragmentShader:fixedAuroraFragment,
   transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,
   blending:THREE.NormalBlending,fog:false,toneMapped:false
  });
  const sheet=new THREE.Mesh(geo,mat);
- sheet.position.set((i-1.5)*4,0,0);
- sheet.rotation.y=[-.13,.02,.16,-.08][i];
+ sheet.position.set((i-2)*5.4,0,0);
+ sheet.rotation.y=[-.22,-.08,.05,.16,-.14][i];
  sheet.frustumCulled=false;
  sheet.renderOrder=12+i;
  fixedAurora.add(sheet);fixedAuroraMaterials.push(mat);
 }
-for(let i=0;i<4;i++)createAuroraRibbon(i);
+for(let i=0;i<5;i++)createAuroraRibbon(i);
+fixedAurora.scale.set(1.1,1.06,1.18);
 // Kept as empty compatibility handles: this release does not create old aurora planes.
 const aurora=[];
 const auroraSky=new THREE.Group();
@@ -2025,7 +2086,7 @@ const auroraGroundGlow=new THREE.Mesh(
 );
 auroraGroundGlow.rotation.x=-Math.PI/2;
 auroraGroundGlow.position.y=.11;
-auroraGroundGlow.scale.set(34,34,1);
+auroraGroundGlow.scale.set(46,46,1);
 auroraGroundGlow.visible=false;
 scene.add(auroraGroundGlow);
 // Optional Supabase Realtime Broadcast. Configure only PUBLIC URL and publishable key in config.js.
@@ -2374,7 +2435,7 @@ function updateAuroraVisibility(t){
  for(let i=0;i<fixedAuroraMaterials.length;i++){
   const u=fixedAuroraMaterials[i].uniforms;
   u.uTime.value=t+i*.85;
-  u.uOpacity.value=fixedAurora.visible?[.73,.65,.58,.55][i]*pulse:0;
+  u.uOpacity.value=fixedAurora.visible?[.665,.588,.532,.504,.462][i]*pulse:0; // v106: 30% more transparent than v105
  }
  auroraSkyDome.position.copy(camera.position);
  auroraSkyDome.rotation.y=facing;
@@ -2400,7 +2461,7 @@ function updateAuroraVisibility(t){
  }
  auroraGroundGlow.visible=activeSky;
  auroraGroundGlow.position.set(player.position.x,.13,player.position.z);
- auroraGroundGlow.material.opacity=activeSky?(current===0?.035:.07)*pulse:0;
+ auroraGroundGlow.material.opacity=activeSky?(current===0?.05:.09)*pulse:0;
  distantGlow.visible=false;
 }
 
