@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v116</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v118</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -121,7 +121,7 @@ button{min-height:42px;-webkit-tap-highlight-color:transparent}
 #autoWalk[aria-pressed="true"]{background:#477e78ee;border-color:#b0f5e1;color:#fff;box-shadow:0 0 12px #79f3cf88}
 /* v114: hide both informational HUD panels while the More menu is open. */
 body.tools-expanded #region,body.tools-expanded #status{display:none!important}
-</style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
+</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 // v80: standalone authored GLB art asset, kept separate from movement/gameplay logic.
@@ -2171,8 +2171,75 @@ avatarAssetLoader.load('./winter_avatar.glb',gltf=>{
  player.add(model);
  setupExternalMotion(model);
  avatarV79.visible=false;
- console.info('aurura: standalone avatar GLB loaded');
+ if(replacementAvatarReady)model.visible=false;
+ console.info('aurora: legacy avatar GLB fallback ready');
 },undefined,error=>console.warn('aurura: avatar GLB unavailable; previous avatar retained',error));
+
+// v118: user-provided USDZ converted to a single-mesh GLB. Keep original
+// profile/controls/pet; replace ONLY the visible character mesh.
+// It has no bones, so use subtle, spatially-weighted GPU vertex deformation
+// for a safe walking illusion. No fake limb geometry is added to the character.
+let replacementAvatarReady=false;
+let replacementAvatarRoot=null;
+const replacementAvatarMotion=[];
+const replacementAvatarLoader=new GLTFLoader();
+replacementAvatarLoader.load('./aurora_character.glb',gltf=>{
+ const source=gltf.scene;
+ const bounds=new THREE.Box3().setFromObject(source);
+ const size=bounds.getSize(new THREE.Vector3());
+ if(!(size.y>.001))throw new Error('Character GLB has invalid bounds');
+ const center=bounds.getCenter(new THREE.Vector3());
+ const height=3.79;
+ const ratio=height/size.y;
+ const visible=new THREE.Group();
+ visible.name='aurora-new-character-v118';
+ source.position.set(-center.x,-bounds.min.y,-center.z);
+ visible.scale.setScalar(ratio);
+ visible.add(source);
+ source.traverse(mesh=>{
+  if(!mesh.isMesh)return;
+  mesh.castShadow=true;
+  mesh.receiveShadow=true;
+  const originals=Array.isArray(mesh.material)?mesh.material:[mesh.material];
+  const updated=originals.map(old=>{
+   const mat=old.clone();
+   mat.onBeforeCompile=shader=>{
+    shader.uniforms.uAvatarWalkPhase={value:0};
+    shader.uniforms.uAvatarWalkAmount={value:0};
+    shader.uniforms.uAvatarIdleTime={value:0};
+    shader.vertexShader=`uniform float uAvatarWalkPhase;
+uniform float uAvatarWalkAmount;
+uniform float uAvatarIdleTime;
+`+shader.vertexShader;
+    shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',`#include <begin_vertex>
+     // Original USDZ mesh is a single connected object: preserve its silhouette.
+     // Each boot gets the opposite forward/back step without a hard seam.
+     float lowerBody=1.0-smoothstep(-0.26,-0.045,position.y);
+     float sideMask=smoothstep(0.01,0.115,abs(position.x));
+     float phaseSide=position.x<0.0?0.0:3.14159265;
+     float stepCycle=sin(uAvatarWalkPhase+phaseSide);
+     transformed.z+=stepCycle*0.047*lowerBody*sideMask*uAvatarWalkAmount;
+     transformed.y+=max(0.0,stepCycle)*0.020*lowerBody*sideMask*uAvatarWalkAmount;
+     // Tiny arm counter-swing restricted to the outer sleeve volume.
+     float outerSleeve=smoothstep(0.215,0.31,abs(position.x));
+     float armBand=smoothstep(-0.24,-0.04,position.y)*(1.0-smoothstep(0.11,0.29,position.y));
+     transformed.z-=stepCycle*0.029*outerSleeve*armBand*uAvatarWalkAmount;
+    `);
+    replacementAvatarMotion.push(shader.uniforms);
+   };
+   mat.customProgramCacheKey=()=> 'aurora-avatar-v118-walk-1';
+   mat.needsUpdate=true;
+   return mat;
+  });
+  mesh.material=Array.isArray(mesh.material)?updated:updated[0];
+ });
+ player.add(visible);
+ replacementAvatarRoot=visible;
+ replacementAvatarReady=true;
+ avatarV79.visible=false;
+ if(avatarExternal)avatarExternal.visible=false;
+ console.info('aurora game v118: uploaded character loaded, previous character hidden');
+},undefined,error=>console.error('aurora game v118: character failed to load; previous avatar retained',error));
 
 // Prototype shared-space avatars: presence is temporary and does not store account identity.
 const others=new Map();
@@ -3056,11 +3123,24 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  player.position.y=targetGroundY+.12-hotSpringSink;
  player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.026:0);
  const stride=THREE.MathUtils.smoothstep(speed,0.3,4.8);
+ // Animate the uploaded single-mesh character while keeping its feet planted.
+ if(replacementAvatarReady&&replacementAvatarRoot){
+  const amount=stride;
+  const phase=walkingPhase*2;
+  for(const uniforms of replacementAvatarMotion){
+   uniforms.uAvatarWalkAmount.value=amount;
+   uniforms.uAvatarWalkPhase.value=phase;
+   uniforms.uAvatarIdleTime.value=time;
+  }
+  replacementAvatarRoot.position.y=(Math.abs(Math.sin(phase))*.022*amount)+Math.sin(time*1.7)*.003*(1-amount);
+  replacementAvatarRoot.rotation.z=Math.sin(phase)*.008*amount;
+  replacementAvatarRoot.rotation.x=Math.sin(phase)*.005*amount;
+ }
  // Opposing arm/leg swing, with a smooth return to idle when stopping.
  walkLegs.forEach((limb,i)=>{const target=Math.sin(walkingPhase*2+(i?Math.PI:0))*.55*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
  walkArms.forEach((limb,i)=>{const target=-Math.sin(walkingPhase*2+(i?Math.PI:0))*.42*stride;limb.rotation.x=THREE.MathUtils.lerp(limb.rotation.x,target,1-Math.exp(-12*dt));});
  // v82: actual external avatar swings its limbs in opposite phases, with idle breathing.
- if(avatarExternal){
+ if(avatarExternal&&!replacementAvatarReady){
   const phase=walkingPhase*2;
   externalLegs.forEach((limb,i)=>{const target=Math.sin(phase+(i?Math.PI:0))*.58*stride;limb.rotation.x=THREE.MathUtils.damp(limb.rotation.x,target,11,dt);});
   externalArms.forEach((limb,i)=>{const target=-Math.sin(phase+(i?Math.PI:0))*.46*stride;limb.rotation.x=THREE.MathUtils.damp(limb.rotation.x,target,10,dt);});
