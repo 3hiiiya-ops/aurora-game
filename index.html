@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v97</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v98</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -127,7 +127,17 @@ const cabinAssetLoader=new GLTFLoader();
 cabinAssetLoader.load('./winter_cabin.glb',gltf=>{cabinAsset=gltf.scene;console.info('aurura: winter cabin GLB loaded');},undefined,err=>console.warn('aurura: cabin GLB unavailable; procedural fallback remains',err));
 let snowyBasecampAsset=null;
 const snowyBasecampLoader=new GLTFLoader();
-snowyBasecampLoader.load('./snowy_wooden_hut.glb',gltf=>{snowyBasecampAsset=gltf.scene;console.info('aurura: snowy wooden hut GLB loaded');},undefined,err=>console.warn('aurura: snowy wooden hut unavailable; using fallback camp geometry',err));
+snowyBasecampLoader.load('./snowy_wooden_hut.glb',gltf=>{
+ snowyBasecampAsset=gltf.scene;
+ console.info("aurura v98: user original snowy wooden hut loaded");
+ // The scene is built before asynchronous assets finish loading.
+ // Insert the REAL hut when ready, never a different placeholder hut.
+ if(typeof current!=='undefined' && (current===0||current===2)) placeSnowyBasecampModel(current);
+},undefined,err=>{
+ console.error('aurura v98: original snowy wooden hut could not be loaded',err);
+ const el=document.getElementById('message');
+ if(el){el.textContent='⚠️ 원본 오두막 로드 실패: snowy_wooden_hut.glb 파일 확인';el.style.display='block';setTimeout(()=>el.style.display='none',6500)}
+});
 // v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
 const moreToolsButton=document.getElementById('moreTools');
 function setToolsExpanded(expanded){
@@ -494,25 +504,26 @@ const baseCampSpawnPoints=[
  {cabin:{x:0,z:-13,rot:0,scale:.92},spawn:{x:0,z:-3,rot:Math.PI,camYaw:0}},
  null
 ];
+let activeSnowyBasecamp=null;
+function placeSnowyBasecampModel(region){
+ const cfg=baseCampSpawnPoints[region]?.cabin;
+ if(!cfg||!snowyBasecampAsset||!terrain)return;
+ if(activeSnowyBasecamp?.parent)activeSnowyBasecamp.parent.remove(activeSnowyBasecamp);
+ const instance=snowyBasecampAsset.clone(true);
+ instance.position.set(cfg.x,.18,cfg.z);
+ instance.rotation.y=cfg.rot;
+ instance.scale.setScalar(cfg.scale);
+ instance.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});
+ terrain.add(instance);
+ activeSnowyBasecamp=instance;
+ console.info('aurura v98: original wooden hut placed in front of spawn',region);
+}
 function addSnowyBasecamp(region){
  const cfg=baseCampSpawnPoints[region]?.cabin;
  if(!cfg)return;
- if(snowyBasecampAsset){
-  const instance=snowyBasecampAsset.clone(true);
-  instance.position.set(cfg.x,.18,cfg.z);
-  instance.rotation.y=cfg.rot;
-  instance.scale.setScalar(cfg.scale);
-  instance.traverse(o=>{
-   if(o.isMesh){
-    o.castShadow=true;o.receiveShadow=true;
-    const mats=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];
-    mats.forEach(m=>{if('roughness' in m&&m.roughness<.88)m.roughness=.88;if('metalness' in m)m.metalness=0;m.needsUpdate=true;});
-   }
-  });
-  terrain.add(instance);
- }else{
-  hut(cfg.x,cfg.z,false);
- }
+ // When the file has not loaded yet, leave the space EMPTY instead of showing
+ // a misleading substitute cabin. Loading callback will insert the authentic GLB.
+ placeSnowyBasecampModel(region);
  for(const [lx,lz] of [[cfg.x-3.8,cfg.z+5.4],[cfg.x+3.8,cfg.z+5.4]])lantern(lx,lz);
  for(const [dx,dz] of [[-5.5,2.8],[5.5,2.8],[-6.8,-1.4],[6.8,-1.4]])rock(cfg.x+dx,cfg.z+dz,.8+Math.abs(dx)*.06);
 }
@@ -685,10 +696,9 @@ function artScene(region){
   artFir(x,z,.75+rng()*.72,rng()*6.28);
  }
  // A distinct, close, warmly lit cabin: instantly recognizable from spawn.
- if(region===2)artLodge(-18,-25,1.02);
- else if(region===1)artLodge(-22,-30,.9);
- else if(region===0)artLodge(-19,-28,.76);
- else artLodge(-23,-30,.83);
+ if(region===1)artLodge(-22,-30,.9);
+ else if(region===3)artLodge(-23,-30,.83);
+ // Iceland/Canada use the supplied snowy_wooden_hut.glb; no procedural lodge.
  for(const [x,z] of [[-8,-9],[-10,-17],[9,-17],[11,-30]])artLantern(x,z);
  for(let j=0;j<24;j++){
   const x=(rng()-.5)*95,z=-8-rng()*76;
