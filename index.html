@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v122</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v123</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -1320,52 +1320,124 @@ const basecampForestGroup=new THREE.Group();scene.add(basecampForestGroup);
 let importedPineSource=null;
 let importedPineCenterOffset=new THREE.Vector3();
 let importedPineBaseHeight=1;
+// v123: Iceland is a natural boreal trekking forest rather than a square tree grid.
+// Only tree placement changes; the cabin, deck, spring, observation platform,
+// campfire, ice floor and mountain GLBs remain at their existing coordinates.
+const icelandForestTrail=[
+ [0,-3],[-22,9],[-44,19],[-64,25],[-83,39],[-103,45],
+ [-121,49],[-137,62],[-151,79],[-164,106],[-190,127]
+];
+const icelandForestClusters=[
+ // North and west woodland edges of the basecamp
+ [-43,-15,21,13,17],[-65,4,22,18,14],[-89,-19,24,21,14],
+ [-117,4,25,20,16],[-136,-38,23,19,12],
+ // Groves beside the winding hike toward the existing ice lake
+ [-46,48,24,19,17],[-77,65,21,19,13],[-110,91,20,19,13],
+ [-145,124,24,16,14],[-183,153,26,16,14],
+ // A sheltered boreal forest beyond the northern side of the cabin
+ [45,18,23,18,18],[77,37,28,20,22],[108,3,30,22,20],
+ [91,-55,24,23,18],[58,-91,23,21,12],
+ // Scattered woods farther away, leaving a clear view of mountain silhouettes
+ [-16,72,23,23,14],[22,85,26,20,14],[65,106,28,24,13],
+ [-112,-85,25,23,11],[-176,-61,29,23,10]
+];
+function forestDistanceToSegment(x,z,a,b){
+ const vx=b[0]-a[0],vz=b[1]-a[1];
+ const t=THREE.MathUtils.clamp(((x-a[0])*vx+(z-a[1])*vz)/(vx*vx+vz*vz||1),0,1);
+ return Math.hypot(x-a[0]-t*vx,z-a[1]-t*vz);
+}
+function isIcelandForestSafe(x,z){
+ // Keep building pads, approach to the cabin and the new campfire completely clear.
+ if(Math.hypot(x,z+17)<24)return false;
+ if(Math.abs(x)<12&&z>-14&&z<24)return false;
+ if(Math.hypot(x-CAMPFIRE_POS.x,z-CAMPFIRE_POS.z)<9)return false;
+ // The large icy lake and river are already actual visual meshes: keep their surfaces visible.
+ const lx=(x-iceLakeCenter.x)/93,lz=(z-iceLakeCenter.z)/75;
+ if(lx*lx+lz*lz<1)return false;
+ for(let i=0;i<firstChannel.length-1;i++){
+  if(forestDistanceToSegment(x,z,firstChannel[i],firstChannel[i+1])<13)return false;
+ }
+ for(let i=0;i<fracturePath.length-1;i++){
+  if(forestDistanceToSegment(x,z,fracturePath[i],fracturePath[i+1])<19)return false;
+ }
+ // Never block the existing wooden boardwalk, observation deck or hot spring.
+ if(isInObservationClearZone(x,z))return false;
+ if(Math.abs(x)<19&&z>=-126&&z<=-96)return false;
+ if(Math.hypot(x-HOT_SPRING_CENTER.x,z-HOT_SPRING_CENTER.y)<17)return false;
+ // Wide, winding snow-only gap: the trees themselves draw the trekking path.
+ for(let i=0;i<icelandForestTrail.length-1;i++){
+  if(forestDistanceToSegment(x,z,icelandForestTrail[i],icelandForestTrail[i+1])<8.5)return false;
+ }
+ if(treeOverlapsMountain(x,z))return false;
+ return true;
+}
+function addIcelandPine(parent,x,z,height,rnd){
+ if(!isIcelandForestSafe(x,z))return false;
+ const treeModel=importedPineSource.clone(true);
+ treeModel.position.copy(importedPineCenterOffset);
+ const placed=new THREE.Group();
+ placed.position.set(x,0,z);
+ placed.rotation.y=rnd()*Math.PI*2;
+ placed.scale.setScalar(height/importedPineBaseHeight);
+ placed.add(treeModel);
+ parent.add(placed);
+ return true;
+}
 function populateBasecampForest(region){
- while(basecampForestGroup.children.length)basecampForestGroup.remove(basecampForestGroup.children[0]);
+ basecampForestGroup.clear();
  if(!importedPineSource||!(region===0||region===2))return;
  const rand=random(region===0?48221:48257);
- const placements=[];
- const ring=region===0?{left:-62,right:62,top:-84,bottom:18}:{left:-54,right:54,top:-74,bottom:16};
- const outer=region===0?{left:-154,right:154,top:-154,bottom:62,step:20}:{left:-108,right:108,top:-112,bottom:54,step:18};
- const gapHalf=region===0?18:16;
- const add=(x,z,h)=>placements.push([x+(rand()-.5)*3,z+(rand()-.5)*3,h]);
- // House-surrounding ring like the user's sketch: evenly spaced along a large rectangle.
- for(let x=ring.left;x<=ring.right;x+=12){
-  if(Math.abs(x)>gapHalf)add(x,ring.bottom,6.2+rand()*2.1);
-  add(x,ring.top,6.4+rand()*2.5);
- }
- for(let z=ring.top+12;z<=ring.bottom-12;z+=12){
-  add(ring.left,z,6.2+rand()*2.2);
-  add(ring.right,z,6.2+rand()*2.2);
- }
- // Uniform forest grid outside the camp clearing so it does not clump in just one corner.
- for(let x=outer.left;x<=outer.right;x+=outer.step)for(let z=outer.top;z<=outer.bottom;z+=outer.step){
-  const insideClearing=x>ring.left-10&&x<ring.right+10&&z>ring.top-10&&z<ring.bottom+10;
-  const nearCenter=Math.abs(x)<10&&z>-2&&z<22;
-  if(insideClearing||nearCenter)continue;
-  add(x,z,5.6+rand()*3.4);
- }
- // Light secondary border further out so the horizon reads as continuous forest.
- const far=region===0?190:138;
- for(let a=0;a<32;a++){
-  const ang=a*Math.PI*2/32;
-  const d=far+(rand()-.5)*(region===0?18:12);
-  const x=Math.cos(ang)*d;
-  const z=Math.sin(ang)*d-18;
-  if(Math.abs(x)<28&&z>-5&&z<34)continue;
-  add(x,z,5.8+rand()*3.8);
- }
- for(const [x,z,height] of placements){
-  if(treeOverlapsMountain(x,z))continue;
-  const treeModel=importedPineSource.clone(true);
-  const scale=height/importedPineBaseHeight;
-  treeModel.position.copy(importedPineCenterOffset);
-  const placed=new THREE.Group();
-  placed.position.set(x,0,z);
-  placed.rotation.y=rand()*Math.PI*2;
-  placed.scale.setScalar(scale);
-  placed.add(treeModel);
-  basecampForestGroup.add(placed);
+ if(region===0){
+  // Irregular, layered conifer groves with open glacial lake, hiking and camp corridors.
+  for(const [cx,cz,rx,rz,n] of icelandForestClusters){
+   for(let i=0;i<n;i++){
+    const a=rand()*Math.PI*2;
+    const r=Math.sqrt(rand());
+    const x=cx+Math.cos(a)*r*rx;
+    const z=cz+Math.sin(a)*r*rz;
+    const h=4.4+rand()*4.6;
+    addIcelandPine(basecampForestGroup,x,z,h,rand);
+   }
+  }
+  // A sparse, irregular northern treeline frames the skyline, not a uniform wall.
+  for(let i=0;i<36;i++){
+   const x=-170+rand()*360;
+   const z=-156+(rand()-.5)*35;
+   addIcelandPine(basecampForestGroup,x,z,5+rand()*3.2,rand);
+  }
+ }else{
+  // Preserve Canada's original ring/forest while its new map is planned separately.
+  const ring={left:-54,right:54,top:-74,bottom:16};
+  const outer={left:-108,right:108,top:-112,bottom:54,step:18};
+  const placements=[];
+  const add=(x,z,h)=>placements.push([x+(rand()-.5)*3,z+(rand()-.5)*3,h]);
+  for(let x=ring.left;x<=ring.right;x+=12){
+   if(Math.abs(x)>16)add(x,ring.bottom,6.2+rand()*2.1);
+   add(x,ring.top,6.4+rand()*2.5);
+  }
+  for(let z=ring.top+12;z<=ring.bottom-12;z+=12){
+   add(ring.left,z,6.2+rand()*2.2);
+   add(ring.right,z,6.2+rand()*2.2);
+  }
+  for(let x=outer.left;x<=outer.right;x+=outer.step)for(let z=outer.top;z<=outer.bottom;z+=outer.step){
+   const inside=x>ring.left-10&&x<ring.right+10&&z>ring.top-10&&z<ring.bottom+10;
+   if(!inside)add(x,z,5.6+rand()*3.4);
+  }
+  for(let a=0;a<32;a++){
+   const ang=a*Math.PI*2/32,d=138+(rand()-.5)*12;
+   add(Math.cos(ang)*d,Math.sin(ang)*d-18,5.8+rand()*3.8);
+  }
+  for(const [x,z,height] of placements){
+   if(treeOverlapsMountain(x,z))continue;
+   const treeModel=importedPineSource.clone(true);
+   treeModel.position.copy(importedPineCenterOffset);
+   const placed=new THREE.Group();
+   placed.position.set(x,0,z);
+   placed.rotation.y=rand()*Math.PI*2;
+   placed.scale.setScalar(height/importedPineBaseHeight);
+   placed.add(treeModel);
+   basecampForestGroup.add(placed);
+  }
  }
 }
 // v88: Load the user's actual snow-covered pine mesh. The background object
@@ -1387,8 +1459,8 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  importedPineBaseHeight=baseHeight;
  const placements=[];
  const pineRand=random(18375);
- // A recognisable grove near the first player's starting point.
- placements.push([-24,-23,6.7],[-31,-35,7.6],[24,-26,7.1],[31,-41,6.5],[-39,7,7.8],[40,17,6.6],[-32,38,7.3],[42,42,6.8]);
+ // Natural smaller copses along the walk toward the frozen lake, not at the cabin door.
+ placements.push([-37,-30,6.7],[-43,-44,7.6],[38,-52,7.1],[48,-69,6.5],[-54,13,7.8],[55,35,6.6],[-38,59,7.3],[70,62,6.8]);
  // Scattered real pines across the snowy lake's distant shoreline.
  for(let i=0;i<72;i++){
   const a=(i+(pineRand()-.5)*.7)*Math.PI*2/72;
@@ -1404,7 +1476,7 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  }
  const centerOffset=importedPineCenterOffset.clone();
  for(const [x,z,height] of placements){
-  if(treeOverlapsMountain(x,z))continue;
+  if(!isIcelandForestSafe(x,z))continue;
   const treeModel=source.clone(true);
   const scale=height/baseHeight;
   // An extra wrapper preserves the source model's internal transforms.
@@ -1420,6 +1492,7 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  populateBasecampForest(current);
  basecampForestGroup.visible=(current===0||current===2);
  clearTreesFromMountains();
+ if(current===0)clearTreesForObservationArea();
  console.info('Real snow-covered pine GLB loaded:',placements.length,'trees');
 },undefined,err=>console.warn('snowy-tree.glb could not be loaded:',err));
 const icelandSnowTiles=new THREE.Group();scene.add(icelandSnowTiles);
