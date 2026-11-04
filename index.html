@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v107</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v108</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -146,8 +146,8 @@ const climbingMountainBounds=[];
 const mountainSurfaceRay=new THREE.Raycaster();
 const mountainDown=new THREE.Vector3(0,-1,0);
 function mountainRingSpots(region){
- // North/front and south/back, but framed wider so the central observation field stays open.
- return region===0?[[-96,-288,1.62,.10],[98,292,1.58,Math.PI-.12]]:
+ // Iceland: two joined northern peaks plus one southern peak.
+ return region===0?[[-132,-292,1.56,.12],[34,-288,1.54,-.06],[98,292,1.58,Math.PI-.12]]:
         region===2?[[-36,-116,.80,.08],[38,118,.78,Math.PI-.08]]:[];
 }
 // A low, continuous snow apron masks the terrain seam around the square GLB footprint.
@@ -262,10 +262,11 @@ new GLTFLoader().load('./snow_mountain.glb',gltf=>{
 },undefined,err=>console.warn('snow_mountain.glb loading failed',err));
 
 
-// Iceland observation route: uploaded old_bridge.glb as the deck path, plus a cozy fire spot.
+// Iceland observation route: flat deck tiles to the platform, telescope on top, and a front-yard campfire.
 const observationDeckGroup=new THREE.Group();
-let oldBridgeAsset=null;
+let deckTileAsset=null;
 let campfireAsset=null;
+let telescopeAsset=null;
 const elevatedWalkMeshes=[];
 const elevatedWalkBounds=[];
 const elevatedSurfaceRay=new THREE.Raycaster();
@@ -289,9 +290,10 @@ function elevatedWalkHeight(x,z){
  return hit.length?hit[0].point.y:null;
 }
 function isInObservationClearZone(x,z){
- const onPath=Math.abs(x)<=8.5&&z<=-24&&z>=-102;
- const onDeck=Math.abs(x)<=15&&z<=-98&&z>=-122;
- return onPath||onDeck;
+ const onPath=Math.abs(x)<=8.4&&z<=-16&&z>=-104;
+ const onDeck=Math.abs(x)<=16&&z<=-98&&z>=-124;
+ const byCampfire=Math.abs(x)<=9&&z<=-2&&z>=-14;
+ return onPath||onDeck||byCampfire;
 }
 function clearTreesForObservationArea(){
  for(const group of [basecampForestGroup,importedSnowForest]){
@@ -317,46 +319,76 @@ function addObservationPlatform(cx,cz){
  const support=new THREE.Mesh(new THREE.BoxGeometry(23.2,.65,17.2),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
  support.position.set(cx,1.45,cz);observationDeckGroup.add(support);registerElevatedWalkable(support);
 }
-function addObservationPath(){
- const support=new THREE.Mesh(new THREE.BoxGeometry(8.6,.65,75),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
- support.position.set(0,.95,-63);observationDeckGroup.add(support);registerElevatedWalkable(support);
+function addObservationPathVisual(){
+ if(!deckTileAsset)return;
+ const template=deckTileAsset;
+ const bounds=new THREE.Box3().setFromObject(template);
+ const center=bounds.getCenter(new THREE.Vector3());
+ const scale=3.1;
+ const laneXs=[-1.9,1.9];
+ const zs=[];
+ for(let z=-18;z>=-102;z-=6.2)zs.push(z);
+ for(const laneX of laneXs){
+  for(const z of zs){
+   const tile=template.clone(true);
+   tile.position.set(-center.x,-bounds.min.y,-center.z);
+   const root=new THREE.Group();
+   root.position.set(laneX,.22,z);
+   root.rotation.y=Math.PI/2;
+   root.scale.setScalar(scale);
+   root.add(tile);
+   root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats)if(m&&'side' in m)m.side=THREE.DoubleSide;}});
+   observationDeckGroup.add(root);
+  }
+ }
+}
+function addObservationPathSupport(){
+ const support=new THREE.Mesh(new THREE.BoxGeometry(8.4,.65,88),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+ support.position.set(0,.82,-60);observationDeckGroup.add(support);registerElevatedWalkable(support);
+}
+function addObservationTelescope(cx,cz){
+ if(!telescopeAsset)return;
+ const visual=telescopeAsset.clone(true);
+ const bounds=new THREE.Box3().setFromObject(telescopeAsset);
+ const center=bounds.getCenter(new THREE.Vector3());
+ visual.position.set(-center.x,-bounds.min.y,-center.z);
+ const root=new THREE.Group();
+ root.position.set(cx,1.48,cz+1.8);
+ root.rotation.y=-.48;
+ root.scale.setScalar(.013);
+ root.add(visual);
+ root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats)if(m&&'side' in m)m.side=THREE.DoubleSide;}});
+ observationDeckGroup.add(root);
+}
+function addBasecampCampfire(){
+ if(!campfireAsset)return;
+ const fire=campfireAsset.clone(true);
+ const bounds=new THREE.Box3().setFromObject(campfireAsset);
+ const center=bounds.getCenter(new THREE.Vector3());
+ fire.position.set(-center.x,-bounds.min.y,-center.z);
+ const root=new THREE.Group();
+ root.position.set(0,.14,-8.8);
+ root.rotation.y=.45;
+ root.scale.setScalar(.18);
+ root.add(fire);
+ root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats){if(m&&'side' in m)m.side=THREE.DoubleSide;if(m&&('transparent' in m))m.depthWrite=true;}}});
+ observationDeckGroup.add(root);
 }
 function placeIcelandObservationArea(region){
  observationDeckGroup.clear();
  clearElevatedWalkables();
  if(region!==0){observationDeckGroup.visible=false;return;}
- // Deck path from the cabin area toward the northern observation platform.
- if(oldBridgeAsset){
-  const visual=oldBridgeAsset.clone(true);
-  const bounds=new THREE.Box3().setFromObject(oldBridgeAsset);
-  const center=bounds.getCenter(new THREE.Vector3());
-  visual.position.set(-center.x,-bounds.min.y,-center.z);
-  const root=new THREE.Group();
-  root.position.set(0,.10,-63);
-  root.scale.setScalar(.032);
-  root.add(visual);
-  root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats)if(m&&'side' in m)m.side=THREE.DoubleSide;}});
-  observationDeckGroup.add(root);
- }
- addObservationPath();
+ addObservationPathVisual();
+ addObservationPathSupport();
  addObservationPlatform(0,-112);
- if(campfireAsset){
-  const fire=campfireAsset.clone(true);
-  const bounds=new THREE.Box3().setFromObject(campfireAsset);
-  const center=bounds.getCenter(new THREE.Vector3());
-  fire.position.set(-center.x,-bounds.min.y,-center.z);
-  const root=new THREE.Group();
-  root.position.set(6.7,1.45,-112);
-  root.scale.setScalar(.95);
-  root.add(fire);
-  root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats){if(m&&'side' in m)m.side=THREE.DoubleSide;if(m&&('transparent' in m))m.depthWrite=true;}}});
-  observationDeckGroup.add(root);
- }
+ addObservationTelescope(0,-112);
+ addBasecampCampfire();
  clearTreesForObservationArea();
  observationDeckGroup.visible=true;
 }
-new GLTFLoader().load('./old_bridge.glb',gltf=>{oldBridgeAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('old_bridge.glb loading failed',err));
-new GLTFLoader().load('./campfire 2.glb',gltf=>{campfireAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('campfire 2.glb loading failed',err));
+new GLTFLoader().load('./forest_wooden_path-bridge_tile.glb',gltf=>{deckTileAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('forest_wooden_path-bridge_tile.glb loading failed',err));
+new GLTFLoader().load('./campfire.glb',gltf=>{campfireAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('campfire.glb loading failed',err));
+new GLTFLoader().load('./telescope.glb',gltf=>{telescopeAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('telescope.glb loading failed',err));
 
 // v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
 const moreToolsButton=document.getElementById('moreTools');
