@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v96</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v97</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -125,6 +125,9 @@ import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/js
 let cabinAsset=null;
 const cabinAssetLoader=new GLTFLoader();
 cabinAssetLoader.load('./winter_cabin.glb',gltf=>{cabinAsset=gltf.scene;console.info('aurura: winter cabin GLB loaded');},undefined,err=>console.warn('aurura: cabin GLB unavailable; procedural fallback remains',err));
+let snowyBasecampAsset=null;
+const snowyBasecampLoader=new GLTFLoader();
+snowyBasecampLoader.load('./snowy_wooden_hut.glb',gltf=>{snowyBasecampAsset=gltf.scene;console.info('aurura: snowy wooden hut GLB loaded');},undefined,err=>console.warn('aurura: snowy wooden hut unavailable; using fallback camp geometry',err));
 // v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
 const moreToolsButton=document.getElementById('moreTools');
 function setToolsExpanded(expanded){
@@ -484,15 +487,52 @@ function disposeRegion(){
 }
 // Region-specific base camps: Iceland geothermal shelter, Norway red fishing lodge,
 // Canada log-cabin outpost, Alaska expedition tents. Simple prototype geometry.
+
+const baseCampSpawnPoints=[
+ {cabin:{x:0,z:-13,rot:0,scale:.92},spawn:{x:0,z:-3,rot:Math.PI,camYaw:0}},
+ null,
+ {cabin:{x:0,z:-13,rot:0,scale:.92},spawn:{x:0,z:-3,rot:Math.PI,camYaw:0}},
+ null
+];
+function addSnowyBasecamp(region){
+ const cfg=baseCampSpawnPoints[region]?.cabin;
+ if(!cfg)return;
+ if(snowyBasecampAsset){
+  const instance=snowyBasecampAsset.clone(true);
+  instance.position.set(cfg.x,.18,cfg.z);
+  instance.rotation.y=cfg.rot;
+  instance.scale.setScalar(cfg.scale);
+  instance.traverse(o=>{
+   if(o.isMesh){
+    o.castShadow=true;o.receiveShadow=true;
+    const mats=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];
+    mats.forEach(m=>{if('roughness' in m&&m.roughness<.88)m.roughness=.88;if('metalness' in m)m.metalness=0;m.needsUpdate=true;});
+   }
+  });
+  terrain.add(instance);
+ }else{
+  hut(cfg.x,cfg.z,false);
+ }
+ for(const [lx,lz] of [[cfg.x-3.8,cfg.z+5.4],[cfg.x+3.8,cfg.z+5.4]])lantern(lx,lz);
+ for(const [dx,dz] of [[-5.5,2.8],[5.5,2.8],[-6.8,-1.4],[6.8,-1.4]])rock(cfg.x+dx,cfg.z+dz,.8+Math.abs(dx)*.06);
+}
+function spawnPlayerAtBasecamp(region){
+ const cfg=baseCampSpawnPoints[region]?.spawn||{x:0,z:0,rot:Math.PI,camYaw:0};
+ player.position.set(cfg.x,0,cfg.z);
+ player.rotation.y=cfg.rot;
+ velocity.set(0,0);
+ orbitYaw=cfg.camYaw;
+ orbitPitch=-.05;
+ orbitRadius=9.5;
+ cameraReady=false;
+ explorationTrail.length=0;
+ recordExplorationTrail();
+}
 function baseCamp(region){
  const dark=material(0x4d4b62),cream=material(0xece9df),stone=material(0x566071),amber=new THREE.MeshBasicMaterial({color:0xffdca0}),warm=amber;
  if(region===0){
-  // Iceland: dark basalt geothermal station, pale roof, steaming thermal pool.
-  cube(terrain,12,4.2,8,material(0x343b48),-12,2.1,-12);
-  cube(terrain,13,.65,9,cream,-12,4.65,-12);
-  for(let j=0;j<3;j++)cube(terrain,1.5,1.5,.12,amber,-16+j*3.5,2.8,-7.92);
-  for(let j=0;j<5;j++)column(-27+j*2.5,-23,3+j%2);
-  lake(-4,-29,8,6);
+  // Iceland: snowy wooden hut restored as the player's personal basecamp.
+  addSnowyBasecamp(0);
  }else if(region===1){
   // Norway: tall red stilt fishing lodge and waterside wooden boardwalk.
   const red=material(0xb34753);
@@ -502,13 +542,8 @@ function baseCamp(region){
   for(let j=0;j<3;j++)cube(terrain,1.6,1.8,.13,amber,-18+j*4,5.2,-11.43);
   dock(-9,-28);
  }else if(region===2){
-  // Canada: timber ranger station, roof snow and dense spruce grove.
-  const timber=material(0x88674e);
-  cube(terrain,12,4.7,9,timber,-14,2.35,-13);
-  for(let j=0;j<6;j++)cube(terrain,12,.22,.3,material(0x5e483b),-14,1+j*.67,-8.35);
-  let a=cube(terrain,9,.75,10,cream,-17,5.5,-13);a.rotation.z=-.32;
-  let b=cube(terrain,9,.75,10,cream,-11,5.5,-13);b.rotation.z=.32;
-  cube(terrain,2,2,.13,amber,-14,2.8,-8.32);
+  // Canada: the same cozy hut serves as a northern outpost camp.
+  addSnowyBasecamp(2);
   for(let j=0;j<7;j++)tree(-26+j*3,-27-(j%3)*3,.55+(j%2)*.2);
  }else{
   // Alaska: expedition domes, solar equipment and tall signal mast.
@@ -1102,7 +1137,7 @@ function build(i){
   darkForest.frustumCulled=false;snowyTips.frustumCulled=false;
   terrain.add(darkForest,snowyTips);
  }
- if(i!==0){baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);}
+ if(i===0){baseCamp(0);}else{baseCamp(i);campIdentityDetails(i);winterCampPolish(i);artScene(i);for(let k=0;k<5;k++)lantern(-9-k*4,-5-k*2.5);}
  document.getElementById('region').textContent='❄️ '+names[i]+' · '+subtitles[i];
  // Landmark discovery UI removed.
 }
@@ -2355,7 +2390,7 @@ function openNavigationMap(){
 }
 document.getElementById('map').onclick=openNavigationMap;
 setInterval(()=>{if(document.getElementById('dialog').classList.contains('show')&&document.getElementById('navigationCanvas'))renderNavigationMap()},300);
-document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);if(current!==0&&current!==2)return;try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);player.position.set(0,0,0);velocity.set(0,0);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
+document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);if(current!==0&&current!==2)return;try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);spawnPlayerAtBasecamp(current);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
 const albumKey='aurura-album-v1';
 function getAlbum(){try{return JSON.parse(localStorage.getItem(albumKey)||'[]')}catch{return []}}
 function savePhoto(){
@@ -2522,7 +2557,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const aimY=cameraCenter.y-pitch*orbitRadius*1.9;
  camera.lookAt(cameraCenter.x,cameraCenter.y-pitch*orbitRadius*1.9,cameraCenter.z);
 
-renderer.render(scene,camera)}build(current);requestAnimationFrame(frame);function resizeGameViewport(){
+renderer.render(scene,camera)}build(current);spawnPlayerAtBasecamp(current);requestAnimationFrame(frame);function resizeGameViewport(){
  const width=Math.max(1,document.documentElement.clientWidth),height=Math.max(1,window.innerHeight);
  camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);
  renderer.domElement.style.width=width+'px';renderer.domElement.style.height=height+'px';
