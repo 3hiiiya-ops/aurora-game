@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v110</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v111</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -118,7 +118,8 @@ button{min-height:42px;-webkit-tap-highlight-color:transparent}
  .region{top:calc(91px + env(safe-area-inset-top))!important;opacity:.8!important;font-size:9px!important}
  .actions{opacity:.68!important;transform:scale(.78)!important}
 }
-</style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
+#autoWalk[aria-pressed="true"]{background:#477e78ee;border-color:#b0f5e1;color:#fff;box-shadow:0 0 12px #79f3cf88}
+</style></head><body><div id="ui"><header><b>✦ aurura game</b><small>나만의 오로라 여행 · aurura game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 // v80: standalone authored GLB art asset, kept separate from movement/gameplay logic.
@@ -844,6 +845,7 @@ function addSnowyBasecamp(region){
  for(const [dx,dz] of [[-9.0,2.8],[9.0,2.8],[-10.2,-1.4],[10.2,-1.4]])rock(cfg.x+dx,cfg.z+dz,.8+Math.abs(dx)*.06);
 }
 function spawnPlayerAtBasecamp(region){
+ if(typeof setAutoWalking==='function')setAutoWalking(false);
  const cfg=baseCampSpawnPoints[region]?.spawn||{x:0,z:0,rot:Math.PI,camYaw:0};
  player.position.set(cfg.x,0,cfg.z);
  player.rotation.y=cfg.rot;
@@ -2210,14 +2212,14 @@ const fixedAuroraFragment=`
   float x=vUv.x,y=vUv.y;
   float t=uTime*.11+uPhase;
   // Vertical translucent striations: never a flat opaque neon rectangle.
-  float striae=.32+.68*pow(noise1(x*212.+t*.46+y*2.2),1.05);
-  float small=.74+.26*noise1(x*470.-t*.29+y*2.);
-  float fold=.62+.38*noise1(x*26.+t*.17);
+  float striae=.72+.28*noise1(x*42.+t*.18+y*.6);
+  float small=.90+.10*noise1(x*82.-t*.14+y*.3);
+  float fold=.82+.18*noise1(x*9.+t*.10);
   float curvedTop=.93+.06*sin(x*15.+t*.17)+.025*sin(x*38.-t*.28);
   float curvedBase=.01+.045*noise1(x*10.+t*.12);
   float low=smoothstep(curvedBase,curvedBase+.22,y);
   float high=1.-smoothstep(curvedTop-.18,curvedTop,y);
-  float side=smoothstep(0.,.03,x)*(1.-smoothstep(.97,1.,x));
+  float side=smoothstep(0.,.14,x)*(1.-smoothstep(.86,1.,x));
   float power=low*high*side*striae*small*fold;
   power*=.89+.11*sin(t*.75+x*11.);
   // Strong green at lower rim, cyan passing through, purple at higher folds.
@@ -2238,8 +2240,8 @@ function createAuroraRibbon(i){
  const cols=84,rows=20;
  const pos=[],uv=[],idx=[];
  const width=[262,236,214,244,226][i];
- const base=[24,30,38,34,28][i];
- const height=[108,112,104,110,106][i];
+ const base=[74,82,93,88,78][i];
+ const height=[118,122,112,120,117][i];
  for(let j=0;j<=rows;j++)for(let k=0;k<=cols;k++){
   const u=k/cols,v=j/rows;
   const x=(u-.5)*width;
@@ -2274,7 +2276,7 @@ function createAuroraRibbon(i){
  fixedAurora.add(sheet);fixedAuroraMaterials.push(mat);
 }
 for(let i=0;i<5;i++)createAuroraRibbon(i);
-fixedAurora.scale.set(1.1,1.06,1.18);
+fixedAurora.scale.set(1.32,1.11,1.44);
 // Kept as empty compatibility handles: this release does not create old aurora planes.
 const aurora=[];
 const auroraSky=new THREE.Group();
@@ -2400,6 +2402,15 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)for(const k
 // Independent touch joystick and drag-to-orbit camera. UI taps never rotate the view.
 const stickEl=document.getElementById('stick'),joyEl=document.getElementById('joystick');
 const joy={x:0,y:0,id:null};let orbitYaw=0,orbitPitch=0,orbitRadius=9.5;
+let autoWalking=false;
+function setAutoWalking(enabled){
+ autoWalking=!!enabled;
+ const btn=document.getElementById('autoWalk');
+ btn.setAttribute('aria-pressed',String(autoWalking));
+ btn.textContent=autoWalking?'⏸ 정지':'🚶 자동';
+ if(!autoWalking)velocity.set(0,0);
+}
+document.getElementById('autoWalk').onclick=()=>{setAutoWalking(!autoWalking);notice(autoWalking?'🚶 자동걷기: 카메라 방향으로 이동해요. 화면을 밀어 방향을 바꿀 수 있어요.':'⏸ 자동걷기를 멈췄어요.');};
 let cameraSensitivity=Number(localStorage.getItem('aurura-camera-sensitivity')||1);
 if(!Number.isFinite(cameraSensitivity)||cameraSensitivity<.5||cameraSensitivity>2)cameraSensitivity=1;
 // v66: true two-finger pinch zoom; one-finger drag rotates only.
@@ -2408,7 +2419,7 @@ const activeViewTouches=new Map();let pinchDistance=0;
 function pointerGap(){const p=[...activeViewTouches.values()];return p.length<2?0:Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)}
 function updateJoystick(e){const r=joyEl.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;const max=45;let x=(e.clientX-cx)/max,y=(e.clientY-cy)/max;const l=Math.hypot(x,y);if(l>1){x/=l;y/=l}joy.x=x;joy.y=y;stickEl.style.transform=`translate(${x*max}px,${y*max}px)`}
 function resetJoystick(){joy.id=null;joy.x=joy.y=0;stickEl.style.transform='translate(0px,0px)'}
-joyEl.addEventListener('pointerdown',e=>{if(joy.id!==null)return;joy.id=e.pointerId;joyEl.setPointerCapture(e.pointerId);updateJoystick(e);e.preventDefault()});
+joyEl.addEventListener('pointerdown',e=>{if(joy.id!==null)return;if(autoWalking)setAutoWalking(false);joy.id=e.pointerId;joyEl.setPointerCapture(e.pointerId);updateJoystick(e);e.preventDefault()});
 joyEl.addEventListener('pointermove',e=>{if(joy.id===e.pointerId){updateJoystick(e);e.preventDefault()}});
 for(const ev of ['pointerup','pointercancel','lostpointercapture'])joyEl.addEventListener(ev,e=>{if(joy.id===e.pointerId)resetJoystick()});
 const viewCanvas=renderer.domElement;
@@ -2451,7 +2462,18 @@ document.getElementById('photoMode').onclick=()=>{
  document.body.classList.toggle('photo-mode',photoMode);
  document.querySelectorAll('#ui .top button:not(#photo):not(#photoMode),#ui .pad,#ui .actions,#ui .status,#ui .region,#ui header,#joystick,#viewHint').forEach(el=>{if(photoMode){el.dataset.beforePhotoDisplay=el.style.display;el.style.display='none'}else{el.style.display=el.dataset.beforePhotoDisplay||''}});
  notice(photoMode?'촬영 모드: 사진 버튼을 누르세요.':'일반 모드로 돌아왔어요.');
-};document.getElementById('resetView').onclick=()=>{orbitYaw=0;orbitPitch=0;orbitRadius=9.5;notice('🎯 시점을 초기화했어요')};document.getElementById('zoomIn').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius-2,5,25);document.getElementById('zoomOut').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius+2,5,25);document.getElementById('look').onclick=()=>{orbitPitch=-.88;looking=true;notice('하늘 보기 · 화면을 밀면 다시 둘러볼 수 있어요')};function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}document.getElementById('wave').onclick=()=>{notice('👋 안녕! 반가워요!');if(room)room.send({type:'broadcast',event:'wave',payload:{id:onlineId}})};function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show');resetJoystick()}document.getElementById('content').addEventListener('click',e=>{
+};document.getElementById('resetView').onclick=()=>{orbitYaw=0;orbitPitch=0;orbitRadius=9.5;notice('🎯 시점을 초기화했어요')};document.getElementById('zoomIn').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius-2,5,25);document.getElementById('zoomOut').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius+2,5,25);document.getElementById('look').onclick=()=>{orbitPitch=-.88;looking=true;notice('하늘 보기 · 화면을 밀면 다시 둘러볼 수 있어요')};function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}const greetingPhrases=['👋 안녕하세요!','🌌 오로라 같이 봐요!','✨ 오늘 하늘 너무 예쁘네요!','💜 여기 풍경 정말 예뻐요!','♨️ 온천에서 만나요!','📷 같이 사진 찍을래요?','🏔️ 설산 탐험 가요!','🌲 같이 산책해요!','👀 오로라 떴어요!','👋 또 만나요!'];
+document.getElementById('wave').onclick=()=>modal('👋 인사말 고르기',
+ '<p style="font-size:12px;opacity:.85">동시접속 중이면 같은 지역 여행자에게 전송돼요.</p>'+greetingPhrases.map((msg,i)=>'<button type="button" data-greeting="'+i+'" style="display:block;width:100%;margin:6px 0;text-align:left">'+msg+'</button>').join(''));
+document.getElementById('content').addEventListener('click',e=>{
+ const btn=e.target.closest('[data-greeting]');if(!btn)return;
+ const msg=greetingPhrases[Number(btn.dataset.greeting)];if(!msg)return;
+ document.getElementById('dialog').classList.remove('show');notice(msg);
+ if(room&&onlineState==='온라인'){
+  appendChat('나',msg);
+  room.send({type:'broadcast',event:'chat',payload:{id:onlineId,region:current,message:msg}});
+ }else notice(msg+' · 다른 사람에게 보내려면 함께하기 연결이 필요해요.');
+});function modal(title,content){document.getElementById('heading').textContent=title;document.getElementById('content').innerHTML=content;document.getElementById('dialog').classList.add('show');resetJoystick()}document.getElementById('content').addEventListener('click',e=>{
  const levels={sensitivityLow:.6,sensitivityNormal:1,sensitivityHigh:1.6};
  if(Object.prototype.hasOwnProperty.call(levels,e.target.id)){
   cameraSensitivity=levels[e.target.id];localStorage.setItem('aurura-camera-sensitivity',String(cameraSensitivity));notice('🎥 카메라 감도를 저장했어요');
@@ -2631,13 +2653,13 @@ function updateAuroraVisibility(t){
  const pulse=.93+.07*Math.sin(t*.35);
  // Iceland's actual curtains stay over the scheduled observation point.
  // The direction may change as you walk, but the curtain WORLD position never does.
- fixedAurora.position.set(point.x,0,point.z);
+ fixedAurora.position.set(current===0?0:point.x,0,current===0?-40:point.z);
  fixedAurora.rotation.y=(Math.sin(slot*.71+current*1.9)*.48);
  fixedAurora.visible=(current===0||current===2)&&activeSky;
  for(let i=0;i<fixedAuroraMaterials.length;i++){
   const u=fixedAuroraMaterials[i].uniforms;
   u.uTime.value=t+i*.85;
-  u.uOpacity.value=fixedAurora.visible?[.665,.588,.532,.504,.462][i]*pulse:0; // v106: 30% more transparent than v105
+  u.uOpacity.value=fixedAurora.visible?[.3325,.294,.266,.252,.231][i]*pulse:0; // v111: 50% lower alpha than v110, softer wide sky curtains
  }
  auroraSkyDome.position.copy(camera.position);
  auroraSkyDome.rotation.y=facing;
@@ -2906,6 +2928,7 @@ const cameraDesired=new THREE.Vector3();
 let cameraReady=false;
 let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden||webglPaused){last=now;return;}let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;frameCount++;frameElapsed+=dt;if(frameElapsed>=2){fpsEstimate=Math.round(frameCount/frameElapsed);frameCount=0;frameElapsed=0;}let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a))+joy.x;
  let dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w))+joy.y;
+ if(autoWalking){dx=0;dz=-1;}
  const len=Math.hypot(dx,dz);if(len>1){dx/=len;dz/=len}
  const moving=len>.05;
  // Camera-relative movement: forward is where the camera is facing on the ground plane.
