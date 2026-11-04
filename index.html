@@ -296,6 +296,7 @@ function elevatedWalkHeight(x,z){
  return hit.length?hit[0].point.y:null;
 }
 const HOT_SPRING_CENTER=new THREE.Vector2(22,-32);
+const CAMPFIRE_POS={x:7.8,z:3.0};
 const HOT_SPRING_WATER_RADIUS=5.9;
 function hotSpringSinkDepth(x,z){
  const dx=x-HOT_SPRING_CENTER.x,dz=z-HOT_SPRING_CENTER.y;
@@ -309,7 +310,7 @@ function isInObservationClearZone(x,z){
  const onStart=x>=-24&&x<=5&&z>=2&&z<=14;
  const onEnd=x>=-23&&x<=8&&z>=-114&&z<=-99;
  const onDeck=Math.abs(x)<=16&&z<=-98&&z>=-124;
- const byCampfire=Math.abs(x)<=9&&Math.abs(z-8)<=10;
+ const byCampfire=Math.abs(x-CAMPFIRE_POS.x)<=6&&Math.abs(z-CAMPFIRE_POS.z)<=7;
  const dx=x-HOT_SPRING_CENTER.x,dz=z-HOT_SPRING_CENTER.y;
  const byHotSpring=dx*dx+dz*dz<170;
  return onPath||onStart||onEnd||onDeck||byCampfire||byHotSpring;
@@ -364,10 +365,9 @@ function addObservationPathVisual(){
  for(let z=7.4;z>=-105.5;z-=6.2){
   for(const x of [-18.0,-14.5])putTile(x,z,Math.PI/2);
  }
- // Final turn from the western approach onto the observation platform.
- for(let x=-15.0;x<=-2.6;x+=6.2){
-  for(const z of [-104.7,-108.2])putTile(x,z,0);
- }
+ // The raised observatory deck itself is already the final destination.
+ // Do not place extra deck tiles inside or underneath the platform structure.
+ // The western boardwalk stops just before the observatory so it does not clip through the railings.
 }
 function addObservationPathSupport(){
  const invisible=new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
@@ -404,15 +404,15 @@ function addBasecampCampfire(){
  const center=bounds.getCenter(new THREE.Vector3());
  fire.position.set(-center.x,-bounds.min.y,-center.z);
  const root=new THREE.Group();
- root.position.set(0,1.07,8.5);
+ root.position.set(CAMPFIRE_POS.x,1.07,CAMPFIRE_POS.z);
  root.rotation.y=.22;
  root.scale.setScalar(.32);
  root.add(fire);
  root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats){if(m&&'side' in m)m.side=THREE.DoubleSide;if(m&&('transparent' in m))m.depthWrite=true;}}});
  observationDeckGroup.add(root);
  // A shallow patch of packed snow connects the relocated campfire to the snow field.
- const pad=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.55,.35,18),new THREE.MeshStandardMaterial({color:0xe7eaf0,roughness:1}));
- pad.position.set(0,.54,8.5);pad.receiveShadow=true;observationDeckGroup.add(pad);
+ const pad=new THREE.Mesh(new THREE.CylinderGeometry(2.3,2.8,.35,18),new THREE.MeshStandardMaterial({color:0xe7eaf0,roughness:1}));
+ pad.position.set(CAMPFIRE_POS.x,.54,CAMPFIRE_POS.z);pad.receiveShadow=true;observationDeckGroup.add(pad);
 }
 function addObservationSign(cx,cz){
  const g=new THREE.Group();
@@ -444,7 +444,7 @@ function addImportedProp(asset,x,y,z,desiredHeight,yaw=0){
 function decorateCampAndPath(){
  // Two lights near the warm campfire, two at the observatory and a few on the clear northern deck.
  for(const [x,y,z,height,yaw] of [
-  [-5.4,.65,9.1,2.6,.15],[5.4,.65,9.1,2.6,-.2],
+  [CAMPFIRE_POS.x-2.9,.65,CAMPFIRE_POS.z+1.1,2.6,.15],[CAMPFIRE_POS.x+2.8,.65,CAMPFIRE_POS.z+.9,2.6,-.2],
   [-5,.78,-79,2.8,.1],[5,.78,-89,2.8,-.3],
   [-9,1.55,-103,2.5,.25],[9,1.55,-103,2.5,-.15],
   [11.7,.75,-34,2.2,0],[34,.75,-37,2.2,.5]
@@ -455,8 +455,8 @@ function decorateCampAndPath(){
    lightSphere.position.set(x,y+height*.73,z);observationDeckGroup.add(lightSphere);
   }
  }
- // Clusters of real firewood: one beside campfire, one by the cabin porch.
- for(const [x,y,z,h,yaw] of [[-3.3,.72,11,1.10,.48],[3.4,.72,10.8,.9,-.38],[8,.66,-12,1.35,.8]]){
+ // Clusters of real firewood: two near campfire, one closer to the cabin but not blocking the porch.
+ for(const [x,y,z,h,yaw] of [[CAMPFIRE_POS.x-2.1,.72,CAMPFIRE_POS.z+2.2,1.10,.48],[CAMPFIRE_POS.x+2.2,.72,CAMPFIRE_POS.z+1.8,.9,-.38],[6.2,.66,-8.8,1.2,.55]]){
   addImportedProp(firewoodAsset,x,y,z,h,yaw);
  }
 }
