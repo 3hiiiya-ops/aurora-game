@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v106</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurura game · v107</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -146,29 +146,34 @@ const climbingMountainBounds=[];
 const mountainSurfaceRay=new THREE.Raycaster();
 const mountainDown=new THREE.Vector3(0,-1,0);
 function mountainRingSpots(region){
- // North/front and south/back of the explorable area; no additional mountain ring.
- return region===0?[[0,-252,1.48,0],[0,252,1.48,Math.PI]]:
-        region===2?[[0,-94,.73,0],[0,94,.73,Math.PI]]:[];
+ // North/front and south/back, but framed wider so the central observation field stays open.
+ return region===0?[[-96,-288,1.62,.10],[98,292,1.58,Math.PI-.12]]:
+        region===2?[[-36,-116,.80,.08],[38,118,.78,Math.PI-.08]]:[];
 }
 // A low, continuous snow apron masks the terrain seam around the square GLB footprint.
 // The apron is a sloped 4-sided ring; it does not add another mountain asset.
 function addMountainSnowApron(cx,cz,scale,rotation){
- const inner=70.5*scale,outer=87*scale;
- const turns=64,verts=[],colors=[],indices=[];
- const near=new THREE.Color(0xf4f5fa),far=new THREE.Color(0xe4e8f3);
+ const rings=[[80*scale,1.05],[104*scale,.42],[132*scale,.02]];
+ const turns=72,verts=[],colors=[],indices=[];
+ const innerColor=new THREE.Color(0xf7f8fc),midColor=new THREE.Color(0xebeff8),outerColor=new THREE.Color(0xe3e9f4);
  for(let k=0;k<=turns;k++){
   const a=k*Math.PI*2/turns;
   const tx=Math.cos(a),tz=Math.sin(a);
   const edge=Math.max(Math.abs(tx),Math.abs(tz));
-  for(const [r,h] of [[inner,.16],[outer,.02]]){
+  for(const [r,h] of rings){
    const localX=tx*r/edge,localZ=tz*r/edge;
    const x=cx+Math.cos(rotation)*localX+Math.sin(rotation)*localZ;
    const z=cz-Math.sin(rotation)*localX+Math.cos(rotation)*localZ;
    verts.push(x,h,z);
-   const color=r===inner?near:far;
+   const blend=(r-rings[0][0])/(rings[2][0]-rings[0][0]);
+   const color=blend<.5?innerColor.clone().lerp(midColor,blend*2):midColor.clone().lerp(outerColor,(blend-.5)*2);
    colors.push(color.r,color.g,color.b);
   }
-  if(k<turns){const i=k*2;indices.push(i,i+2,i+1,i+1,i+2,i+3);}
+  if(k<turns){
+   const i=k*3;
+   indices.push(i,i+3,i+1,i+1,i+3,i+4);
+   indices.push(i+1,i+4,i+2,i+2,i+4,i+5);
+  }
  }
  const geo=new THREE.BufferGeometry();
  geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
@@ -216,7 +221,7 @@ function placeImportedMountainRing(region){
   const root=new THREE.Group();
   // Sink the imported mountain footprint slightly into the terrain. The source mesh
   // has a razor-straight border; hiding the border avoids a floating shelf.
-  root.position.set(x,-2.65*scale,z);
+  root.position.set(x,-4.15*scale,z);
   root.rotation.y=rotation;
   root.scale.setScalar(scale);
   root.add(model);
@@ -256,6 +261,103 @@ new GLTFLoader().load('./snow_mountain.glb',gltf=>{
  console.info('aurura v104: two walkable snow_mountain.glb peaks loaded');
 },undefined,err=>console.warn('snow_mountain.glb loading failed',err));
 
+
+// Iceland observation route: uploaded old_bridge.glb as the deck path, plus a cozy fire spot.
+const observationDeckGroup=new THREE.Group();
+let oldBridgeAsset=null;
+let campfireAsset=null;
+const elevatedWalkMeshes=[];
+const elevatedWalkBounds=[];
+const elevatedSurfaceRay=new THREE.Raycaster();
+const elevatedDown=new THREE.Vector3(0,-1,0);
+function clearElevatedWalkables(){elevatedWalkMeshes.length=0;elevatedWalkBounds.length=0;}
+function registerElevatedWalkable(mesh){
+ mesh.updateMatrixWorld(true);
+ elevatedWalkBounds.push(new THREE.Box3().setFromObject(mesh));
+ elevatedWalkMeshes.push(mesh);
+}
+function elevatedWalkHeight(x,z){
+ if(!elevatedWalkMeshes.length)return null;
+ let near=false;
+ for(const b of elevatedWalkBounds){
+  if(x>=b.min.x-.8&&x<=b.max.x+.8&&z>=b.min.z-.8&&z<=b.max.z+.8){near=true;break;}
+ }
+ if(!near)return null;
+ elevatedSurfaceRay.set(new THREE.Vector3(x,60,z),elevatedDown);
+ elevatedSurfaceRay.far=80;
+ const hit=elevatedSurfaceRay.intersectObjects(elevatedWalkMeshes,false);
+ return hit.length?hit[0].point.y:null;
+}
+function isInObservationClearZone(x,z){
+ const onPath=Math.abs(x)<=8.5&&z<=-24&&z>=-102;
+ const onDeck=Math.abs(x)<=15&&z<=-98&&z>=-122;
+ return onPath||onDeck;
+}
+function clearTreesForObservationArea(){
+ for(const group of [basecampForestGroup,importedSnowForest]){
+  if(!group)continue;
+  for(let i=group.children.length-1;i>=0;i--){
+   const tree=group.children[i];
+   if(isInObservationClearZone(tree.position.x,tree.position.z))group.remove(tree);
+  }
+ }
+}
+function addObservationPlatform(cx,cz){
+ const g=new THREE.Group();
+ const woodMat=new THREE.MeshStandardMaterial({color:0x7b626f,roughness:.9});
+ const trimMat=new THREE.MeshStandardMaterial({color:0x9a7a76,roughness:.86});
+ const railMat=new THREE.MeshStandardMaterial({color:0x6a515b,roughness:.94});
+ const floor=new THREE.Mesh(new THREE.BoxGeometry(24,.9,18),woodMat);floor.position.set(0,.95,0);floor.receiveShadow=true;floor.castShadow=true;g.add(floor);
+ for(let ix=-10;ix<=10;ix+=2.4){const plank=new THREE.Mesh(new THREE.BoxGeometry(1.8,.08,17.6),trimMat);plank.position.set(ix,1.42,0);plank.receiveShadow=true;g.add(plank)}
+ const postPos=[[-11,2,-8],[11,2,-8],[-11,2,8],[11,2,8],[-11,2,0],[11,2,0],[-5,2,-8],[5,2,-8],[-5,2,8],[5,2,8]];
+ for(const [x,y,z] of postPos){const post=new THREE.Mesh(new THREE.BoxGeometry(.34,2.3,.34),railMat);post.position.set(x,y,z);post.castShadow=post.receiveShadow=true;g.add(post)}
+ for(const z of [-8,8]){for(const y of [2.7,3.5]){const rail=new THREE.Mesh(new THREE.BoxGeometry(22.2,.16,.22),railMat);rail.position.set(0,y,z);rail.castShadow=rail.receiveShadow=true;g.add(rail)}}
+ for(const x of [-11,11]){for(const y of [2.7,3.5]){const rail=new THREE.Mesh(new THREE.BoxGeometry(.22,.16,16.2),railMat);rail.position.set(x,y,0);rail.castShadow=rail.receiveShadow=true;g.add(rail)}}
+ g.position.set(cx,0,cz);observationDeckGroup.add(g);
+ const support=new THREE.Mesh(new THREE.BoxGeometry(23.2,.65,17.2),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+ support.position.set(cx,1.45,cz);observationDeckGroup.add(support);registerElevatedWalkable(support);
+}
+function addObservationPath(){
+ const support=new THREE.Mesh(new THREE.BoxGeometry(8.6,.65,75),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+ support.position.set(0,.95,-63);observationDeckGroup.add(support);registerElevatedWalkable(support);
+}
+function placeIcelandObservationArea(region){
+ observationDeckGroup.clear();
+ clearElevatedWalkables();
+ if(region!==0){observationDeckGroup.visible=false;return;}
+ // Deck path from the cabin area toward the northern observation platform.
+ if(oldBridgeAsset){
+  const visual=oldBridgeAsset.clone(true);
+  const bounds=new THREE.Box3().setFromObject(oldBridgeAsset);
+  const center=bounds.getCenter(new THREE.Vector3());
+  visual.position.set(-center.x,-bounds.min.y,-center.z);
+  const root=new THREE.Group();
+  root.position.set(0,.10,-63);
+  root.scale.setScalar(.032);
+  root.add(visual);
+  root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats)if(m&&'side' in m)m.side=THREE.DoubleSide;}});
+  observationDeckGroup.add(root);
+ }
+ addObservationPath();
+ addObservationPlatform(0,-112);
+ if(campfireAsset){
+  const fire=campfireAsset.clone(true);
+  const bounds=new THREE.Box3().setFromObject(campfireAsset);
+  const center=bounds.getCenter(new THREE.Vector3());
+  fire.position.set(-center.x,-bounds.min.y,-center.z);
+  const root=new THREE.Group();
+  root.position.set(6.7,1.45,-112);
+  root.scale.setScalar(.95);
+  root.add(fire);
+  root.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;const mats=Array.isArray(o.material)?o.material:[o.material];for(const m of mats){if(m&&'side' in m)m.side=THREE.DoubleSide;if(m&&('transparent' in m))m.depthWrite=true;}}});
+  observationDeckGroup.add(root);
+ }
+ clearTreesForObservationArea();
+ observationDeckGroup.visible=true;
+}
+new GLTFLoader().load('./old_bridge.glb',gltf=>{oldBridgeAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('old_bridge.glb loading failed',err));
+new GLTFLoader().load('./campfire 2.glb',gltf=>{campfireAsset=gltf.scene;if(typeof current!=='undefined')placeIcelandObservationArea(current);},undefined,err=>console.warn('campfire 2.glb loading failed',err));
+
 // v57: compact mobile tool tray. Primary map/compass/photo remain one tap away.
 const moreToolsButton=document.getElementById('moreTools');
 function setToolsExpanded(expanded){
@@ -273,7 +375,7 @@ if(!document.createElement('canvas').getContext('webgl2')&&!document.createEleme
  document.body.innerHTML='<main style="padding:30px;font:18px system-ui;color:white"><h1>aurura game</h1><p>이 기기에서 3D 그래픽을 실행할 수 없어요. Safari를 최신 상태로 업데이트해 주세요.</p></main>';
  throw new Error('WebGL unavailable');
 }
-const scene=new THREE.Scene();scene.add(importedGreatMountainGroup);scene.background=new THREE.Color('#030913');scene.fog=new THREE.FogExp2(0x122033,.0012);const camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1450);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
+const scene=new THREE.Scene();scene.add(importedGreatMountainGroup);scene.add(observationDeckGroup);scene.background=new THREE.Color('#030913');scene.fog=new THREE.FogExp2(0x122033,.0012);const camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1450);const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,powerPreference:"low-power"});// Resolution presets reduce GPU load on small mobile devices without changing the world.
 const QUALITY_PRESETS={"절전":0.75,"균형":1,"선명":1.5};
 let qualityChoice='균형';try{qualityChoice=localStorage.getItem('aurura_quality')||'균형'}catch(e){}
 if(!QUALITY_PRESETS[qualityChoice])qualityChoice='균형';
@@ -306,6 +408,13 @@ for(let n=0;n<snowPos.count;n++){
  snowPos.setZ(n,h);
 }
 snowGeo.computeVertexNormals();ground.geometry.dispose();ground.geometry=snowGeo;
+const baseGroundRay=new THREE.Raycaster();
+function plainGroundHeight(x,z){
+ baseGroundRay.set(new THREE.Vector3(x,120,z),new THREE.Vector3(0,-1,0));
+ baseGroundRay.far=160;
+ const hit=baseGroundRay.intersectObject(ground,false);
+ return hit.length?hit[0].point.y:null;
+}
 // v68: procedural fine-grain snow material; no downloaded assets required.
 const snowCanvas=document.createElement('canvas');snowCanvas.width=snowCanvas.height=256;
 const snowCtx=snowCanvas.getContext('2d');
@@ -1162,11 +1271,11 @@ function updateIcelandSnowTiles(px,pz){
 }
 
 function icelandSnowHeight(x,z){
- if(current!==0||!icelandSnowReady||Math.abs(x)>390||Math.abs(z)>390)return null;
+ if(current!==0||!icelandSnowReady||Math.abs(x)>430||Math.abs(z)>430)return null;
  icelandSnowRay.set(new THREE.Vector3(x,155,z),new THREE.Vector3(0,-1,0));
  icelandSnowRay.far=170;
  // Only test the tile under the player and its immediate neighbors.
- const close=icelandSnowMeshes.filter(obj=>Math.abs(obj.userData.tileX-x)<25&&Math.abs(obj.userData.tileZ-z)<25);
+ const close=icelandSnowMeshes.filter(obj=>Math.abs(obj.userData.tileX-x)<38&&Math.abs(obj.userData.tileZ-z)<38);
  const hit=icelandSnowRay.intersectObjects(close,false);
  return hit.length?hit[0].point.y:null;
 }
@@ -1196,7 +1305,7 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;basecampForestGroup.visible=(i===0||i===2);importedGreatMountainGroup.visible=(i===0||i===2);icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;basecampForestGroup.visible=(i===0||i===2);importedGreatMountainGroup.visible=(i===0||i===2);observationDeckGroup.visible=i===0;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
@@ -1217,9 +1326,11 @@ function build(i){
   plantReferenceForest();
   placeImportedMountainRing(0);
   populateBasecampForest(0);
+  placeIcelandObservationArea(0);
   // Old primitive lake, crystals, rocks, and waterfall intentionally removed.
   // Wait for real asset files rather than making more placeholder geometry.
  }else if(i===1){
+  placeIcelandObservationArea(i);
   lake(42,-37,43,29);hut(-31,-24,true);hut(-44,-37,true);villageDetails(-31,-24,true);
   for(let k=0;k<14;k++)rock(60+rnd()*30,-70+rnd()*70,2+rnd()*4);dock(-18,-38);fishingBoat(15,-35);
  }else if(i===2){
@@ -1227,7 +1338,9 @@ function build(i){
   frozenStream(-65,-68);
   placeImportedMountainRing(2);
   populateBasecampForest(2);
+  placeIcelandObservationArea(2);
  }else{
+  placeIcelandObservationArea(i);
   lake(45,-42,19,13);
   for(let k=0;k<32;k++)rock(-95+rnd()*190,-65+rnd()*130,.6+rnd()*2.4);
   for(let k=0;k<12;k++)iceShard(28+rnd()*45,-65+rnd()*40,1+rnd()*2);for(let k=0;k<38;k++)tundraPatch((rnd()-.5)*210,(rnd()-.5)*210,1+rnd()*3);
@@ -2736,7 +2849,9 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const baseSnowHeight=Math.max(0,snowSurface===null?0:snowSurface);
  const waterHeight=referenceHeight!==null?referenceHeight:(onIce?iceLakeSurfaceY:0);
  const mountainHeight=(current===0||current===2)?climbableMountainHeight(player.position.x,player.position.z):null;
- const targetGroundY=Math.max(baseSnowHeight,waterHeight,mountainHeight===null?0:mountainHeight);
+ const plainHeight=plainGroundHeight(player.position.x,player.position.z);
+ const elevatedHeight=current===0?elevatedWalkHeight(player.position.x,player.position.z):null;
+ const targetGroundY=Math.max(baseSnowHeight,waterHeight,mountainHeight===null?0:mountainHeight,plainHeight===null?0:plainHeight,elevatedHeight===null?0:elevatedHeight);
  player.position.y=targetGroundY+.12;
  player.rotation.z=(speed>.3?Math.sin(walkingPhase)*.026:0);
  const stride=THREE.MathUtils.smoothstep(speed,0.3,4.8);
