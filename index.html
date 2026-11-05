@@ -131,6 +131,23 @@ body.tools-expanded #liveCompass{display:none!important}
 </style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🚀 순간이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass" type="button">🧭 나침반</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="coordinateTravel" type="button">📍 좌표 이동 테스트</button><button id="overviewMode" type="button">🗺️ 전체 조감도</button><button id="help">⚙️ 안내</button></div><div id="liveCompass" aria-label="나침반"><span id="compassRose" class="compassRose">↑ N</span><span id="compassCoords" class="compassNumbers">X 0 · Z 0</span></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
+// v128: stagger GLB loading to prevent large concurrent Safari decoding spikes.
+const auroraAssetQueue=[];let auroraAssetBusy=0;const auroraAssetLimit=4;
+const auroraOriginalLoad=GLTFLoader.prototype.load;
+function auroraDrainAssets(){
+ while(auroraAssetBusy<auroraAssetLimit&&auroraAssetQueue.length){
+  const job=auroraAssetQueue.shift();auroraAssetBusy++;let finished=false;
+  const done=()=>{if(finished)return;finished=true;auroraAssetBusy--;queueMicrotask(auroraDrainAssets);};
+  try{auroraOriginalLoad.call(job.loader,job.url,
+   v=>{done();job.onLoad?.(v);},job.onProgress,
+   err=>{(window.__auroraAssetErrors??=[]).push({file:job.url,error:String(err?.message||err||'Load failed')});done();job.onError?.(err);});}
+  catch(err){(window.__auroraAssetErrors??=[]).push({file:job.url,error:String(err?.message||err)});done();job.onError?.(err);}
+ }
+}
+GLTFLoader.prototype.load=function(url,onLoad,onProgress,onError){
+ auroraAssetQueue.push({loader:this,url,onLoad,onProgress,onError});auroraDrainAssets();
+};
+
 // v80: standalone authored GLB art asset, kept separate from movement/gameplay logic.
 let cabinAsset=null;
 const cabinAssetLoader=new GLTFLoader();
@@ -3739,14 +3756,14 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
   const indicator=document.getElementById('aururaErrorIndicator');
   if(indicator){indicator.hidden=false;indicator.textContent=`⚠️ 오류 기록 ${issues.length}개`;}
  }
- window.addEventListener('error',event=>record(event.message||'스크립트 오류'));
- window.addEventListener('unhandledrejection',event=>record(event.reason?.message||'비동기 작업 오류'));
+ window.addEventListener('error',event=>{const src=event.target?.src||event.target?.href;record((event.message||'리소스 로드 오류')+(src?' · '+String(src).split('/').pop():''));});
+ window.addEventListener('unhandledrejection',event=>record((event.reason?.message||'비동기 작업 오류')+(event.reason?.stack?' · '+String(event.reason.stack).slice(0,140):'')));
  const badge=document.createElement('button');badge.id='aururaErrorIndicator';badge.hidden=true;
  badge.setAttribute('aria-label','오류 기록 보기');badge.textContent='⚠️ 오류 기록';
  badge.style.cssText='position:fixed;bottom:calc(160px + env(safe-area-inset-bottom));left:10px;z-index:30;background:#643f56;color:white;border:1px solid #ffffff80;border-radius:12px;padding:8px;font:12px system-ui;max-width:140px';
  document.body.append(badge);
  badge.addEventListener('click',()=>{
-  const result='aurura game v42 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음');
+  const result='aurura game v128 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음')+'\n\n에셋 실패 목록\n'+((window.__auroraAssetErrors||[]).map(x=>x.file+': '+x.error).join('\n')||'기록 없음');
   const panel=document.getElementById('testkitPanel');
   if(panel){panel.classList.add('show');const info=document.getElementById('testkitInfo');if(info)info.textContent+='\n\n'+result;}
   else alert(result);
@@ -3759,7 +3776,7 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
  });
  const btn=document.createElement('button');btn.textContent='⚠️ 오류 기록 복사';btn.id='aururaCopyErrors';
  btn.addEventListener('click',async()=>{
-  const value='aurura game v42 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음');
+  const value='aurura game v128 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음')+'\n\n에셋 실패 목록\n'+((window.__auroraAssetErrors||[]).map(x=>x.file+': '+x.error).join('\n')||'기록 없음');
   try{await navigator.clipboard.writeText(value);alert('오류 기록을 복사했어!');}
   catch{prompt('오류 기록을 길게 눌러 복사해 줘',value);}
  });
