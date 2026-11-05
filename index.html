@@ -1228,6 +1228,41 @@ for(let i=0;i<=64;i++){
  fractureWidths.push(7+6*Math.sin(Math.PI*t)**.55+2.1*Math.sin(19*t)**2);
 }
 makeWaterPath(fracturePath,fractureWidths,.62);
+
+// Between Iceland's two northern mountains: a frozen, blue-toned ravine with cracked crystal ice.
+const northRavinePath=[[-112,-307],[-99,-301],[-84,-296],[-67,-292],[-50,-291],[-33,-293],[-17,-298],[-4,-304]];
+const northRavineWidths=[9,11,13,15,15,13,11,8];
+const ravineIceMaterial=new THREE.ShaderMaterial({uniforms:{uTime:{value:0},uActive:{value:0}},
+ vertexShader:`varying vec3 vP;void main(){vP=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(vP,1.);}`,
+ fragmentShader:`precision mediump float;varying vec3 vP;uniform float uTime;uniform float uActive;
+ void main(){float a=sin(vP.x*.18+uTime*.8)*.5+.5;float b=sin(vP.z*.23-uTime*.47)*.5+.5;float crack=abs(sin(vP.x*.62+vP.z*.19))*abs(sin(vP.x*.11-vP.z*.77));
+ vec3 deep=vec3(.10,.36,.55);vec3 pale=vec3(.61,.87,.98);vec3 glow=vec3(.55,.82,.95);
+ vec3 c=mix(deep,pale,.42+.22*a+.16*b);c+=uActive*(.06+.10*crack)*glow;gl_FragColor=vec4(c,.97);}`,
+ transparent:true,depthWrite:true,side:THREE.DoubleSide,fog:false});
+const ravineGroup=new THREE.Group();referenceLandscapeGroup.add(ravineGroup);
+function addRavineCrystal(x,y,z,scale,rot){
+ const crystal=new THREE.Mesh(new THREE.OctahedronGeometry(scale,0),new THREE.MeshStandardMaterial({color:0xaeddf4,emissive:0x6bbad8,emissiveIntensity:.28,roughness:.18,metalness:.04,transparent:true,opacity:.95}));
+ crystal.position.set(x,y,z);crystal.rotation.set(0,rot,0);crystal.scale.y=1.6+Math.sin(rot*2.7)*.25;ravineGroup.add(crystal);
+ const shard=new THREE.Mesh(new THREE.TetrahedronGeometry(scale*.48,0),new THREE.MeshStandardMaterial({color:0xe6f7ff,emissive:0x78c4dd,emissiveIntensity:.14,roughness:.28,transparent:true,opacity:.92}));
+ shard.position.set(x+Math.cos(rot)*scale*.55,y+scale*.15,z+Math.sin(rot)*scale*.55);shard.rotation.set(rot*.3,rot*.7,rot*.2);ravineGroup.add(shard);
+}
+function buildNorthIceRavine(){
+ ravineGroup.clear();
+ makeWaterPath(northRavinePath,northRavineWidths,.60,ravineIceMaterial);
+ for(const side of [-1,1])makeIceBank(northRavinePath,northRavineWidths,side,4.4+side*.3);
+ const rnd=random(98121);
+ for(let i=0;i<northRavinePath.length;i++){
+  const p=northRavinePath[i],q0=northRavinePath[Math.max(0,i-1)],q1=northRavinePath[Math.min(northRavinePath.length-1,i+1)];
+  const dx=q1[0]-q0[0],dz=q1[1]-q0[1],len=Math.max(.001,Math.hypot(dx,dz));
+  const nx=-dz/len,nz=dx/len;
+  for(const side of [-1,1]){
+   const edge=northRavineWidths[i]+2.6+rnd()*2.2;
+   const x=p[0]+nx*side*edge+(rnd()-.5)*1.8,z=p[1]+nz*side*edge+(rnd()-.5)*1.8;
+   addRavineCrystal(x,.95+rnd()*.35,z,.8+rnd()*1.1,rnd()*Math.PI*2);
+  }
+ }
+}
+buildNorthIceRavine();
 // Loose, discontinuous ice shelves follow both banks of the fracture.
 function makeIceBank(points,widths,side,seed){
  const verts=[],cols=[],idx=[];
@@ -1272,11 +1307,12 @@ function plantReferenceForest(){
 function referenceWaterHeight(x,z){
  const dx=(x-iceLakeCenter.x)/(iceLakeWidth*.44),dz=(z-iceLakeCenter.z)/(iceLakeDepth*.44);
  if(dx*dx+dz*dz<1)return iceLakeSurfaceY;
- for(const pts of [firstChannel,fracturePath])for(let i=0;i<pts.length-1;i++){
+ for(const pts of [firstChannel,fracturePath,northRavinePath])for(let i=0;i<pts.length-1;i++){
   const a=pts[i],b=pts[i+1],vx=b[0]-a[0],vz=b[1]-a[1];
   const t=THREE.MathUtils.clamp(((x-a[0])*vx+(z-a[1])*vz)/(vx*vx+vz*vz),0,1);
   const dd=Math.hypot(x-a[0]-t*vx,z-a[1]-t*vz);
-  if(dd<(pts===firstChannel?7:fractureWidths[i]-1))return .62;
+  const w=pts===firstChannel?7:(pts===northRavinePath?(northRavineWidths[i]-1.5):(fractureWidths[i]-1));
+  if(dd<w)return pts===northRavinePath?.60:.62;
  }
  return null;
 }
@@ -1328,18 +1364,18 @@ const icelandForestTrail=[
  [-121,49],[-137,62],[-151,79],[-164,106],[-190,127]
 ];
 const icelandForestClusters=[
- // North and west woodland edges of the basecamp
- [-43,-15,21,13,17],[-65,4,22,18,14],[-89,-19,24,21,14],
- [-117,4,25,20,16],[-136,-38,23,19,12],
- // Groves beside the winding hike toward the existing ice lake
- [-46,48,24,19,17],[-77,65,21,19,13],[-110,91,20,19,13],
- [-145,124,24,16,14],[-183,153,26,16,14],
- // A sheltered boreal forest beyond the northern side of the cabin
- [45,18,23,18,18],[77,37,28,20,22],[108,3,30,22,20],
- [91,-55,24,23,18],[58,-91,23,21,12],
- // Scattered woods farther away, leaving a clear view of mountain silhouettes
- [-16,72,23,23,14],[22,85,26,20,14],[65,106,28,24,13],
- [-112,-85,25,23,11],[-176,-61,29,23,10]
+ // North and west woodland edges of the basecamp — denser, layered groves.
+ [-43,-15,23,15,24],[-65,4,24,20,21],[-89,-19,26,22,20],
+ [-117,4,26,21,22],[-136,-38,25,21,18],[-154,16,24,18,17],
+ // Groves beside the winding hike toward the existing ice lake.
+ [-46,48,25,20,22],[-77,65,23,20,19],[-110,91,22,20,18],
+ [-145,124,25,17,18],[-183,153,27,17,18],[-166,95,18,14,12],
+ // A sheltered boreal forest beyond the northern side of the cabin.
+ [45,18,24,18,23],[77,37,29,21,28],[108,3,31,23,25],
+ [91,-55,26,24,22],[58,-91,25,22,18],[26,-68,19,17,14],[122,-42,18,16,12],
+ // Scattered woods farther away, leaving a clear view of mountain silhouettes.
+ [-16,72,24,24,18],[22,85,27,21,18],[65,106,29,25,17],
+ [-112,-85,27,24,15],[-176,-61,31,24,14],[122,74,18,14,12]
 ];
 function forestDistanceToSegment(x,z,a,b){
  const vx=b[0]-a[0],vz=b[1]-a[1];
@@ -1360,13 +1396,16 @@ function isIcelandForestSafe(x,z){
  for(let i=0;i<fracturePath.length-1;i++){
   if(forestDistanceToSegment(x,z,fracturePath[i],fracturePath[i+1])<19)return false;
  }
+ for(let i=0;i<northRavinePath.length-1;i++){
+  if(forestDistanceToSegment(x,z,northRavinePath[i],northRavinePath[i+1])<15)return false;
+ }
  // Never block the existing wooden boardwalk, observation deck or hot spring.
  if(isInObservationClearZone(x,z))return false;
  if(Math.abs(x)<19&&z>=-126&&z<=-96)return false;
  if(Math.hypot(x-HOT_SPRING_CENTER.x,z-HOT_SPRING_CENTER.y)<17)return false;
  // Wide, winding snow-only gap: the trees themselves draw the trekking path.
  for(let i=0;i<icelandForestTrail.length-1;i++){
-  if(forestDistanceToSegment(x,z,icelandForestTrail[i],icelandForestTrail[i+1])<8.5)return false;
+  if(forestDistanceToSegment(x,z,icelandForestTrail[i],icelandForestTrail[i+1])<7.1)return false;
  }
  if(treeOverlapsMountain(x,z))return false;
  return true;
@@ -1399,11 +1438,18 @@ function populateBasecampForest(region){
     addIcelandPine(basecampForestGroup,x,z,h,rand);
    }
   }
-  // A sparse, irregular northern treeline frames the skyline, not a uniform wall.
-  for(let i=0;i<36;i++){
-   const x=-170+rand()*360;
-   const z=-156+(rand()-.5)*35;
-   addIcelandPine(basecampForestGroup,x,z,5+rand()*3.2,rand);
+  // A denser, irregular northern treeline frames the skyline, not a uniform wall.
+  for(let i=0;i<64;i++){
+   const x=-178+rand()*376;
+   const z=-164+(rand()-.5)*42;
+   addIcelandPine(basecampForestGroup,x,z,5+rand()*3.3,rand);
+  }
+  // Extra filler pines deepen the forest mass while safe corridors stay open.
+  for(let i=0;i<220;i++){
+   const x=-186+rand()*332;
+   const z=-112+rand()*290;
+   const weight=((x+32)/170)**2+((z-38)/160)**2;
+   if(weight<2.25&&rand()<.74) addIcelandPine(basecampForestGroup,x,z,4.2+rand()*4.8,rand);
   }
  }else{
   // Preserve Canada's original ring/forest while its new map is planned separately.
@@ -1440,6 +1486,43 @@ function populateBasecampForest(region){
   }
  }
 }
+// Small wildlife accents for Iceland: one arctic fox and one snowshoe rabbit tucked into dense groves.
+const icelandWildlifeGroup=new THREE.Group();referenceLandscapeGroup.add(icelandWildlifeGroup);
+function buildFox(){
+ const g=new THREE.Group();
+ const fur=new THREE.MeshStandardMaterial({color:0xd87a49,roughness:.88});
+ const white=new THREE.MeshStandardMaterial({color:0xf8f3ec,roughness:.95});
+ const dark=new THREE.MeshStandardMaterial({color:0x43302a,roughness:1});
+ const black=new THREE.MeshStandardMaterial({color:0x17120f,roughness:1});
+ const body=new THREE.Mesh(new THREE.CapsuleGeometry(.26,.52,6,10),fur);body.rotation.z=Math.PI/2;body.position.set(0,.42,0);g.add(body);
+ const chest=new THREE.Mesh(new THREE.SphereGeometry(.19,10,10),white);chest.scale.set(1,.8,.7);chest.position.set(.18,.34,.18);g.add(chest);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.19,12,12),fur);head.scale.set(1,.92,.95);head.position.set(.34,.55,.02);g.add(head);
+ const muzzle=new THREE.Mesh(new THREE.SphereGeometry(.09,10,10),white);muzzle.scale.set(1.25,.8,.9);muzzle.position.set(.48,.49,.07);g.add(muzzle);
+ const nose=new THREE.Mesh(new THREE.SphereGeometry(.03,8,8),black);nose.position.set(.56,.49,.11);g.add(nose);
+ for(const [sx,sz] of [[.27,.13],[.27,-.06]]){const ear=new THREE.Mesh(new THREE.ConeGeometry(.055,.17,5),fur);ear.position.set(sx,.79,sz);ear.rotation.z=-.18;g.add(ear);const inner=new THREE.Mesh(new THREE.ConeGeometry(.028,.09,5),white);inner.position.set(sx,.78,sz+.004);inner.rotation.z=-.18;g.add(inner);} 
+ for(const [x,z] of [[-.12,.12],[-.12,-.10],[.12,.12],[.12,-.10]]){const leg=new THREE.Mesh(new THREE.CylinderGeometry(.035,.04,.33,7),dark);leg.position.set(x,.18,z);g.add(leg);} 
+ const tail=new THREE.Mesh(new THREE.CapsuleGeometry(.07,.46,4,8),fur);tail.position.set(-.38,.56,-.08);tail.rotation.z=.95;tail.rotation.y=.35;g.add(tail);const tip=new THREE.Mesh(new THREE.SphereGeometry(.06,8,8),white);tip.position.set(-.58,.75,-.18);g.add(tip);
+ g.scale.setScalar(2.1);return g;
+}
+function buildRabbit(){
+ const g=new THREE.Group();
+ const fur=new THREE.MeshStandardMaterial({color:0xf1f2f2,roughness:.95});
+ const pink=new THREE.MeshStandardMaterial({color:0xeeced4,roughness:.98});
+ const dark=new THREE.MeshStandardMaterial({color:0x4b4c52,roughness:1});
+ const body=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),fur);body.scale.set(1.15,1,.95);body.position.set(0,.36,0);g.add(body);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.16,12,12),fur);head.scale.set(1,.95,.95);head.position.set(.24,.55,.03);g.add(head);
+ const chest=new THREE.Mesh(new THREE.SphereGeometry(.11,10,10),fur);chest.position.set(.16,.31,.10);g.add(chest);
+ for(const z of [.05,-.06]){const ear=new THREE.Mesh(new THREE.CapsuleGeometry(.035,.34,4,7),fur);ear.position.set(.23,.93,z);ear.rotation.z=-.06;g.add(ear);const inner=new THREE.Mesh(new THREE.CapsuleGeometry(.017,.21,4,6),pink);inner.position.set(.235,.91,z+.004);inner.rotation.z=-.06;g.add(inner);} 
+ for(const [x,z] of [[-.09,.09],[-.09,-.08],[.07,.09],[.07,-.08]]){const leg=new THREE.Mesh(new THREE.CylinderGeometry(.028,.036,.18,6),dark);leg.position.set(x,.14,z);g.add(leg);} 
+ const tail=new THREE.Mesh(new THREE.SphereGeometry(.065,9,9),fur);tail.position.set(-.22,.45,-.02);g.add(tail);
+ g.scale.setScalar(1.75);return g;
+}
+function placeIcelandWildlife(){
+ icelandWildlifeGroup.clear();
+ const fox=buildFox();fox.position.set(-116,.02,72);fox.rotation.y=.85;icelandWildlifeGroup.add(fox);
+ const rabbit=buildRabbit();rabbit.position.set(82,.02,-74);rabbit.rotation.y=-2.2;icelandWildlifeGroup.add(rabbit);
+}
+placeIcelandWildlife();
 // v88: Load the user's actual snow-covered pine mesh. The background object
 // inside the Blender scene is excluded, leaving the tree and its snow.
 const importedPineLoader=new GLTFLoader();
@@ -2946,6 +3029,8 @@ function updateAuroraVisibility(t){
  lakeLightUniforms.uActive.value=activeSky?(current===0?1:.7):0;
  waterCourseUniforms.uTime.value=t;
  waterCourseUniforms.uActive.value=activeSky?(current===0?1:.7):0;
+ ravineIceMaterial.uniforms.uTime.value=t;
+ ravineIceMaterial.uniforms.uActive.value=activeSky?(current===0?1:.65):0;
  if(current===0){refWaterMat.color.setHex(activeSky?0x54a5ad:0x3889a0);refWaterMat.emissiveIntensity=activeSky?.68:.35;}
 
  for(let i=0;i<aurora.length;i++){
