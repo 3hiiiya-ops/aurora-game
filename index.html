@@ -1413,49 +1413,10 @@ for(const spec of icelandPropLayout){
  new GLTFLoader().load('./'+spec.file,gltf=>createIcelandPropInstances(spec,gltf.scene),undefined,
   err=>console.warn('v127 optional prop not found:',spec.file,err));
 }
-// v132: Handpick *individual* snowy tree/deadwood meshes from the uploaded pack.
-// Never place the entire atlas/treeline scene; retain the original snowy-tree.glb forest.
+// v133 emergency graphics hotfix: disable the v132 billboard-tree pack.
+// On iOS its converted alpha materials can obscure the scene / produce large black regions.
+// Existing imported snowy-tree.glb forest and staggered distance culling are untouched.
 const icelandTreeVarietyGroup=new THREE.Group();scene.add(icelandTreeVarietyGroup);
-const icelandTreeVarietySpots=[
- // Forest edges, away from cabin, observation structures and frozen-water trails.
- [-65,4,'snowtree',6.0,.4],[-98,-30,'snowtree',6.8,1.7],[-128,4,'snowtree',5.9,.9],
- [67,56,'snowtree',6.2,2.0],[102,35,'snowtree',6.4,.6],[68,-96,'snowtree',6.6,1.1],
- [-85,82,'deadtreehero',4.4,1.5],[-122,124,'deadtreewide',3.8,.3],
- [110,-62,'treebaretall',5.2,.9],[43,89,'treebaretall',4.8,2.4],
- [-160,-61,'deadtreehero',4.6,1.1],[-149,158,'deadtreewide',3.8,1.9]
-];
-new GLTFLoader().load('./snow_trees_pack_lowpoly.glb',gltf=>{
- const choices={};gltf.scene.updateMatrixWorld(true);
- gltf.scene.traverse(m=>{
-  if(!m.isMesh)return;
-  const n=m.name.toLowerCase();
-  for(const key of ['snowtree','deadtreehero','deadtreewide','treebaretall']){
-   if(n.startsWith(key)&&!choices[key])choices[key]=m;
-  }
- });
- for(const [x,z,key,height,yaw] of icelandTreeVarietySpots){
-  const original=choices[key];if(!original||!isIcelandForestSafe(x,z))continue;
-  const geometry=original.geometry.clone();
-  geometry.applyMatrix4(original.matrixWorld);
-  geometry.computeBoundingBox();
-  const b=geometry.boundingBox;
-  const h=Math.max(.1,b.max.y-b.min.y);
-  geometry.translate(-(b.min.x+b.max.x)*.5,-b.min.y,-(b.min.z+b.max.z)*.5);
-  const material=Array.isArray(original.material)?original.material.map(v=>v.clone()):original.material.clone();
-  const mats=Array.isArray(material)?material:[material];
-  for(const mat of mats){
-   // Alpha cutout avoids overlapping semi-transparent pixel layers that shimmer in motion.
-   if(mat.map?.format!==undefined&&mat.transparent){mat.alphaTest=Math.max(.32,mat.alphaTest||0);mat.transparent=false;mat.depthWrite=true;}
-   mat.side=THREE.DoubleSide;mat.needsUpdate=true;
-  }
-  const mesh=new THREE.Mesh(geometry,material);
-  mesh.castShadow=false;mesh.receiveShadow=true;
-  const root=new THREE.Group();root.position.set(x,.06,z);root.rotation.y=yaw;
-  root.scale.setScalar(height/h);root.add(mesh);icelandTreeVarietyGroup.add(root);
- }
- icelandTreeVarietyGroup.visible=current===0;
- console.info('v132 assorted snowy tree additions:',icelandTreeVarietyGroup.children.length);
-},undefined,err=>console.warn('v132 optional snow-tree pack did not load',err));
 // Waiting for a user-approved realistic snow-covered evergreen GLB.
 // Do not display the rejected multi-object biome pack or primitive stand-ins.
 const importedSnowForest=new THREE.Group();scene.add(importedSnowForest);
@@ -3797,7 +3758,7 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
  badge.style.cssText='position:fixed;bottom:calc(160px + env(safe-area-inset-bottom));left:10px;z-index:30;background:#643f56;color:white;border:1px solid #ffffff80;border-radius:12px;padding:8px;font:12px system-ui;max-width:140px';
  document.body.append(badge);
  badge.addEventListener('click',()=>{
-  const result='aurura game v132 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음')+'\n\n에셋 실패 목록\n'+((window.__auroraAssetErrors||[]).map(x=>x.file+': '+x.error).join('\n')||'기록 없음');
+  const result='aurura game v133 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음')+'\n\n에셋 실패 목록\n'+((window.__auroraAssetErrors||[]).map(x=>x.file+': '+x.error).join('\n')||'기록 없음');
   const panel=document.getElementById('testkitPanel');
   if(panel){panel.classList.add('show');const info=document.getElementById('testkitInfo');if(info)info.textContent+='\n\n'+result;}
   else alert(result);
@@ -3810,7 +3771,7 @@ panel.addEventListener('click',e=>{if(e.target===panel)panel.classList.remove('s
  });
  const btn=document.createElement('button');btn.textContent='⚠️ 오류 기록 복사';btn.id='aururaCopyErrors';
  btn.addEventListener('click',async()=>{
-  const value='aurura game v132 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음')+'\n\n에셋 실패 목록\n'+((window.__auroraAssetErrors||[]).map(x=>x.file+': '+x.error).join('\n')||'기록 없음');
+  const value='aurura game v133 오류 기록\n'+(issues.length?issues.join('\n'):'기록된 오류 없음')+'\n\n에셋 실패 목록\n'+((window.__auroraAssetErrors||[]).map(x=>x.file+': '+x.error).join('\n')||'기록 없음');
   try{await navigator.clipboard.writeText(value);alert('오류 기록을 복사했어!');}
   catch{prompt('오류 기록을 길게 눌러 복사해 줘',value);}
  });
