@@ -1613,21 +1613,54 @@ function buildRabbit(){
  wildlifePart(g,animalGeo.ball,rabbitFur,-.31,.40,-.025,.095,.10,.11);
  return {g,legs,ears};
 }
+// v135: Three lively wildlife colonies, each with 4 foxes and 4 rabbits.
+// Their roaming paths can cross the wooden deck and visit the cabin/hot-spring area.
+// They stay on the local snow/deck surface rather than at a fixed world altitude.
+const wildlifeColonies=[
+ {name:'서쪽 숲 가족',x:-116,z:72,roam:24},
+ {name:'동쪽 숲 가족',x:82,z:-74,roam:25},
+ {name:'산장·온천 가족',x:17,z:-46,roam:35}
+];
+const WILDLIFE_TEST_POINT={x:17,z:-53}; // safely outside the hot-spring basin, near colony 3.
+function wildlifeGroundHeight(x,z,nearPlayer=true){
+ // The live snow field uses tiles that follow the player; only raycast those nearby.
+ const plain=plainGroundHeight(x,z);
+ const snow=nearPlayer?icelandSnowHeight(x,z):null;
+ const deck=nearPlayer?elevatedWalkHeight(x,z):null;
+ const mountain=nearPlayer?climbableMountainHeight(x,z):null;
+ const ice=referenceWaterHeight(x,z);
+ return Math.max(0,plain??0,snow??0,deck??0,mountain??0,ice??0)+.14;
+}
+function wildlifeCanRoam(x,z){
+ if(Math.abs(x)>370||Math.abs(z)>370)return false;
+ // No swimming in the hot spring or the broad ice lake; walkways remain accessible.
+ if(Math.hypot(x-HOT_SPRING_CENTER.x,z-HOT_SPRING_CENTER.y)<HOT_SPRING_WATER_RADIUS+1.5)return false;
+ const lx=(x-iceLakeCenter.x)/93,lz=(z-iceLakeCenter.z)/75;
+ return lx*lx+lz*lz>=1.02;
+}
 function placeIcelandWildlife(){
  icelandWildlifeGroup.clear();wildlifeMembers.length=0;
- const families=[
-  {kind:'fox',origin:[-116,72],points:[[-116,72],[-125,78],[-110,85],[-133,65]],scale:[1.8,1.4,1.45,1.2]},
-  {kind:'rabbit',origin:[82,-74],points:[[82,-74],[91,-80],[76,-88],[98,-68]],scale:[1.95,1.55,1.4,1.5]}
- ];
  let id=0;
- for(const family of families){
-  for(let j=0;j<family.points.length;j++){
-   const [x,z]=family.points[j],parts=family.kind==='fox'?buildFox():buildRabbit();
-   parts.g.scale.setScalar(family.scale[j]);parts.g.position.set(x,.82,z);
-   const yaw=(id*.89+.4)%(Math.PI*2);parts.g.rotation.y=yaw;
-   icelandWildlifeGroup.add(parts.g);
-   wildlifeMembers.push({id:id++,kind:family.kind,parts,x,z,cx:x,cz:z,homeX:family.origin[0],homeZ:family.origin[1],yaw,targetYaw:yaw,
-    phase:j*.83,wait:j*.5,stepTime:0,lastHeight:.8,walk:false,scale:family.scale[j]});
+ for(let colony=0;colony<wildlifeColonies.length;colony++){
+  const home=wildlifeColonies[colony];
+  for(const kind of ['fox','rabbit']){
+   for(let j=0;j<4;j++){
+    const angle=(j*1.55+colony*.63+(kind==='rabbit'?.67:0));
+    const radius=4.6+(j%2)*3.9+(kind==='rabbit'?2.1:0);
+    let x=home.x+Math.cos(angle)*radius,z=home.z+Math.sin(angle)*radius;
+    if(!wildlifeCanRoam(x,z)){x=home.x+(j-1.5)*2.2;z=home.z+(kind==='rabbit'?7:-7);}
+    const parts=kind==='fox'?buildFox():buildRabbit();
+    const scale=(kind==='fox'?[1.75,1.38,1.3,1.06]:[1.8,1.5,1.32,1.12])[j];
+    const yaw=(id*.89+.4)%(Math.PI*2);
+    parts.g.scale.setScalar(scale);
+    parts.g.position.set(x,0,z);parts.g.rotation.y=yaw;
+    const height=wildlifeGroundHeight(x,z,false);
+    parts.g.position.y=height;
+    icelandWildlifeGroup.add(parts.g);
+    wildlifeMembers.push({id:id++,kind,colony,parts,x,z,homeX:home.x,homeZ:home.z,roam:home.roam,
+     yaw,targetYaw:yaw,phase:j*.87+colony*.57,wait:j*.42+colony*.7,stepTime:0,
+     lastHeight:height,walk:false,scale});
+   }
   }
  }
 }
@@ -1635,49 +1668,44 @@ placeIcelandWildlife();
 let wildlifeHeightRefresh=0;
 function animateIcelandWildlife(dt,t){
  if(current!==0)return;
- const randStep=.43;
  wildlifeHeightRefresh+=dt;
- const checkHeight=wildlifeHeightRefresh>.5;
+ const checkHeight=wildlifeHeightRefresh>.18;
  if(checkHeight)wildlifeHeightRefresh=0;
  for(const a of wildlifeMembers){
-  const nearPlayer=Math.hypot(a.x-player.position.x,a.z-player.position.z)<120;
+  const playerDistance=Math.hypot(a.x-player.position.x,a.z-player.position.z);
+  // Skip visual animation for distant families without deleting them from the world.
+  a.parts.g.visible=playerDistance<175||a.colony===2&&playerDistance<210;
   a.wait-=dt;
   if(a.wait<=0){
-   a.wait=2.3+((a.id*71+Math.floor(t*1.8))%5)*.58;
-   const targetAngle=(Math.sin(t*.29+a.id*4.63)*2.6+a.id*.76)%(Math.PI*2);
-   a.targetYaw=targetAngle;
-   a.walk=true;
+   a.wait=1.7+((a.id*71+Math.floor(t*2))%6)*.48;
+   a.targetYaw=Math.sin(t*.36+a.id*3.93)*2.8+a.id*.66;
   }
-  const homeDist=Math.hypot(a.x-a.homeX,a.z-a.homeZ);
-  if(homeDist>19)a.targetYaw=Math.atan2(a.homeX-a.x,a.homeZ-a.z);
-  const turn=Math.atan2(Math.sin(a.targetYaw-a.yaw),Math.cos(a.targetYaw-a.y));
-  a.yaw+=turn*Math.min(1,dt*2.0);
+  if(Math.hypot(a.x-a.homeX,a.z-a.homeZ)>a.roam*.80){
+   a.targetYaw=Math.atan2(a.homeX-a.x,a.homeZ-a.z);
+  }
+  const turn=Math.atan2(Math.sin(a.targetYaw-a.yaw),Math.cos(a.targetYaw-a.yaw));
+  a.yaw+=turn*Math.min(1,dt*2.3);
   a.parts.g.rotation.y=a.yaw;
-  const movement=Math.max(0,Math.min(1,(a.wait-0.15)*1.3));
-  const speed=(a.kind==='rabbit'?1.05:.95)*movement;
-  a.x+=Math.sin(a.yaw)*speed*dt;a.z+=Math.cos(a.yaw)*speed*dt;
-  // Wildlife may step through snowy clearings, but stays out of buildings and open water.
-  const lx=(a.x-iceLakeCenter.x)/93,lz=(a.z-iceLakeCenter.z)/75;
-  const tooCloseToCamp=Math.hypot(a.x,a.z+17)<28;
-  const tooFarFromHome=Math.hypot(a.x-a.homeX,a.z-a.homeZ)>24;
-  if(lx*lx+lz*lz<1||tooCloseToCamp||tooFarFromHome){
-   a.x-=Math.sin(a.yaw)*speed*dt;a.z-=Math.cos(a.yaw)*speed*dt;
-   a.targetYaw+=1.9;
-  }
+  const speed=(a.kind==='rabbit'?1.7:1.45)*(0.70+.3*Math.sin(t*.83+a.id)**2);
+  const newX=a.x+Math.sin(a.yaw)*speed*dt;
+  const newZ=a.z+Math.cos(a.yaw)*speed*dt;
+  if(wildlifeCanRoam(newX,newZ)&&Math.hypot(newX-a.homeX,newZ-a.homeZ)<a.roam){
+   a.x=newX;a.z=newZ;
+  }else{a.targetYaw+=Math.PI*.75;}
   a.parts.g.position.x=a.x;a.parts.g.position.z=a.z;
-  if(checkHeight&&nearPlayer){
-   const height=icelandSnowHeight(a.x,a.z);
-   const plain=plainGroundHeight(a.x,a.z);
-   const mountain=climbableMountainHeight(a.x,a.z);
-   // Fur and feet clear the bumpy imported snow geometry, not the flat y=0 plane.
-   a.lastHeight=Math.max(0,height??0,plain??0,mountain??0)+.12;
+  if(checkHeight&&playerDistance<150){
+   // Target the highest available walking surface; avoids burying legs in snowy bumps.
+   a.lastHeight=wildlifeGroundHeight(a.x,a.z,true);
+  }else if(checkHeight&&playerDistance>=150){
+   a.lastHeight=wildlifeGroundHeight(a.x,a.z,false);
   }
-  const rhythm=t*(a.kind==='rabbit'?6.0:8.1)+a.phase;
-  const bounce=a.kind==='rabbit'?Math.pow(Math.max(0,Math.sin(rhythm)),1.25)*.24:Math.abs(Math.sin(rhythm))*.065;
-  a.parts.g.position.y=a.lastHeight+bounce*movement;
-  for(let i=0;i<a.parts.legs.length;i++)a.parts.legs[i].rotation.z=Math.sin(rhythm+(i<2?0:Math.PI))*(a.kind==='rabbit'?.12:.24)*movement;
-  if(a.parts.ears)for(let i=0;i<a.parts.ears.length;i++)a.parts.ears[i].rotation.x=Math.sin(rhythm*.5+i)*.10;
-  if(a.parts.tail)a.parts.tail.rotation.y=Math.sin(rhythm*.38)*.2;
+  const rhythm=t*(a.kind==='rabbit'?8.3:10.0)+a.phase;
+  const bounce=a.kind==='rabbit'?Math.pow(Math.max(0,Math.sin(rhythm)),1.35)*.32:Math.abs(Math.sin(rhythm))*.095;
+  a.parts.g.position.y=a.lastHeight+bounce;
+  if(!a.parts.g.visible)continue;
+  for(let i=0;i<a.parts.legs.length;i++)a.parts.legs[i].rotation.z=Math.sin(rhythm+(i<2?0:Math.PI))*(a.kind==='rabbit'?.16:.30);
+  if(a.parts.ears)for(let i=0;i<a.parts.ears.length;i++)a.parts.ears[i].rotation.x=Math.sin(rhythm*.48+i)*.12;
+  if(a.parts.tail)a.parts.tail.rotation.y=Math.sin(rhythm*.38)*.24;
  }
 }
 // v132: Reinstate distance-culling of existing trees without the old hard popping.
@@ -3450,8 +3478,9 @@ document.getElementById('coordinateTravel').onclick=()=>{
    '<label style="flex:1;min-width:0">Z 좌표<input id="coordZ" type="number" step="1" value="'+z+'" style="width:100%;min-width:0;box-sizing:border-box;padding:12px;background:#19264a;color:white;border:1px solid #ffffff88;border-radius:9px;font-size:18px"></label></div>'+ 
   '<button type="button" data-coordinate-go="1" style="width:100%;padding:13px">🚀 입력 좌표로 이동</button>'+ 
   '<p style="margin:15px 0 8px;font-size:12px">🐾 동물 찾기 바로가기 (아이슬란드)</p>'+ 
-  '<div style="display:flex;gap:8px"><button data-coordinate-preset="fox" style="flex:1;padding:12px">🦊 여우 좌표</button><button data-coordinate-preset="rabbit" style="flex:1;padding:12px">🐰 토끼 좌표</button></div>'+ 
-  '<p style="font-size:11px;opacity:.75">동물 좌표 버튼은 값을 입력해 줘. 이동하려면 위의 🚀 버튼을 누르면 돼.</p>');
+  '<div style="display:flex;gap:8px"><button data-coordinate-preset="fox" style="flex:1;padding:12px">🦊 서쪽 가족</button><button data-coordinate-preset="rabbit" style="flex:1;padding:12px">🐰 동쪽 가족</button></div>'+ 
+  '<button data-coordinate-preset="family" style="display:block;width:100%;margin-top:8px;padding:12px">🐾 산장·온천 가족 관찰 (X 17 / Z -53)</button>'+ 
+  '<p style="font-size:11px;opacity:.75">동물 좌표 버튼은 값을 입력해 줘. 이동하려면 위의 🚀 버튼을 누르면 돼. 총 3곳에 여우 4마리·토끼 4마리씩 있어.</p>');
 };
 document.getElementById('content').addEventListener('input',event=>{
  if(event.target.id==='coordX'||event.target.id==='coordZ'){const x=document.getElementById('coordX');if(x)delete x.dataset.animalTarget;}
@@ -3460,10 +3489,10 @@ document.getElementById('content').addEventListener('click',event=>{
  const preset=event.target.closest('[data-coordinate-preset]');
  if(preset){
   const animal=preset.dataset.coordinatePreset;
-  document.getElementById('coordX').value=animal==='fox'?-116:82;
-  document.getElementById('coordZ').value=animal==='fox'?72:-74;
+  document.getElementById('coordX').value=animal==='fox'?-116:(animal==='rabbit'?82:WILDLIFE_TEST_POINT.x);
+  document.getElementById('coordZ').value=animal==='fox'?72:(animal==='rabbit'?-74:WILDLIFE_TEST_POINT.z);
   document.getElementById('coordX').dataset.animalTarget='iceland';
-  notice(animal==='fox'?'🦊 여우 좌표 입력 완료':'🐰 토끼 좌표 입력 완료');
+  notice(animal==='fox'?'🦊 서쪽 가족 좌표 입력 완료':(animal==='rabbit'?'🐰 동쪽 가족 좌표 입력 완료':'🐾 산장·온천 가족 좌표 입력 완료'));
   return;
  }
  if(!event.target.closest('[data-coordinate-go]'))return;
@@ -3731,7 +3760,7 @@ const checks=['게임 화면이 정상적으로 나타남','왼쪽 조이스틱�
 const panel=document.getElementById('testkitPanel'),items=document.getElementById('testkitChecks'),count=document.getElementById('testkitCount'),info=document.getElementById('testkitInfo');
 let state={};try{state=JSON.parse(localStorage.getItem('aurura-testkit-v37')||'{}')||{}}catch{}
 function persist(){try{localStorage.setItem('aurura-testkit-v37',JSON.stringify(state))}catch{}}
-function deviceInfo(){return ['버전: v130','브라우저: '+navigator.userAgent,'화면: '+innerWidth+' × '+innerHeight,'배율: '+(devicePixelRatio||1),'온라인: '+(navigator.onLine?'예':'아니오'),'HTTPS: '+(location.protocol==='https:'?'예':'아니오'),'홈 화면 실행: '+((matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'예':'아니오'),'WebGL: '+(document.createElement('canvas').getContext('webgl2')?'WebGL2':document.createElement('canvas').getContext('webgl')?'WebGL1':'미지원')].join('\n')}
+function deviceInfo(){return ['버전: v135','브라우저: '+navigator.userAgent,'화면: '+innerWidth+' × '+innerHeight,'배율: '+(devicePixelRatio||1),'온라인: '+(navigator.onLine?'예':'아니오'),'HTTPS: '+(location.protocol==='https:'?'예':'아니오'),'홈 화면 실행: '+((matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'예':'아니오'),'WebGL: '+(document.createElement('canvas').getContext('webgl2')?'WebGL2':document.createElement('canvas').getContext('webgl')?'WebGL1':'미지원')].join('\n')}
 function render(){items.replaceChildren();checks.forEach((name,i)=>{const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=!!state[i];input.addEventListener('change',()=>{state[i]=input.checked;persist();renderCount()});label.append(input,document.createTextNode(' '+name));items.append(label)});renderCount();info.textContent=deviceInfo()}
 function renderCount(){count.textContent='확인한 항목: '+checks.filter((_,i)=>state[i]).length+' / '+checks.length}
 function report(){return 'aurura game v130 중간 테스트\n'+deviceInfo()+'\n\n'+checks.map((c,i)=>(state[i]?'[확인] ':'[미확인] ')+c).join('\n')}
