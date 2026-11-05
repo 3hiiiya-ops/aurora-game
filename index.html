@@ -128,7 +128,7 @@ body.tools-expanded #region,body.tools-expanded #status{display:none!important}
 @media(max-width:700px){#liveCompass{top:174px;right:9px;padding:6px 8px;font-size:10px;min-width:88px}#liveCompass .compassRose{font-size:24px;line-height:25px}}
 @media(max-height:520px){#liveCompass{top:88px;right:8px}}
 body.tools-expanded #liveCompass{display:none!important}
-</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🚀 순간이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass" type="button">🧭 나침반</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="coordinateTravel" type="button">📍 좌표 이동 테스트</button><button id="help">⚙️ 안내</button></div><div id="liveCompass" aria-label="나침반"><span id="compassRose" class="compassRose">↑ N</span><span id="compassCoords" class="compassNumbers">X 0 · Z 0</span></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
+</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🚀 순간이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass" type="button">🧭 나침반</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="coordinateTravel" type="button">📍 좌표 이동 테스트</button><button id="overviewMode" type="button">🗺️ 전체 조감도</button><button id="help">⚙️ 안내</button></div><div id="liveCompass" aria-label="나침반"><span id="compassRose" class="compassRose">↑ N</span><span id="compassCoords" class="compassNumbers">X 0 · Z 0</span></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 // v80: standalone authored GLB art asset, kept separate from movement/gameplay logic.
@@ -1493,43 +1493,131 @@ function populateBasecampForest(region){
   }
  }
 }
-// Small wildlife accents for Iceland: one arctic fox and one snowshoe rabbit tucked into dense groves.
+// v126: small families of roaming Iceland wildlife. Shared materials/geometries,
+// actual snow-height correction on approach, and staggered movement on a light budget.
 const icelandWildlifeGroup=new THREE.Group();referenceLandscapeGroup.add(icelandWildlifeGroup);
+const wildlifeMembers=[];
+const foxFur=new THREE.MeshStandardMaterial({color:0xc4794d,roughness:.89});
+const foxWhite=new THREE.MeshStandardMaterial({color:0xf1e8da,roughness:.9});
+const rabbitFur=new THREE.MeshStandardMaterial({color:0xf0ede6,roughness:.91});
+const rabbitPink=new THREE.MeshStandardMaterial({color:0xdbaba9,roughness:.94});
+const animalDark=new THREE.MeshStandardMaterial({color:0x2c2525,roughness:.9});
+const animalGeo={ball:new THREE.SphereGeometry(1,12,9),cone:new THREE.ConeGeometry(1,1,6),foot:new THREE.CapsuleGeometry(1,.75,4,7)};
+function wildlifePart(parent,geometry,mat,x,y,z,sx,sy,sz){
+ const m=new THREE.Mesh(geometry,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);parent.add(m);return m;
+}
 function buildFox(){
  const g=new THREE.Group();
- const fur=new THREE.MeshStandardMaterial({color:0xd87a49,roughness:.88});
- const white=new THREE.MeshStandardMaterial({color:0xf8f3ec,roughness:.95});
- const dark=new THREE.MeshStandardMaterial({color:0x43302a,roughness:1});
- const black=new THREE.MeshStandardMaterial({color:0x17120f,roughness:1});
- const body=new THREE.Mesh(new THREE.CapsuleGeometry(.26,.52,6,10),fur);body.rotation.z=Math.PI/2;body.position.set(0,.42,0);g.add(body);
- const chest=new THREE.Mesh(new THREE.SphereGeometry(.19,10,10),white);chest.scale.set(1,.8,.7);chest.position.set(.18,.34,.18);g.add(chest);
- const head=new THREE.Mesh(new THREE.SphereGeometry(.19,12,12),fur);head.scale.set(1,.92,.95);head.position.set(.34,.55,.02);g.add(head);
- const muzzle=new THREE.Mesh(new THREE.SphereGeometry(.09,10,10),white);muzzle.scale.set(1.25,.8,.9);muzzle.position.set(.48,.49,.07);g.add(muzzle);
- const nose=new THREE.Mesh(new THREE.SphereGeometry(.03,8,8),black);nose.position.set(.56,.49,.11);g.add(nose);
- for(const [sx,sz] of [[.27,.13],[.27,-.06]]){const ear=new THREE.Mesh(new THREE.ConeGeometry(.055,.17,5),fur);ear.position.set(sx,.79,sz);ear.rotation.z=-.18;g.add(ear);const inner=new THREE.Mesh(new THREE.ConeGeometry(.028,.09,5),white);inner.position.set(sx,.78,sz+.004);inner.rotation.z=-.18;g.add(inner);} 
- for(const [x,z] of [[-.12,.12],[-.12,-.10],[.12,.12],[.12,-.10]]){const leg=new THREE.Mesh(new THREE.CylinderGeometry(.035,.04,.33,7),dark);leg.position.set(x,.18,z);g.add(leg);} 
- const tail=new THREE.Mesh(new THREE.CapsuleGeometry(.07,.46,4,8),fur);tail.position.set(-.38,.56,-.08);tail.rotation.z=.95;tail.rotation.y=.35;g.add(tail);const tip=new THREE.Mesh(new THREE.SphereGeometry(.06,8,8),white);tip.position.set(-.58,.75,-.18);g.add(tip);
- g.scale.setScalar(2.1);return g;
+ wildlifePart(g,animalGeo.ball,foxFur,0,.46,0,.42,.25,.23);
+ wildlifePart(g,animalGeo.ball,foxWhite,.31,.36,.11,.17,.15,.14);
+ wildlifePart(g,animalGeo.ball,foxFur,.36,.59,0,.205,.19,.175);
+ wildlifePart(g,animalGeo.ball,foxWhite,.52,.48,.06,.13,.075,.12);
+ wildlifePart(g,animalGeo.ball,animalDark,.62,.50,.07,.038,.035,.034);
+ for(const z of [-.135,.135]){
+  const ear=wildlifePart(g,animalGeo.cone,foxFur,.31,.83,z,.085,.205,.077);ear.rotation.z=-.22;
+  wildlifePart(g,animalGeo.ball,animalDark,.40,.625,z*1.21,.026,.027,.026);
+ }
+ const legs=[];
+ for(const x of [-.22,.23])for(const z of [-.145,.145]){
+  const leg=new THREE.Group();leg.position.set(x,.28,z);
+  wildlifePart(leg,animalGeo.ball,foxFur,0,-.13,0,.065,.18,.06);
+  wildlifePart(leg,animalGeo.ball,animalDark,.045,-.265,.022,.085,.045,.077);
+  g.add(leg);legs.push(leg);
+ }
+ const tail=wildlifePart(g,animalGeo.ball,foxFur,-.43,.54,-.08,.42,.135,.15);tail.rotation.z=-.35;
+ const tip=wildlifePart(g,animalGeo.ball,foxWhite,-.76,.67,-.085,.12,.11,.12);
+ return {g,legs,tail,tip};
 }
 function buildRabbit(){
  const g=new THREE.Group();
- const fur=new THREE.MeshStandardMaterial({color:0xf1f2f2,roughness:.95});
- const pink=new THREE.MeshStandardMaterial({color:0xeeced4,roughness:.98});
- const dark=new THREE.MeshStandardMaterial({color:0x4b4c52,roughness:1});
- const body=new THREE.Mesh(new THREE.SphereGeometry(.22,12,12),fur);body.scale.set(1.15,1,.95);body.position.set(0,.36,0);g.add(body);
- const head=new THREE.Mesh(new THREE.SphereGeometry(.16,12,12),fur);head.scale.set(1,.95,.95);head.position.set(.24,.55,.03);g.add(head);
- const chest=new THREE.Mesh(new THREE.SphereGeometry(.11,10,10),fur);chest.position.set(.16,.31,.10);g.add(chest);
- for(const z of [.05,-.06]){const ear=new THREE.Mesh(new THREE.CapsuleGeometry(.035,.34,4,7),fur);ear.position.set(.23,.93,z);ear.rotation.z=-.06;g.add(ear);const inner=new THREE.Mesh(new THREE.CapsuleGeometry(.017,.21,4,6),pink);inner.position.set(.235,.91,z+.004);inner.rotation.z=-.06;g.add(inner);} 
- for(const [x,z] of [[-.09,.09],[-.09,-.08],[.07,.09],[.07,-.08]]){const leg=new THREE.Mesh(new THREE.CylinderGeometry(.028,.036,.18,6),dark);leg.position.set(x,.14,z);g.add(leg);} 
- const tail=new THREE.Mesh(new THREE.SphereGeometry(.065,9,9),fur);tail.position.set(-.22,.45,-.02);g.add(tail);
- g.scale.setScalar(1.75);return g;
+ wildlifePart(g,animalGeo.ball,rabbitFur,0,.36,0,.31,.255,.26);
+ wildlifePart(g,animalGeo.ball,rabbitFur,.24,.56,.03,.20,.19,.19);
+ // Angled, tapered oval ears instead of two straight pause-symbol sticks.
+ const ears=[];
+ for(const [z,tilt] of [[-.115,-.32],[.145,.25]]){
+  const ear=new THREE.Group();ear.position.set(.22,.71,z);ear.rotation.z=tilt;
+  wildlifePart(ear,animalGeo.ball,rabbitFur,0,.23,0,.079,.255,.052);
+  wildlifePart(ear,animalGeo.ball,rabbitPink,0,.24,.044,.041,.177,.020);
+  g.add(ear);ears.push(ear);
+ }
+ for(const z of [-.126,.126])wildlifePart(g,animalGeo.ball,animalDark,.386,.585,z,.025,.027,.021);
+ wildlifePart(g,animalGeo.ball,rabbitPink,.430,.495,.032,.034,.027,.03);
+ const legs=[];
+ for(const x of [-.14,.15])for(const z of [-.17,.17]){
+  const foot=new THREE.Group();foot.position.set(x,.19,z);
+  wildlifePart(foot,animalGeo.ball,rabbitFur,.01,-.09,.035,.125,.075,.14);
+  g.add(foot);legs.push(foot);
+ }
+ wildlifePart(g,animalGeo.ball,rabbitFur,-.31,.40,-.025,.095,.10,.11);
+ return {g,legs,ears};
 }
 function placeIcelandWildlife(){
- icelandWildlifeGroup.clear();
- const fox=buildFox();fox.position.set(-116,.02,72);fox.rotation.y=.85;icelandWildlifeGroup.add(fox);
- const rabbit=buildRabbit();rabbit.position.set(82,.02,-74);rabbit.rotation.y=-2.2;icelandWildlifeGroup.add(rabbit);
+ icelandWildlifeGroup.clear();wildlifeMembers.length=0;
+ const families=[
+  {kind:'fox',origin:[-116,72],points:[[-116,72],[-125,78],[-110,85],[-133,65]],scale:[1.8,1.4,1.45,1.2]},
+  {kind:'rabbit',origin:[82,-74],points:[[82,-74],[91,-80],[76,-88],[98,-68]],scale:[1.95,1.55,1.4,1.5]}
+ ];
+ let id=0;
+ for(const family of families){
+  for(let j=0;j<family.points.length;j++){
+   const [x,z]=family.points[j],parts=family.kind==='fox'?buildFox():buildRabbit();
+   parts.g.scale.setScalar(family.scale[j]);parts.g.position.set(x,.82,z);
+   const yaw=(id*.89+.4)%(Math.PI*2);parts.g.rotation.y=yaw;
+   icelandWildlifeGroup.add(parts.g);
+   wildlifeMembers.push({id:id++,kind:family.kind,parts,x,z,cx:x,cz:z,homeX:family.origin[0],homeZ:family.origin[1],yaw,targetYaw:yaw,
+    phase:j*.83,wait:j*.5,stepTime:0,lastHeight:.8,walk:false,scale:family.scale[j]});
+  }
+ }
 }
 placeIcelandWildlife();
+let wildlifeHeightRefresh=0;
+function animateIcelandWildlife(dt,t){
+ if(current!==0)return;
+ const randStep=.43;
+ wildlifeHeightRefresh+=dt;
+ const checkHeight=wildlifeHeightRefresh>.5;
+ if(checkHeight)wildlifeHeightRefresh=0;
+ for(const a of wildlifeMembers){
+  const nearPlayer=Math.hypot(a.x-player.position.x,a.z-player.position.z)<120;
+  a.wait-=dt;
+  if(a.wait<=0){
+   a.wait=2.3+((a.id*71+Math.floor(t*1.8))%5)*.58;
+   const targetAngle=(Math.sin(t*.29+a.id*4.63)*2.6+a.id*.76)%(Math.PI*2);
+   a.targetYaw=targetAngle;
+   a.walk=true;
+  }
+  const homeDist=Math.hypot(a.x-a.homeX,a.z-a.homeZ);
+  if(homeDist>19)a.targetYaw=Math.atan2(a.homeX-a.x,a.homeZ-a.z);
+  const turn=Math.atan2(Math.sin(a.targetYaw-a.yaw),Math.cos(a.targetYaw-a.y));
+  a.yaw+=turn*Math.min(1,dt*2.0);
+  a.parts.g.rotation.y=a.yaw;
+  const movement=Math.max(0,Math.min(1,(a.wait-0.15)*1.3));
+  const speed=(a.kind==='rabbit'?1.05:.95)*movement;
+  a.x+=Math.sin(a.yaw)*speed*dt;a.z+=Math.cos(a.yaw)*speed*dt;
+  // Wildlife may step through snowy clearings, but stays out of buildings and open water.
+  const lx=(a.x-iceLakeCenter.x)/93,lz=(a.z-iceLakeCenter.z)/75;
+  const tooCloseToCamp=Math.hypot(a.x,a.z+17)<28;
+  const tooFarFromHome=Math.hypot(a.x-a.homeX,a.z-a.homeZ)>24;
+  if(lx*lx+lz*lz<1||tooCloseToCamp||tooFarFromHome){
+   a.x-=Math.sin(a.yaw)*speed*dt;a.z-=Math.cos(a.yaw)*speed*dt;
+   a.targetYaw+=1.9;
+  }
+  a.parts.g.position.x=a.x;a.parts.g.position.z=a.z;
+  if(checkHeight&&nearPlayer){
+   const height=icelandSnowHeight(a.x,a.z);
+   const plain=plainGroundHeight(a.x,a.z);
+   const mountain=climbableMountainHeight(a.x,a.z);
+   // Fur and feet clear the bumpy imported snow geometry, not the flat y=0 plane.
+   a.lastHeight=Math.max(0,height??0,plain??0,mountain??0)+.12;
+  }
+  const rhythm=t*(a.kind==='rabbit'?6.0:8.1)+a.phase;
+  const bounce=a.kind==='rabbit'?Math.pow(Math.max(0,Math.sin(rhythm)),1.25)*.24:Math.abs(Math.sin(rhythm))*.065;
+  a.parts.g.position.y=a.lastHeight+bounce*movement;
+  for(let i=0;i<a.parts.legs.length;i++)a.parts.legs[i].rotation.z=Math.sin(rhythm+(i<2?0:Math.PI))*(a.kind==='rabbit'?.12:.24)*movement;
+  if(a.parts.ears)for(let i=0;i<a.parts.ears.length;i++)a.parts.ears[i].rotation.x=Math.sin(rhythm*.5+i)*.10;
+  if(a.parts.tail)a.parts.tail.rotation.y=Math.sin(rhythm*.38)*.2;
+ }
+}
 // v125: a small, time-sliced draw-distance budget for dense forests on mobile.
 // Preserves nearby density and never removes trees or changes their coordinates.
 let lastForestCull=0;
@@ -2444,16 +2532,16 @@ uniform float uAvatarIdleTime;
      float sideMask=smoothstep(0.01,0.115,abs(position.x));
      float phaseSide=position.x<0.0?0.0:3.14159265;
      float stepCycle=sin(uAvatarWalkPhase+phaseSide);
-     transformed.z+=stepCycle*0.047*lowerBody*sideMask*uAvatarWalkAmount;
-     transformed.y+=max(0.0,stepCycle)*0.020*lowerBody*sideMask*uAvatarWalkAmount;
+     transformed.z+=stepCycle*0.078*lowerBody*sideMask*uAvatarWalkAmount;
+     transformed.y+=max(0.0,stepCycle)*0.036*lowerBody*sideMask*uAvatarWalkAmount;
      // Tiny arm counter-swing restricted to the outer sleeve volume.
      float outerSleeve=smoothstep(0.215,0.31,abs(position.x));
      float armBand=smoothstep(-0.24,-0.04,position.y)*(1.0-smoothstep(0.11,0.29,position.y));
-     transformed.z-=stepCycle*0.029*outerSleeve*armBand*uAvatarWalkAmount;
+     transformed.z-=stepCycle*0.041*outerSleeve*armBand*uAvatarWalkAmount;
     `);
     replacementAvatarMotion.push(shader.uniforms);
    };
-   mat.customProgramCacheKey=()=> 'aurora-avatar-v122-painted-colour-walk-2';
+   mat.customProgramCacheKey=()=> 'aurora-avatar-v126-gait-3';
    mat.needsUpdate=true;
    return mat;
   });
@@ -2818,11 +2906,12 @@ viewCanvas.addEventListener('pointermove',e=>{
  activeViewTouches.set(e.pointerId,{x:e.clientX,y:e.clientY});
  if(activeViewTouches.size>=2){
   const gap=pointerGap();
-  if(pinchDistance>0&&gap>0){orbitRadius=THREE.MathUtils.clamp(orbitRadius*pinchDistance/gap,5,25)}
+  if(pinchDistance>0&&gap>0){if(aerialOverview)overviewRange=THREE.MathUtils.clamp(overviewRange*pinchDistance/gap,110,660);else orbitRadius=THREE.MathUtils.clamp(orbitRadius*pinchDistance/gap,5,75)}
   pinchDistance=gap;
  }else if(orbitPointer===e.pointerId){
   const mx=THREE.MathUtils.clamp(e.clientX-orbitX,-70,70),my=THREE.MathUtils.clamp(e.clientY-orbitY,-70,70);orbitX=e.clientX;orbitY=e.clientY;
-  orbitYaw-=mx*.008*cameraSensitivity;
+  if(aerialOverview){cameraOverviewOffset.x-=mx*.31*(overviewRange/260);cameraOverviewOffset.y-=my*.31*(overviewRange/260);}
+  else orbitYaw-=mx*.008*cameraSensitivity;
   orbitPitch=THREE.MathUtils.clamp(orbitPitch+my*.0048*cameraSensitivity,-1.05,.80);
  }
  e.preventDefault();
@@ -2833,7 +2922,7 @@ for(const ev of ['pointerup','pointercancel','lostpointercapture'])viewCanvas.ad
  else if(activeViewTouches.size===0){orbitPointer=null;pinchDistance=0}
  else {orbitPointer=null;pinchDistance=pointerGap()}
 });
-viewCanvas.addEventListener('wheel',e=>{if(e.ctrlKey)return;orbitRadius=THREE.MathUtils.clamp(orbitRadius+Math.sign(e.deltaY)*1.3,5,25);e.preventDefault()},{passive:false});
+viewCanvas.addEventListener('wheel',e=>{if(e.ctrlKey)return;if(aerialOverview)overviewRange=THREE.MathUtils.clamp(overviewRange+Math.sign(e.deltaY)*20,110,660);else orbitRadius=THREE.MathUtils.clamp(orbitRadius+Math.sign(e.deltaY)*2.4,5,75);e.preventDefault()},{passive:false});
 addEventListener('blur',resetJoystick);document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoystick();orbitPointer=null;activeViewTouches.clear();pinchDistance=0}});
 // Prevent iPhone double-tap zoom and browser gesture interference on directional pad.
 document.querySelector('.pad').addEventListener('contextmenu',e=>e.preventDefault());
@@ -2843,7 +2932,7 @@ document.getElementById('photoMode').onclick=()=>{
  document.body.classList.toggle('photo-mode',photoMode);
  document.querySelectorAll('#ui .top button:not(#photo):not(#photoMode),#ui .pad,#ui .actions,#ui .status,#ui .region,#ui header,#joystick,#viewHint').forEach(el=>{if(photoMode){el.dataset.beforePhotoDisplay=el.style.display;el.style.display='none'}else{el.style.display=el.dataset.beforePhotoDisplay||''}});
  notice(photoMode?'촬영 모드: 사진 버튼을 누르세요.':'일반 모드로 돌아왔어요.');
-};document.getElementById('resetView').onclick=()=>{orbitYaw=0;orbitPitch=0;orbitRadius=9.5;notice('🎯 시점을 초기화했어요')};document.getElementById('zoomIn').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius-2,5,25);document.getElementById('zoomOut').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius+2,5,25);document.getElementById('look').onclick=()=>{orbitPitch=-.88;looking=true;notice('하늘 보기 · 화면을 밀면 다시 둘러볼 수 있어요')};function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}const greetingPhrases=['야 안녕 ㅋㅋ','오로라 떴다!!','같이 보러 갈래?','사진 한 장 찍자 ㅎㅎ','온천 가자~'];
+};document.getElementById('resetView').onclick=()=>{orbitYaw=0;orbitPitch=0;orbitRadius=9.5;notice('🎯 시점을 초기화했어요')};document.getElementById('zoomIn').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius-2,5,75);document.getElementById('zoomOut').onclick=()=>orbitRadius=THREE.MathUtils.clamp(orbitRadius+2,5,75);document.getElementById('look').onclick=()=>{orbitPitch=-.88;looking=true;notice('하늘 보기 · 화면을 밀면 다시 둘러볼 수 있어요')};function notice(t){let el=document.getElementById('message');el.textContent=t;el.style.display='block';setTimeout(()=>el.style.display='none',2300)}const greetingPhrases=['야 안녕 ㅋㅋ','오로라 떴다!!','같이 보러 갈래?','사진 한 장 찍자 ㅎㅎ','온천 가자~'];
 document.getElementById('wave').onclick=()=>modal('👋 인사말 고르기',
  '<p style="font-size:12px;opacity:.85">동시접속 중이면 같은 지역 여행자에게 전송돼요.</p>'+greetingPhrases.map((msg,i)=>'<button type="button" data-greeting="'+i+'" style="display:block;width:100%;margin:6px 0;text-align:left">'+msg+'</button>').join(''));
 document.getElementById('content').addEventListener('click',e=>{
@@ -3404,12 +3493,39 @@ function animateColdBreath(t,speed){
  }
 }
 const dogTarget=new THREE.Vector3();
+// Aerial overview in the existing 3D scene, accessible only in the More menu.
+// Big regions use recycled snow tiles; the highest overview is a wide survey,
+// while the dedicated 2D map remains available for exact full-world navigation.
+let aerialOverview=false,overviewRange=260;
+const cameraOverviewOffset=new THREE.Vector2();
+let overviewPrevFog=null;
+const overviewButton=document.getElementById('overviewMode');
+function exitAerialOverview(){
+ if(!aerialOverview)return;
+ aerialOverview=false;overviewButton.textContent='🗺️ 전체 조감도';cameraReady=false;
+ if(overviewPrevFog!==null&&scene.fog)scene.fog.density=overviewPrevFog;
+ overviewPrevFog=null;
+}
+overviewButton.onclick=()=>{
+ aerialOverview=!aerialOverview;
+ if(aerialOverview){
+  setAutoWalking(false);velocity.set(0,0);resetJoystick();
+  overviewRange=260;cameraOverviewOffset.set(0,0);overviewPrevFog=scene.fog?.density??null;
+  if(scene.fog)scene.fog.density=Math.min(scene.fog.density,.00042);
+  overviewButton.textContent='↩️ 일반 시점으로';
+  notice('🗺️ 하늘 위에서 주변 지형을 살펴보세요! 손가락으로 돌리고 핀치로 높이를 조절할 수 있어요.');
+ }else{
+  exitAerialOverview();notice('캐릭터 시점으로 돌아왔어요');
+ }
+ cameraReady=false;
+};
 const cameraCenter=new THREE.Vector3();
 const cameraDesired=new THREE.Vector3();
 let cameraReady=false;
 let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden||webglPaused){last=now;return;}let dt=Math.min((now-last)/1000,.07);last=now;time+=dt;updateLiveCompass(now);updateForestDrawDistance(now);frameCount++;frameElapsed+=dt;if(frameElapsed>=2){fpsEstimate=Math.round(frameCount/frameElapsed);frameCount=0;frameElapsed=0;}let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a))+joy.x;
  let dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w))+joy.y;
  if(autoWalking){dx=0;dz=-1;}
+ if(aerialOverview){dx=0;dz=0;}
  const len=Math.hypot(dx,dz);if(len>1){dx/=len;dz/=len}
  const moving=len>.05;
  // Camera-relative movement: forward is where the camera is facing on the ground plane.
@@ -3429,6 +3545,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const speed=velocity.length();
  animateColdBreath(time,speed);
  animateSnowSteps(dt,speed);
+ animateIcelandWildlife(dt,time);
  // Photo zone discovery disabled by user preference.
  if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
  walkingPhase+=speed*dt*.60;
@@ -3458,7 +3575,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
    uniforms.uAvatarWalkPhase.value=phase;
    uniforms.uAvatarIdleTime.value=time;
   }
-  replacementAvatarRoot.position.y=(Math.abs(Math.sin(phase))*.022*amount)+Math.sin(time*1.7)*.003*(1-amount);
+  replacementAvatarRoot.position.y=(Math.abs(Math.sin(phase))*.030*amount)+Math.sin(time*1.7)*.003*(1-amount);
   replacementAvatarRoot.rotation.z=Math.sin(phase)*.008*amount;
   replacementAvatarRoot.rotation.x=Math.sin(phase)*.005*amount;
  }
@@ -3498,14 +3615,18 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const hillsideBehind=(current===0||current===2)?climbableMountainHeight(cameraX,cameraZ):null;
  const cameraHeight=Math.max(player.position.y+THREE.MathUtils.clamp(3.5+orbitRadius*.055,3.6,5.0),
   (hillsideBehind===null?0:hillsideBehind)+3.8);
- cameraDesired.set(cameraX,cameraHeight,cameraZ);
- if(!cameraReady){camera.position.copy(cameraDesired);cameraReady=true;}
- else camera.position.lerp(cameraDesired,1-Math.exp(-(speed>.2?7.5:9.0)*dt));
- // Aim along the line from the camera toward the player, then tilt that
- // direction. Negative pitch points toward the sky (screen swipe upward).
- const aimY=cameraCenter.y-pitch*orbitRadius*1.9;
- camera.lookAt(cameraCenter.x,cameraCenter.y-pitch*orbitRadius*1.9,cameraCenter.z);
-
+ if(aerialOverview){
+  const high=Math.max(125,overviewRange);
+  cameraDesired.set(cameraCenter.x+cameraOverviewOffset.x+high*.025*Math.sin(orbitYaw),cameraCenter.y+high,cameraCenter.z+cameraOverviewOffset.y+high*.025*Math.cos(orbitYaw));
+  if(!cameraReady){camera.position.copy(cameraDesired);cameraReady=true;}
+  else camera.position.lerp(cameraDesired,1-Math.exp(-4.8*dt));
+  camera.lookAt(cameraCenter.x+cameraOverviewOffset.x,cameraCenter.y,cameraCenter.z+cameraOverviewOffset.y);
+ }else{
+  cameraDesired.set(cameraX,cameraHeight,cameraZ);
+  if(!cameraReady){camera.position.copy(cameraDesired);cameraReady=true;}
+  else camera.position.lerp(cameraDesired,1-Math.exp(-(speed>.2?7.5:9.0)*dt));
+  camera.lookAt(cameraCenter.x,cameraCenter.y-pitch*orbitRadius*1.9,cameraCenter.z);
+ }
 renderer.render(scene,camera)}build(current);spawnPlayerAtBasecamp(current);requestAnimationFrame(frame);function resizeGameViewport(){
  const width=Math.max(1,document.documentElement.clientWidth),height=Math.max(1,window.innerHeight);
  camera.aspect=width/height;camera.updateProjectionMatrix();renderer.setSize(width,height,false);
