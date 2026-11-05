@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v134</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v141</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -2037,6 +2037,30 @@ function canadaPrepareAsset(spec,gltf){
   remove.forEach(o=>o.parent?.remove(o));
   spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(filtered,x,z,spec.height,yaw,scale));return;
  }
+ if(spec.file==='cafe_nikki.glb'){
+  // v141: preserve original texture/base colors against the dark nighttime scene.
+  // Use material-cloned emissive self-lighting without repainting any texture.
+  const cafe=gltf.scene.clone(true);
+  cafe.traverse(o=>{
+   if(!o.isMesh)return;
+   const lift=m=>{
+    if(!m)return m;
+    const c=m.clone();
+    if(c.isMeshStandardMaterial||c.isMeshPhysicalMaterial){
+     c.emissive.set(0xffffff);
+     c.emissiveMap=c.map||null;
+     c.emissiveIntensity=.52;
+     c.roughness=Math.max(.45,c.roughness||.8);
+    }
+    return c;
+   };
+   o.material=Array.isArray(o.material)?o.material.map(lift):lift(o.material);
+  });
+  spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(cafe,x,z,spec.height,yaw,scale));
+  const cafeLamp=new THREE.PointLight(0xffebcf,22,34,2);
+  cafeLamp.position.set(-42,8,2);canadaVillage.add(cafeLamp);
+  return;
+ }
  if(spec.file==='cartoon_wood_fence.glb'){
   const filtered=gltf.scene.clone(true);
   spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(filtered,x,z,spec.height,yaw,scale));
@@ -3034,6 +3058,7 @@ const fixedAuroraFragment=`
  uniform float uTime;
  uniform float uOpacity;
  uniform float uPhase;
+ uniform float uCanada;
  varying vec2 vUv;
  float h(float n){return fract(sin(n*127.1+17.11)*43758.5453);}
  float noise1(float x){float a=floor(x),f=fract(x);f=f*f*(3.-2.*f);return mix(h(a),h(a+1.),f);}
@@ -3062,6 +3087,18 @@ const fixedAuroraFragment=`
   // Purple/cyan streaks drift sideways within the same curtains.
   float chroma=.5+.5*sin(x*16.+t*.26+sin(x*5.)*1.4);
   col=mix(col,mix(cyan,violet,chroma),.16);
+  // Canada concept 2: three layered red/coral + yellow-green curtains.
+  // Preserve the same opacity, edge falloff and striation strength as Iceland.
+  if(uCanada>.5){
+   vec3 lime=vec3(.68,.97,.22);
+   vec3 vividLime=vec3(.50,.92,.17);
+   vec3 crimson=vec3(.96,.18,.32);
+   vec3 coral=vec3(.98,.35,.32);
+   float archWave=sin(x*12.0+t*.25+y*1.8)*.09;
+   float redMix=smoothstep(.26,.80,y+archWave);
+   col=mix(mix(lime,vividLime,.45+.35*sin(x*13.+t*.12)),mix(crimson,coral,.4+.25*sin(x*8.)),redMix);
+   col=mix(col,vec3(.97,.70,.27),.075*power);
+  }
   float alpha=clamp(uOpacity*power,0.,.90);
   gl_FragColor=vec4(col,alpha);
  }`;
@@ -3097,7 +3134,7 @@ function createAuroraRibbon(i){
  geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
  geo.setIndex(idx);geo.computeVertexNormals();
  const mat=new THREE.ShaderMaterial({
-  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:i*1.19}},
+  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:i*1.19},uCanada:{value:0}},
   vertexShader:fixedAuroraVertex,fragmentShader:fixedAuroraFragment,
   transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,
   blending:THREE.NormalBlending,fog:false,toneMapped:false
@@ -3109,6 +3146,42 @@ function createAuroraRibbon(i){
 }
 for(let i=0;i<10;i++)createAuroraRibbon(i);
 fixedAurora.scale.set(1,1,1);
+// v141 CANADA concept 2: layered, soaring arches instead of Iceland's 360-degree wall.
+// The shader, per-sheet opacity and edge fade are exactly the same as Iceland.
+const canadaAuroraArches=new THREE.Group();scene.add(canadaAuroraArches);
+const canadaAuroraMaterials=[];
+function createCanadaAuroraArch(layer){
+ const cols=96,rows=18,positions=[],uvs=[],indices=[];
+ const span=400,baseHeight=[103,124,145][layer],rise=[101,88,74][layer];
+ for(let j=0;j<=rows;j++)for(let k=0;k<=cols;k++){
+  const u=k/cols,v=j/rows;
+  const sweep=(u-.5)*2;
+  const arch=Math.max(0,1-sweep*sweep);
+  // Looking toward town centre, each arch creates a visible nested crown.
+  const x=(u-.5)*span;
+  const z=-112-layer*18+17*Math.sin(u*Math.PI*2+layer*.8)+v*(8+layer*2);
+  const y=baseHeight+rise*arch+(v-.5)*(48+layer*8)+8*Math.sin(u*10+layer*.9)*v;
+  positions.push(x,y,z);uvs.push(u,v);
+ }
+ for(let j=0;j<rows;j++)for(let k=0;k<cols;k++){
+  const a=j*(cols+1)+k,b=a+cols+1;
+  indices.push(a,a+1,b,a+1,b+1,b);
+ }
+ const geo=new THREE.BufferGeometry();
+ geo.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+ geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
+ geo.setIndex(indices);geo.computeVertexNormals();
+ const mat=new THREE.ShaderMaterial({
+  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:layer*1.47},uCanada:{value:1}},
+  vertexShader:fixedAuroraVertex,fragmentShader:fixedAuroraFragment,
+  transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,
+  blending:THREE.NormalBlending,fog:false,toneMapped:false
+ });
+ const mesh=new THREE.Mesh(geo,mat);mesh.frustumCulled=false;mesh.renderOrder=12+layer;
+ canadaAuroraArches.add(mesh);canadaAuroraMaterials.push(mat);
+}
+for(let layer=0;layer<3;layer++)createCanadaAuroraArch(layer);
+
 // Kept as empty compatibility handles: this release does not create old aurora planes.
 const aurora=[];
 const auroraSky=new THREE.Group();
@@ -3427,7 +3500,7 @@ function observationPoint(i,slot){const r=random(slot*619+i*197+53);const a=r()*
 const auroraPalettes=[
  [{name:'초록·청록·보라 커튼',colors:[0x4affad,0x64e3eb,0xb074ff,0x5ceac6,0x9778f2]},{name:'보랏빛 물결·민트',colors:[0xa17bfa,0x58dbcb,0x70e5a1,0x85baff,0xc18cff]}],
  [{name:'보라·분홍',colors:[0x9e7dff,0xf09afc,0xc79aff,0xf4b3e7,0x9ca5ff]},{name:'라벤더·푸른빛',colors:[0xb5a0ff,0x81adff,0xd5a5ff,0x87d9ff,0xe5b4f7]}],
- [{name:'청록·초록·보라 파도',colors:[0x45e3cb,0x7fedaa,0xa581f7,0x72ddef,0xb173ee]},{name:'에메랄드·보라 리본',colors:[0x62eaa1,0x64d9ee,0xb681ed,0x48d9b5,0x9c7cfa]}],
+ [{name:'붉은빛·연두빛 3겹 아치',colors:[0xff3955,0xb3f539,0xff6c60,0x91ed2b,0xeb3854]}],
  [{name:'장밋빛·황금빛',colors:[0xffa2bf,0xffd68c,0xfca7e8,0xffb6a0,0xffe2a5]},{name:'자주·코랄',colors:[0xe58aff,0xff9a9d,0xffb7dc,0xe6a7ff,0xffc0a0]}]
 ];
 function auroraPalette(region,slot){const options=auroraPalettes[region];return options[Math.floor(random(slot*131+region*997+11)()*options.length)]}
@@ -3488,11 +3561,18 @@ function updateAuroraVisibility(t){
  // The direction may change as you walk, but the curtain WORLD position never does.
  fixedAurora.position.set(current===0?0:point.x,0,current===0?-40:point.z);
  fixedAurora.rotation.y=0; // 360-degree ring remains aligned to the world
- fixedAurora.visible=(current===0||current===2)&&activeSky;
+ fixedAurora.visible=current===0&&activeSky;
+ canadaAuroraArches.visible=current===2&&activeSky;
  for(let i=0;i<fixedAuroraMaterials.length;i++){
   const u=fixedAuroraMaterials[i].uniforms;
   u.uTime.value=t+i*.85;
   u.uOpacity.value=fixedAurora.visible?[.285,.272,.249,.261,.277,.240,.270,.253,.280,.255][i]*pulse:0; // 360-degree translucent aurora ring
+ }
+ for(let i=0;i<canadaAuroraMaterials.length;i++){
+  const u=canadaAuroraMaterials[i].uniforms;
+  u.uTime.value=t+i*.85;
+  // Same level as the Iceland sheets; simply a different shape and color.
+  u.uOpacity.value=canadaAuroraArches.visible?[.285,.272,.249][i]*pulse:0;
  }
  auroraSkyDome.position.copy(camera.position);
  auroraSkyDome.rotation.y=facing;
