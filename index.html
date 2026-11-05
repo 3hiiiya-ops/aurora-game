@@ -839,6 +839,30 @@ const reconstructedSkySphere = new THREE.Mesh(
 reconstructedSkySphere.frustumCulled=false;
 reconstructedSkySphere.renderOrder=-100;
 scene.add(reconstructedSkySphere);
+// v142 Canada night: thousands of independently sized stars, not a flat sky-image overlay.
+// The stars use three GPU-friendly point batches and a soft radial sprite.
+const canadaStarSky=new THREE.Group();scene.add(canadaStarSky);
+const canadaStarRng=random(1421106);
+const canadaStarSizes=[1.10,2.25,3.65];
+const canadaStarCounts=[1650,530,125];
+for(let bin=0;bin<3;bin++){
+ const coords=new Float32Array(canadaStarCounts[bin]*3);
+ for(let k=0;k<canadaStarCounts[bin];k++){
+  const az=canadaStarRng()*Math.PI*2;
+  const elev=.09+canadaStarRng()*(Math.PI/2-.12);
+  const r=420+canadaStarRng()*70;
+  coords[k*3]=r*Math.cos(elev)*Math.sin(az);
+  coords[k*3+1]=r*Math.sin(elev);
+  coords[k*3+2]=r*Math.cos(elev)*Math.cos(az);
+ }
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(coords,3));
+ const mat=new THREE.PointsMaterial({color:bin===0?0xe8f3ff:bin===1?0xfff8ed:0xd8e8ff,
+  size:canadaStarSizes[bin],sizeAttenuation:false,map:snowDotTexture,
+  transparent:true,opacity:[.78,.91,.98][bin],depthWrite:false,alphaTest:.025,fog:false,toneMapped:false});
+ const pts=new THREE.Points(geo,mat);pts.frustumCulled=false;pts.renderOrder=-20;
+ canadaStarSky.add(pts);
+}
+canadaStarSky.visible=false;
 // Disable the old large WebGL point stars; stars are baked in the photographic texture.
 stars.visible=false;
 let realNightSky=reconstructedSkyTexture;
@@ -850,6 +874,7 @@ document.body.appendChild(nightSkyIndicator);
 function setRegionAtmosphere(region){
  const a=regionAtmospheres[region];
  reconstructedSkySphere.visible=region!==2;
+ canadaStarSky.visible=region===2;
  scene.background=new THREE.Color(region===2?0x000000:(region===0?0x030913:a.sky));
  scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0012:.0055;
  snowfallMaterial.opacity=region===2?0:a.snow;
@@ -2133,7 +2158,7 @@ function build(i){
   snowfall.visible=true;
   placeImportedMountainRing(2); // clears the obsolete Canada mountain meshes
   buildCanadaVillage();
-  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v140';
+  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v142';
   return;
  }
  snowfall.visible=true;
@@ -3146,21 +3171,27 @@ function createAuroraRibbon(i){
 }
 for(let i=0;i<10;i++)createAuroraRibbon(i);
 fixedAurora.scale.set(1,1,1);
-// v141 CANADA concept 2: layered, soaring arches instead of Iceland's 360-degree wall.
-// The shader, per-sheet opacity and edge fade are exactly the same as Iceland.
+// v142 CANADA concept 2: SEVEN separately folded, nested, semi-transparent aurora crowns.
+// Iceland's 360-degree curtain is untouched. Each crown contains many vertical folds.
 const canadaAuroraArches=new THREE.Group();scene.add(canadaAuroraArches);
 const canadaAuroraMaterials=[];
 function createCanadaAuroraArch(layer){
- const cols=96,rows=18,positions=[],uvs=[],indices=[];
- const span=400,baseHeight=[103,124,145][layer],rise=[101,88,74][layer];
+ const cols=144,rows=26,positions=[],uvs=[],indices=[];
+ const widths=[430,398,368,339,310,283,258];
+ const baseHeight=[90,99,107,117,125,135,144][layer];
+ const rises=[108,111,113,111,106,98,90][layer];
+ const depths=[-175,-161,-150,-142,-135,-128,-122][layer];
+ const width=widths[layer];
  for(let j=0;j<=rows;j++)for(let k=0;k<=cols;k++){
   const u=k/cols,v=j/rows;
-  const sweep=(u-.5)*2;
-  const arch=Math.max(0,1-sweep*sweep);
-  // Looking toward town centre, each arch creates a visible nested crown.
-  const x=(u-.5)*span;
-  const z=-112-layer*18+17*Math.sin(u*Math.PI*2+layer*.8)+v*(8+layer*2);
-  const y=baseHeight+rise*arch+(v-.5)*(48+layer*8)+8*Math.sin(u*10+layer*.9)*v;
+  const sweep=2*u-1;
+  // Smooth, naturally imperfect double-wing crown rather than one straight strip.
+  const crown=Math.pow(Math.max(0,1-sweep*sweep),.70);
+  const ripples=7*Math.sin(u*11.8+layer*.72)+3*Math.sin(u*26.0-layer*.64);
+  const x=(u-.5)*width+12*Math.sin(u*Math.PI*2+layer*.46)*v;
+  const z=depths+13*Math.sin(u*Math.PI*2+layer*.58)+v*(5+layer*.70);
+  const y=baseHeight+rises*crown+ripples+(v-.5)*(54+layer*3.5)
+   +5*Math.sin(u*18.0+layer*.88)*v;
   positions.push(x,y,z);uvs.push(u,v);
  }
  for(let j=0;j<rows;j++)for(let k=0;k<cols;k++){
@@ -3172,7 +3203,7 @@ function createCanadaAuroraArch(layer){
  geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
  geo.setIndex(indices);geo.computeVertexNormals();
  const mat=new THREE.ShaderMaterial({
-  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:layer*1.47},uCanada:{value:1}},
+  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:layer*.91},uCanada:{value:1}},
   vertexShader:fixedAuroraVertex,fragmentShader:fixedAuroraFragment,
   transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,
   blending:THREE.NormalBlending,fog:false,toneMapped:false
@@ -3180,7 +3211,7 @@ function createCanadaAuroraArch(layer){
  const mesh=new THREE.Mesh(geo,mat);mesh.frustumCulled=false;mesh.renderOrder=12+layer;
  canadaAuroraArches.add(mesh);canadaAuroraMaterials.push(mat);
 }
-for(let layer=0;layer<3;layer++)createCanadaAuroraArch(layer);
+for(let layer=0;layer<7;layer++)createCanadaAuroraArch(layer);
 
 // Kept as empty compatibility handles: this release does not create old aurora planes.
 const aurora=[];
@@ -3571,9 +3602,10 @@ function updateAuroraVisibility(t){
  for(let i=0;i<canadaAuroraMaterials.length;i++){
   const u=canadaAuroraMaterials[i].uniforms;
   u.uTime.value=t+i*.85;
-  // Same level as the Iceland sheets; simply a different shape and color.
-  u.uOpacity.value=canadaAuroraArches.visible?[.285,.272,.249][i]*pulse:0;
+  // Slightly more translucent than v141; seven overlapping rows give depth without a solid neon wall.
+  u.uOpacity.value=canadaAuroraArches.visible?[.226,.216,.208,.202,.195,.188,.181][i]*pulse:0;
  }
+ canadaStarSky.position.copy(camera.position);
  auroraSkyDome.position.copy(camera.position);
  auroraSkyDome.rotation.y=facing;
  
