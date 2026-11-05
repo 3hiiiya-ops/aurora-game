@@ -153,7 +153,7 @@ snowyBasecampLoader.load('./snowy_north_american_chalet_cabin__low_poly.glb',glt
  console.info("aurura v99: snowy North American chalet loaded");
  // The scene is built before asynchronous assets finish loading.
  // Insert the REAL hut when ready, never a different placeholder hut.
- if(typeof current!=='undefined' && (current===0||current===2)) placeSnowyBasecampModel(current);
+ if(typeof current!=='undefined' && current===0) placeSnowyBasecampModel(current);
 },undefined,err=>{
  console.error('aurura v99: snowy chalet could not be loaded',err);
  const el=document.getElementById('message');
@@ -230,7 +230,7 @@ function placeImportedMountainRing(region){
  importedGreatMountainGroup.clear();
  climbingMountainMeshes.length=0;
  climbingMountainBounds.length=0;
- if(!snowMountainAsset||!(region===0||region===2)){
+ if(!snowMountainAsset||region!==0){
   importedGreatMountainGroup.visible=false;
   return;
  }
@@ -601,6 +601,8 @@ for(let n=0;n<snowPos.count;n++){
  snowPos.setZ(n,h);
 }
 snowGeo.computeVertexNormals();ground.geometry.dispose();ground.geometry=snowGeo;
+const originalIcelandGroundGeometry=ground.geometry;
+const flatCanadaGroundGeometry=new THREE.PlaneGeometry(900,900);
 const baseGroundRay=new THREE.Raycaster();
 function plainGroundHeight(x,z){
  baseGroundRay.set(new THREE.Vector3(x,120,z),new THREE.Vector3(0,-1,0));
@@ -847,10 +849,10 @@ nightSkyIndicator.textContent='🌌 보랏빛 스케치 하늘 적용됨';
 document.body.appendChild(nightSkyIndicator);
 function setRegionAtmosphere(region){
  const a=regionAtmospheres[region];
- reconstructedSkySphere.visible=true;
- scene.background=new THREE.Color(region===0?0x030913:a.sky);
+ reconstructedSkySphere.visible=region!==2;
+ scene.background=new THREE.Color(region===2?0x263c50:(region===0?0x030913:a.sky));
  scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0012:.0055;
- snowfallMaterial.opacity=a.snow;
+ snowfallMaterial.opacity=region===2?0:a.snow;
 }
 function animateAtmosphere(t,dt){
  // A small particle cloud follows the player instead of filling the entire map.
@@ -921,7 +923,7 @@ function disposeRegion(){
 const baseCampSpawnPoints=[
  {cabin:{x:0,z:-17,rot:0,scale:1.65},spawn:{x:0,z:-3,rot:Math.PI,camYaw:0}},
  null,
- {cabin:{x:0,z:-17,rot:0,scale:1.65},spawn:{x:0,z:-3,rot:Math.PI,camYaw:0}},
+ {cabin:{x:0,z:-17,rot:0,scale:1.65},spawn:{x:0,z:105,rot:Math.PI,camYaw:0}},
  null
 ];
 let activeSnowyBasecamp=null;
@@ -1787,7 +1789,7 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  }
  importedSnowForest.visible=current===0;
  populateBasecampForest(current);
- basecampForestGroup.visible=(current===0||current===2);
+ basecampForestGroup.visible=current===0;
  clearTreesFromMountains();
  if(current===0)clearTreesForObservationArea();
  console.info('Real snow-covered pine GLB loaded:',placements.length,'trees');
@@ -1849,11 +1851,168 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 },undefined,err=>console.warn('Snow-field GLB could not be loaded; procedural terrain remains.',err));
 
 
+
+// v136 Canada village: entire previous Canada content replaced. Iceland objects unchanged.
+// All supplied 3D props are normalized from their real bounding boxes, then grounded at Y=0.
+const canadaVillage=new THREE.Group();scene.add(canadaVillage);
+const canadaAssets=new Map(),canadaRequested=new Set();
+const canadaLoader=new GLTFLoader();
+const canadaMaterials={
+ path:new THREE.MeshStandardMaterial({color:0xa8a8a5,roughness:1}),
+ plaza:new THREE.MeshStandardMaterial({color:0xaeb6bb,roughness:.9}),
+ lake:new THREE.MeshStandardMaterial({color:0x4d8f9f,roughness:.24,metalness:.12,transparent:true,opacity:.93}),
+ wood:new THREE.MeshStandardMaterial({color:0x755b46,roughness:.88}),
+ gold:new THREE.MeshBasicMaterial({color:0xffdfa4}),
+ tree:new THREE.MeshStandardMaterial({color:0x235944,roughness:.9}),
+ star:new THREE.MeshBasicMaterial({color:0xffe2a0}),
+ red:new THREE.MeshStandardMaterial({color:0xb94a57,roughness:.6})
+};
+const canadaProps=[
+ {file:'canada_chalet.glb',height:12,positions:[[-54,-50,.12,1.25],[-87,-42,-.12,1.0],[-55,-91,.2,.95],[-91,-84,1.0,.82]]},
+ {file:'glamping_30.glb',height:7.5,positions:[[47,48,-.1,1.0],[76,48,.25,1.0],[47,82,.05,1.0]]},
+ {file:'basic_observatorytelescope.glb',height:3.5,positions:[[98,-113,.0,1.0]]},
+ {file:'wooden_walkway_lowpoly.glb',height:3.3,positions:[[79,-92,Math.PI/2,1.0]]},
+ {file:'cartoon_boardwalk_ramp.glb',height:1.1,positions:[[72,-80,Math.PI/2,1.0]]},
+ {file:'various_low-poly_street_lights.glb',kind:'lamp',height:5.2,positions:[[-14,62,0,1],[-14,26,0,1],[-14,-23,0,1],[14,62,0,1],[14,26,0,1],[14,-23,0,1],[34,41,0,1],[89,-82,0,1]]},
+ {file:'cartoon_wood_fence.glb',height:1.6,positions:[[27,33,0,1],[27,47,0,1],[27,61,0,1],[27,75,0,1],[92,31,0,1],[92,47,0,1],[92,63,0,1],[-29,-117,Math.PI/2,1],[-49,-117,Math.PI/2,1]]},
+ {file:'low_poly_stylized_trees_pack_free.glb',kind:'stylizedTrees',height:8},
+ {file:'canada_pines_selected.glb',kind:'pines',height:10}
+];
+const canadaTreePositions=[
+ [-113,115],[-95,115],[-77,115],[-59,113],[-39,115],[-21,115],[-6,117],
+ [19,123],[40,123],[61,121],[82,118],[104,109],[120,92],[120,70],[120,48],[119,26],
+ [-122,82],[-122,57],[-124,31],[-123,8],[-123,-16],[-123,-44],[-119,-68],
+ [-119,-97],[-114,-121],[-100,-140],[-77,-143],[-52,-146],[-31,-150],[4,-148],
+ [24,-146],[46,-143],[65,-144],[96,-140],[120,-131],
+ [-33,102],[-23,89],[-103,14],[-100,-9],[-108,48],[-25,-115],
+ [20,-113],[6,-126],[37,-127],[119,-15],[121,-40],[118,-64],
+ [8,100],[-31,-73],[106,23],[103,94],[30,-39],[-31,27]
+];
+function canadaAttach(source,x,z,desiredHeight,yaw=0,sizeMultiplier=1,originGround=true){
+ source.updateMatrixWorld(true);
+ const bound=new THREE.Box3().setFromObject(source);
+ if(bound.isEmpty())return;
+ const center=bound.getCenter(new THREE.Vector3()),dim=bound.getSize(new THREE.Vector3());
+ const factor=desiredHeight/Math.max(.001,dim.y)*sizeMultiplier;
+ const root=new THREE.Group();const model=source.clone(true);
+ model.scale.setScalar(factor);
+ model.position.set(-center.x*factor,-bound.min.y*factor,-center.z*factor);
+ root.position.set(x,originGround?.035:.06,z);root.rotation.y=yaw;
+ root.add(model);
+ // Shadows off on densely repeated decorations to avoid iPhone WebGL overhead.
+ root.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=true;}});
+ canadaVillage.add(root);return root;
+}
+function canadaStageGround(){
+ // Flat grey-taupe base floor, no imported snow surface and no Iceland snow textures.
+ const road=new THREE.Mesh(new THREE.PlaneGeometry(20,175),canadaMaterials.path);road.rotation.x=-Math.PI/2;road.position.set(0,.021,15);canadaVillage.add(road);
+ const plaza=new THREE.Mesh(new THREE.CylinderGeometry(24,24,.075,48),canadaMaterials.plaza);plaza.position.set(0,.07,-20);canadaVillage.add(plaza);
+ const lake=new THREE.Mesh(new THREE.CircleGeometry(48,64),canadaMaterials.lake);lake.rotation.x=-Math.PI/2;lake.scale.set(1.2,.85,1);lake.position.set(103,.025,-130);canadaVillage.add(lake);
+ const shore=new THREE.Mesh(new THREE.TorusGeometry(45,1.4,6,64),new THREE.MeshStandardMaterial({color:0xc7c4b5,roughness:1}));shore.rotation.x=Math.PI/2;shore.scale.set(1.2,.86,1);shore.position.set(103,.05,-130);canadaVillage.add(shore);
+ // Keep a clear walkway from basecamp entrance to plaza and lodging areas.
+ for(const [x,z,w,h] of [[-50,-65,65,9],[45,55,63,8],[65,-65,9,85]]){
+  const path=new THREE.Mesh(new THREE.PlaneGeometry(w,h),canadaMaterials.path);path.rotation.x=-Math.PI/2;path.position.set(x,.028,z);canadaVillage.add(path);
+ }
+}
+function canadaChristmasTree(){
+ // Christmas landmark is procedural because the uploaded model(1).glb is a SNOW TILE, not a tree.
+ const g=new THREE.Group();g.position.set(0,.13,-20);canadaVillage.add(g);
+ const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.45,.64,2.8,10),canadaMaterials.wood);trunk.position.y=1.35;g.add(trunk);
+ const heights=[5.2,4.35,3.45,2.6],radii=[6.2,4.9,3.7,2.5];
+ for(let i=0;i<4;i++){
+  const layer=new THREE.Mesh(new THREE.ConeGeometry(radii[i],heights[i],12),canadaMaterials.tree);
+  layer.position.y=2.2+i*2.1+heights[i]/2;g.add(layer);
+ }
+ const star=new THREE.Mesh(new THREE.OctahedronGeometry(.87,0),canadaMaterials.star);star.position.y=14.65;g.add(star);
+ for(let ring=0;ring<7;ring++){
+  const y=3.4+ring*1.44,r=5.8-ring*.54;
+  for(let k=0;k<14;k++){
+   const a=k*2*Math.PI/14+ring*.22;
+   const mat=(k+ring)%3===0?canadaMaterials.gold:(k+ring)%3===1?canadaMaterials.red:canadaMaterials.star;
+   const ornament=new THREE.Mesh(new THREE.SphereGeometry(.19+(k%3)*.035,8,6),mat);
+   ornament.position.set(Math.cos(a)*r,y,Math.sin(a)*r);g.add(ornament);
+  }
+ }
+ // A low surrounding bench ring gives the central plaza a lived-in village atmosphere.
+ for(let i=0;i<8;i++){
+  const a=i*Math.PI*2/8,r=19;
+  const bench=new THREE.Mesh(new THREE.BoxGeometry(3.6,.3,1.2),canadaMaterials.wood);
+  bench.position.set(Math.cos(a)*r,.52,Math.sin(a)*r);bench.rotation.y=-a;g.add(bench);
+ }
+}
+function canadaVillageStatic(){canadaStageGround();canadaChristmasTree();}
+function canadaPrepareAsset(spec,gltf){
+ if(spec.kind==='pines'){
+  // Four LOD2 varieties extracted from the user-supplied 31 MB tree pack.
+  const labels=['Pine_medium_1_LOD2','Pine_large_2_LOD2','Pine_big_3_LOD2','Pine_small_2_LOD2'];
+  const groups=[];
+  for(const label of labels){
+   const g=new THREE.Group();gltf.scene.traverse(o=>{if(o.isMesh&&o.name.startsWith(label))g.add(o.clone(true));});
+   if(g.children.length)groups.push(g);
+  }
+  canadaTreePositions.forEach(([x,z],i)=>{
+   const source=groups[i%groups.length];if(!source)return;
+   canadaAttach(source,x,z,8+(i%5)*1.1,i*2.39,.87+(i%4)*.09);
+  });return;
+ }
+ if(spec.kind==='stylizedTrees'){
+  const labels=['Tree_01','Tree_03','Tree_06','Tree_07','Tree_08','Tree_09'];
+  const groups=[];
+  for(const label of labels){const node=gltf.scene.getObjectByName(label);if(node)groups.push(node);}
+  const spots=[[-23,64],[-26,43],[-24,-41],[-29,-17],[-96,72],[23,88],[28,-57],[23,-90],[102,-45],[108,-98]];
+  spots.forEach(([x,z],i)=>{if(groups.length)canadaAttach(groups[i%groups.length],x,z,6+(i%3)*1.7,i*.8,.92);});return;
+ }
+ if(spec.kind==='lamp'){
+  // Extract one full streetlight rather than placing the whole side-by-side sample pack.
+  let root=gltf.scene.getObjectByName('polySurface109');
+  if(!root){root=gltf.scene.getObjectByName('polySurface102');}
+  if(!root)return;
+  spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(root,x,z,spec.height,yaw,scale));return;
+ }
+ if(spec.file==='glamping_30.glb'){
+  // Original glamping file includes an enormous 20 km ground mesh; exclude that helper.
+  gltf.scene.traverse(o=>{if(o.isMesh&&/^(Ground|Shadow)/i.test(o.name))o.visible=false;});
+  const filtered=gltf.scene.clone(true);
+  const remove=[];filtered.traverse(o=>{if(o.isMesh&&!o.visible)remove.push(o);});
+  remove.forEach(o=>o.parent?.remove(o));
+  spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(filtered,x,z,spec.height,yaw,scale));return;
+ }
+ spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(gltf.scene,x,z,spec.height,yaw,scale));
+}
+function canadaLoadAssets(){
+ for(const spec of canadaProps){
+  if(canadaRequested.has(spec.file))continue;
+  canadaRequested.add(spec.file);
+  canadaLoader.load('./'+spec.file,gltf=>{
+   canadaAssets.set(spec.file,gltf.scene);
+   canadaPrepareAsset(spec,gltf);
+   console.info('Canada village asset:',spec.file);
+  },undefined,error=>console.warn('Canada village missing GLB:',spec.file,error));
+ }
+}
+function buildCanadaVillage(){
+ canadaVillage.visible=true;
+ if(!canadaVillage.userData.built){canadaVillageStatic();canadaVillage.userData.built=true;}
+ canadaLoadAssets();
+}
+
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;basecampForestGroup.visible=(i===0||i===2);importedGreatMountainGroup.visible=(i===0||i===2);observationDeckGroup.visible=i===0;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;icelandTreeVarietyGroup.visible=i===0;icelandPropGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;basecampForestGroup.visible=i===0;importedGreatMountainGroup.visible=i===0;observationDeckGroup.visible=i===0;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;icelandTreeVarietyGroup.visible=i===0;icelandPropGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
- disposeRegion();lastForestCull=0;for(const group of [basecampForestGroup,importedSnowForest,icelandTreeVarietyGroup])for(const tree of group.children)tree.visible=true;const rnd=random(29+i*93);
+ disposeRegion();lastForestCull=0;for(const group of [basecampForestGroup,importedSnowForest,icelandTreeVarietyGroup])for(const tree of group.children)tree.visible=true;
+ canadaVillage.visible=i===2;
+ ground.geometry=(i===2?flatCanadaGroundGeometry:originalIcelandGroundGeometry);
+ if(i===2){
+  ground.material=new THREE.MeshStandardMaterial({color:0xb9c9cd,roughness:1});ground.position.y=0;
+  snowfall.visible=false;
+  placeImportedMountainRing(2); // clears the obsolete Canada mountain meshes
+  buildCanadaVillage();
+  document.getElementById('region').textContent='🏘️ 캐나다 오로라 빌리지';
+  return;
+ }
+ snowfall.visible=true;
+ const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
  const count=[45,80,120,65][i];
  for(let j=0;j<count;j++){
@@ -1970,7 +2129,7 @@ function build(i){
 const landmarkSets=[
  [{name:'현무암 절벽',x:-45,z:-62},{name:'빙하 호수',x:39,z:-30},{name:'폭포',x:-70,z:-103}],
  [{name:'붉은 어촌',x:-31,z:-24},{name:'피오르 전망',x:42,z:-37},{name:'나무 부두',x:-18,z:-38}],
- [{name:'얼음 호수',x:42,z:-30},{name:'겨울 오두막',x:-18,z:-15},{name:'얼어붙은 개울',x:-65,z:-68}],
+ [{name:'크리스마스 광장',x:0,z:-20},{name:'돔 캠핑장',x:60,z:50},{name:'호숫가 관측대',x:98,z:-113}],
  [{name:'빙하 조각',x:44,z:-42},{name:'툰드라 야영지',x:-18,z:-15},{name:'설산 전망',x:0,z:-105}]
 ];
 const visitedLandmarks=new Set();
@@ -3654,7 +3813,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  if(speed>.15){const heading=Math.atan2(velocity.x,velocity.y);player.rotation.y+=Math.atan2(Math.sin(heading-player.rotation.y),Math.cos(heading-player.rotation.y))*(1-Math.exp(-12*dt));}
  walkingPhase+=speed*dt*.60;
  updateIcelandSnowTiles(player.position.x,player.position.z);
- const snowSurface=icelandSnowHeight(player.position.x,player.position.z);
+ const snowSurface=current===0?icelandSnowHeight(player.position.x,player.position.z):null;
  const dxIce=(player.position.x-iceLakeCenter.x)/(iceLakeWidth*.40), dzIce=(player.position.z-iceLakeCenter.z)/(iceLakeDepth*.40);
  const referenceHeight=current===0?referenceWaterHeight(player.position.x,player.position.z):null;
  const onIce=current===0&&iceLakeLoaded&&(dxIce*dxIce+dzIce*dzIce<1);
@@ -3662,7 +3821,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  // A small foot clearance prevents the character from clipping into snow on slopes.
  const baseSnowHeight=Math.max(0,snowSurface===null?0:snowSurface);
  const waterHeight=referenceHeight!==null?referenceHeight:(onIce?iceLakeSurfaceY:0);
- const mountainHeight=(current===0||current===2)?climbableMountainHeight(player.position.x,player.position.z):null;
+ const mountainHeight=current===0?climbableMountainHeight(player.position.x,player.position.z):null;
  const plainHeight=plainGroundHeight(player.position.x,player.position.z);
  const elevatedHeight=current===0?elevatedWalkHeight(player.position.x,player.position.z):null;
  const targetGroundY=Math.max(baseSnowHeight,waterHeight,mountainHeight===null?0:mountainHeight,plainHeight===null?0:plainHeight,elevatedHeight===null?0:elevatedHeight);
@@ -3716,7 +3875,7 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const horizontal=orbitRadius;
  const cameraX=cameraCenter.x+horizontal*Math.sin(orbitYaw);
  const cameraZ=cameraCenter.z+horizontal*Math.cos(orbitYaw);
- const hillsideBehind=(current===0||current===2)?climbableMountainHeight(cameraX,cameraZ):null;
+ const hillsideBehind=current===0?climbableMountainHeight(cameraX,cameraZ):null;
  const cameraHeight=Math.max(player.position.y+THREE.MathUtils.clamp(3.5+orbitRadius*.055,3.6,5.0),
   (hillsideBehind===null?0:hillsideBehind)+3.8);
  if(aerialOverview){
