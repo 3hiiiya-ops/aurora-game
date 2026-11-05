@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v141</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>aurora game · v144</title><link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#101c3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="aurura game"><link rel="apple-touch-icon" href="./icon-180.png"><style>*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#101c3d;color:white;font-family:system-ui}button{border:1px solid #ffffff88;background:#7666a6a8;color:white;border-radius:15px;padding:12px;cursor:pointer}#ui{position:fixed;inset:0;pointer-events:none}#ui>*{pointer-events:auto}header{position:absolute;top:16px;left:18px;text-shadow:0 2px 8px #332b63}header b{font-size:25px}header small{display:block}.top{position:absolute;right:15px;top:16px;display:flex;gap:6px}.status{position:absolute;top:78px;right:15px;padding:12px;border-radius:16px;background:#675d9d99;font-size:12px;max-width:200px}.pad{position:absolute;bottom:20px;left:18px;display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:4px;touch-action:none}.pad button:first-child{grid-column:2}.pad button:nth-child(2){grid-row:2;grid-column:1}.pad button:nth-child(3){grid-row:2;grid-column:2}.pad button:nth-child(4){grid-row:2;grid-column:3}.actions{position:absolute;bottom:20px;right:15px;display:flex;gap:6px}.region{position:absolute;bottom:145px;left:50%;transform:translateX(-50%);background:#675d9d99;padding:9px 15px;border-radius:14px;white-space:nowrap;font-size:12px}#dialog{position:fixed;inset:0;background:#10162cc9;display:none;align-items:center;justify-content:center;z-index:5;padding:20px}#dialog.show{display:flex}#panel{max-width:430px;width:100%;background:#454067;border:1px solid #ffffff88;border-radius:24px;padding:20px}#panel button{margin:4px}#message{position:fixed;top:130px;left:50%;transform:translateX(-50%);padding:12px 16px;background:#4b467dcc;border-radius:18px;display:none;z-index:6;text-align:center;font-size:13px}canvas{display:block;touch-action:none}#dialog.show~#message{pointer-events:none}#joystick{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom));left:18px;width:136px;height:136px;border-radius:50%;border:2px solid #ffffff66;background:#716ba24d;touch-action:none;display:grid;place-items:center;user-select:none;-webkit-user-select:none}#joystick:before{content:"이동";position:absolute;top:10px;font-size:12px;color:#fff9}#stick{width:57px;height:57px;border-radius:50%;background:#c5b4f4b8;border:2px solid #fff9;box-shadow:0 2px 15px #27204366;transform:translate(0px,0px);pointer-events:none}#viewHint{position:absolute;right:16px;bottom:155px;font-size:12px;background:#34335c88;border-radius:12px;padding:7px 10px;pointer-events:none}@media(max-width:700px){.pad{display:none!important}.actions{bottom:calc(20px + env(safe-area-inset-bottom))}#joystick{left:12px;bottom:calc(18px + env(safe-area-inset-bottom))}}#chatPanel{position:fixed;bottom:100px;right:18px;width:min(330px,calc(100vw - 36px));height:310px;display:none;flex-direction:column;z-index:6;background:#302e56dc;border:1px solid #ffffff88;border-radius:20px;padding:12px;backdrop-filter:blur(15px);box-shadow:0 8px 28px #1118}#chatPanel.show{display:flex}#chatLog{flex:1;overflow-y:auto;font-size:13px;line-height:1.5;padding:6px;overflow-wrap:anywhere}#chatLog p{overflow-wrap:anywhere;margin:5px 0;padding:5px 7px;background:#ffffff15;border-radius:8px}#chatForm{display:flex;gap:5px}#chatInput{min-width:0;flex:1;background:#ffffff22;color:white;border:1px solid #ffffff88;border-radius:12px;padding:9px}#chatInput::placeholder{color:#ddd}#chatSend{background:#9381ce;color:white;border:0;border-radius:12px;padding:8px 12px}#chatPanel small{opacity:.8;font-size:11px;margin-bottom:5px} @media(max-width:600px){#chatPanel{bottom:150px}} @media(max-width:700px){
 header{top:max(8px,env(safe-area-inset-top));left:10px}header b{font-size:17px}header small{font-size:10px}
 .top{top:62px;left:8px;right:8px;display:flex;gap:5px;overflow-x:auto;padding:2px 2px 7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .top button{flex:0 0 auto;font-size:12px;padding:9px 10px;white-space:nowrap}
@@ -86,7 +86,7 @@ button{min-height:42px;-webkit-tap-highlight-color:transparent}
 
 /* v57: on narrow screens keep essential exploration controls visible. */
 @media(max-width:700px){
- body:not(.tools-expanded) .top>button:not(#map):not(#compass):not(#photo):not(#teleport):not(#moreTools){display:none}
+ body:not(.tools-expanded) .top>button:not(#map):not(#compass):not(#photo):not(#teleport):not(#teleportCanada):not(#moreTools){display:none}
  .top{mask-image:none!important;overflow-x:auto!important;gap:6px}
  .top>button{flex:0 0 auto;white-space:nowrap}
  body.tools-expanded .top{background:#20284bdc;border:1px solid #ffffff44;border-radius:14px;padding:7px;flex-wrap:wrap;max-height:min(38dvh,270px);overflow-y:auto!important;align-content:start;box-shadow:0 12px 30px #0006}
@@ -128,7 +128,7 @@ body.tools-expanded #region,body.tools-expanded #status{display:none!important}
 @media(max-width:700px){#liveCompass{top:174px;right:9px;padding:6px 8px;font-size:10px;min-width:88px}#liveCompass .compassRose{font-size:24px;line-height:25px}}
 @media(max-height:520px){#liveCompass{top:88px;right:8px}}
 body.tools-expanded #liveCompass{display:none!important}
-</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🚀 순간이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass" type="button">🧭 나침반</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="coordinateTravel" type="button">📍 좌표 이동 테스트</button><button id="overviewMode" type="button">🗺️ 전체 조감도</button><button id="help">⚙️ 안내</button></div><div id="liveCompass" aria-label="나침반"><span id="compassRose" class="compassRose">↑ N</span><span id="compassCoords" class="compassNumbers">X 0 · Z 0</span></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
+</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🇮🇸 아이슬란드 이동</button><button id="teleportCanada" type="button">🇨🇦 캐나다 이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass" type="button">🧭 나침반</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="coordinateTravel" type="button">📍 좌표 이동 테스트</button><button id="overviewMode" type="button">🗺️ 전체 조감도</button><button id="help">⚙️ 안내</button></div><div id="liveCompass" aria-label="나침반"><span id="compassRose" class="compassRose">↑ N</span><span id="compassCoords" class="compassNumbers">X 0 · Z 0</span></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 // v130: restore parallel GLB loading so the lodge, mountain and trees do not
@@ -1622,17 +1622,20 @@ function buildRabbit(){
  wildlifePart(g,animalGeo.ball,rabbitFur,-.31,.40,-.025,.095,.10,.11);
  return {g,legs,ears};
 }
-// v135: Three lively wildlife colonies, each with 4 foxes and 4 rabbits.
-// Their roaming paths can cross the wooden deck and visit the cabin/hot-spring area.
-// They stay on the local snow/deck surface rather than at a fixed world altitude.
+// v144: twenty-four animals across three families, with long exploratory journeys.
+// Shared low-detail models remain the same; pathing stays out of open water.
 const wildlifeColonies=[
- {name:'서쪽 숲 가족',x:-116,z:72,roam:24},
- {name:'동쪽 숲 가족',x:82,z:-74,roam:25},
- {name:'산장·온천 가족',x:17,z:-46,roam:35}
+ {name:'서쪽 숲 가족',x:-116,z:72,roam:170},
+ {name:'동쪽 숲 가족',x:82,z:-74,roam:175},
+ {name:'산장·온천 가족',x:17,z:-46,roam:160}
 ];
-const WILDLIFE_TEST_POINT={x:17,z:-53}; // safely outside the hot-spring basin, near colony 3.
+const WILDLIFE_TEST_POINT={x:17,z:-53};
+const wildlifeWaypoints=[
+ [-156,83],[-175,28],[-139,-41],[-120,-106],[-67,-130],[-20,-121],
+ [54,-112],[118,-106],[153,-56],[151,14],[122,80],[85,129],
+ [12,120],[-48,105],[-105,125],[-16,44],[36,17],[66,-34],[-35,-52],[-87,21]
+];
 function wildlifeGroundHeight(x,z,nearPlayer=true){
- // The live snow field uses tiles that follow the player; only raycast those nearby.
  const plain=plainGroundHeight(x,z);
  const snow=nearPlayer?icelandSnowHeight(x,z):null;
  const deck=nearPlayer?elevatedWalkHeight(x,z):null;
@@ -1641,35 +1644,45 @@ function wildlifeGroundHeight(x,z,nearPlayer=true){
  return Math.max(0,plain??0,snow??0,deck??0,mountain??0,ice??0)+.14;
 }
 function wildlifeCanRoam(x,z){
- if(Math.abs(x)>370||Math.abs(z)>370)return false;
- // No swimming in the hot spring or the broad ice lake; walkways remain accessible.
- if(Math.hypot(x-HOT_SPRING_CENTER.x,z-HOT_SPRING_CENTER.y)<HOT_SPRING_WATER_RADIUS+1.5)return false;
+ if(Math.abs(x)>355||Math.abs(z)>355)return false;
+ if(Math.hypot(x-HOT_SPRING_CENTER.x,z-HOT_SPRING_CENTER.y)<HOT_SPRING_WATER_RADIUS+2)return false;
  const lx=(x-iceLakeCenter.x)/93,lz=(z-iceLakeCenter.z)/75;
- return lx*lx+lz*lz>=1.02;
+ return lx*lx+lz*lz>=1.05;
+}
+function wildlifePickDestination(a,t){
+ // Deterministic variety without a new random call every frame.
+ const n=wildlifeWaypoints.length;
+ for(let attempt=0;attempt<7;attempt++){
+  const idx=(a.id*7+a.trip*13+attempt*5+Math.floor(t/31))%n;
+  const [wx,wz]=wildlifeWaypoints[idx];
+  const jitter=8*Math.sin(a.id*4.1+a.trip*2.7);
+  const x=wx+jitter,z=wz+7*Math.cos(a.id*2.5+a.trip*3.1);
+  if(wildlifeCanRoam(x,z)&&Math.hypot(x-a.x,z-a.z)>35){
+   a.targetX=x;a.targetZ=z;a.trip++;a.targetTimer=22+(a.id%5)*4;
+   return;
+  }
+ }
+ a.targetX=a.homeX;a.targetZ=a.homeZ;a.targetTimer=12;a.trip++;
 }
 function placeIcelandWildlife(){
  icelandWildlifeGroup.clear();wildlifeMembers.length=0;
  let id=0;
  for(let colony=0;colony<wildlifeColonies.length;colony++){
   const home=wildlifeColonies[colony];
-  for(const kind of ['fox','rabbit']){
-   for(let j=0;j<4;j++){
-    const angle=(j*1.55+colony*.63+(kind==='rabbit'?.67:0));
-    const radius=4.6+(j%2)*3.9+(kind==='rabbit'?2.1:0);
-    let x=home.x+Math.cos(angle)*radius,z=home.z+Math.sin(angle)*radius;
-    if(!wildlifeCanRoam(x,z)){x=home.x+(j-1.5)*2.2;z=home.z+(kind==='rabbit'?7:-7);}
-    const parts=kind==='fox'?buildFox():buildRabbit();
-    const scale=(kind==='fox'?[1.75,1.38,1.3,1.06]:[1.8,1.5,1.32,1.12])[j];
-    const yaw=(id*.89+.4)%(Math.PI*2);
-    parts.g.scale.setScalar(scale);
-    parts.g.position.set(x,0,z);parts.g.rotation.y=yaw;
-    const height=wildlifeGroundHeight(x,z,false);
-    parts.g.position.y=height;
-    icelandWildlifeGroup.add(parts.g);
-    wildlifeMembers.push({id:id++,kind,colony,parts,x,z,homeX:home.x,homeZ:home.z,roam:home.roam,
-     yaw,targetYaw:yaw,phase:j*.87+colony*.57,wait:j*.42+colony*.7,stepTime:0,
-     lastHeight:height,walk:false,scale});
-   }
+  for(const kind of ['fox','rabbit'])for(let j=0;j<4;j++){
+   const angle=j*1.55+colony*.63+(kind==='rabbit'?.67:0);
+   const radius=4.6+(j%2)*3.9+(kind==='rabbit'?2.1:0);
+   let x=home.x+Math.cos(angle)*radius,z=home.z+Math.sin(angle)*radius;
+   if(!wildlifeCanRoam(x,z)){x=home.x+(j-1.5)*2.2;z=home.z+(kind==='rabbit'?7:-7);}
+   const parts=kind==='fox'?buildFox():buildRabbit();
+   const scale=(kind==='fox'?[1.75,1.38,1.3,1.06]:[1.8,1.5,1.32,1.12])[j];
+   const yaw=(id*.89+.4)%(Math.PI*2);
+   parts.g.scale.setScalar(scale);parts.g.position.set(x,0,z);parts.g.rotation.y=yaw;
+   const height=wildlifeGroundHeight(x,z,false);parts.g.position.y=height;
+   icelandWildlifeGroup.add(parts.g);
+   wildlifeMembers.push({id:id++,kind,colony,parts,x,z,homeX:home.x,homeZ:home.z,
+    yaw,targetYaw:yaw,phase:j*.87+colony*.57,wait:j*.42,trip:0,
+    targetX:x,targetZ:z,targetTimer:0,lastHeight:height,scale});
   }
  }
 }
@@ -1678,41 +1691,38 @@ let wildlifeHeightRefresh=0;
 function animateIcelandWildlife(dt,t){
  if(current!==0)return;
  wildlifeHeightRefresh+=dt;
- const checkHeight=wildlifeHeightRefresh>.18;
+ const checkHeight=wildlifeHeightRefresh>.14;
  if(checkHeight)wildlifeHeightRefresh=0;
  for(const a of wildlifeMembers){
   const playerDistance=Math.hypot(a.x-player.position.x,a.z-player.position.z);
-  // Skip visual animation for distant families without deleting them from the world.
-  a.parts.g.visible=playerDistance<175||a.colony===2&&playerDistance<210;
-  a.wait-=dt;
-  if(a.wait<=0){
-   a.wait=1.7+((a.id*71+Math.floor(t*2))%6)*.48;
-   a.targetYaw=Math.sin(t*.36+a.id*3.93)*2.8+a.id*.66;
-  }
-  if(Math.hypot(a.x-a.homeX,a.z-a.homeZ)>a.roam*.80){
-   a.targetYaw=Math.atan2(a.homeX-a.x,a.homeZ-a.z);
-  }
+  a.parts.g.visible=playerDistance<185;
+  a.targetTimer-=dt;
+  const toX=a.targetX-a.x,toZ=a.targetZ-a.z;
+  if(a.targetTimer<=0||Math.hypot(toX,toZ)<9)wildlifePickDestination(a,t);
+  const wanted=Math.atan2(a.targetX-a.x,a.targetZ-a.z);
+  a.targetYaw=wanted+.14*Math.sin(t*.49+a.id);
   const turn=Math.atan2(Math.sin(a.targetYaw-a.yaw),Math.cos(a.targetYaw-a.yaw));
   a.yaw+=turn*Math.min(1,dt*2.3);
   a.parts.g.rotation.y=a.yaw;
-  const speed=(a.kind==='rabbit'?1.7:1.45)*(0.70+.3*Math.sin(t*.83+a.id)**2);
-  const newX=a.x+Math.sin(a.yaw)*speed*dt;
-  const newZ=a.z+Math.cos(a.yaw)*speed*dt;
-  if(wildlifeCanRoam(newX,newZ)&&Math.hypot(newX-a.homeX,newZ-a.homeZ)<a.roam){
-   a.x=newX;a.z=newZ;
-  }else{a.targetYaw+=Math.PI*.75;}
-  a.parts.g.position.x=a.x;a.parts.g.position.z=a.z;
-  if(checkHeight&&playerDistance<150){
-   // Target the highest available walking surface; avoids burying legs in snowy bumps.
-   a.lastHeight=wildlifeGroundHeight(a.x,a.z,true);
-  }else if(checkHeight&&playerDistance>=150){
-   a.lastHeight=wildlifeGroundHeight(a.x,a.z,false);
+  // Bound foxes and rabbits run, with natural varied strides and occasional sprints.
+  const sprint=.80+.26*Math.pow(Math.sin(t*.48+a.id*.93),2);
+  const speed=(a.kind==='rabbit'?4.4:5.1)*sprint;
+  const nx=a.x+Math.sin(a.yaw)*speed*dt,nz=a.z+Math.cos(a.yaw)*speed*dt;
+  if(wildlifeCanRoam(nx,nz)){a.x=nx;a.z=nz;}
+  else{
+   a.targetTimer=0;
+   a.yaw+=Math.PI*.62;
   }
-  const rhythm=t*(a.kind==='rabbit'?8.3:10.0)+a.phase;
-  const bounce=a.kind==='rabbit'?Math.pow(Math.max(0,Math.sin(rhythm)),1.35)*.32:Math.abs(Math.sin(rhythm))*.095;
+  a.parts.g.position.x=a.x;a.parts.g.position.z=a.z;
+  if(checkHeight){
+   const h=wildlifeGroundHeight(a.x,a.z,playerDistance<160);
+   a.lastHeight=THREE.MathUtils.lerp(a.lastHeight,h,.48);
+  }
+  const rhythm=t*(a.kind==='rabbit'?11.6:13.8)+a.phase;
+  const bounce=a.kind==='rabbit'?Math.pow(Math.max(0,Math.sin(rhythm)),1.2)*.40:Math.abs(Math.sin(rhythm))*.13;
   a.parts.g.position.y=a.lastHeight+bounce;
   if(!a.parts.g.visible)continue;
-  for(let i=0;i<a.parts.legs.length;i++)a.parts.legs[i].rotation.z=Math.sin(rhythm+(i<2?0:Math.PI))*(a.kind==='rabbit'?.16:.30);
+  for(let i=0;i<a.parts.legs.length;i++)a.parts.legs[i].rotation.z=Math.sin(rhythm+(i<2?0:Math.PI))*(a.kind==='rabbit'?.22:.37);
   if(a.parts.ears)for(let i=0;i<a.parts.ears.length;i++)a.parts.ears[i].rotation.x=Math.sin(rhythm*.48+i)*.12;
   if(a.parts.tail)a.parts.tail.rotation.y=Math.sin(rhythm*.38)*.24;
  }
@@ -2063,27 +2073,9 @@ function canadaPrepareAsset(spec,gltf){
   spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(filtered,x,z,spec.height,yaw,scale));return;
  }
  if(spec.file==='cafe_nikki.glb'){
-  // v141: preserve original texture/base colors against the dark nighttime scene.
-  // Use material-cloned emissive self-lighting without repainting any texture.
-  const cafe=gltf.scene.clone(true);
-  cafe.traverse(o=>{
-   if(!o.isMesh)return;
-   const lift=m=>{
-    if(!m)return m;
-    const c=m.clone();
-    if(c.isMeshStandardMaterial||c.isMeshPhysicalMaterial){
-     c.emissive.set(0xffffff);
-     c.emissiveMap=c.map||null;
-     c.emissiveIntensity=.52;
-     c.roughness=Math.max(.45,c.roughness||.8);
-    }
-    return c;
-   };
-   o.material=Array.isArray(o.material)?o.material.map(lift):lift(o.material);
-  });
-  spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(cafe,x,z,spec.height,yaw,scale));
-  const cafeLamp=new THREE.PointLight(0xffebcf,22,34,2);
-  cafeLamp.position.set(-42,8,2);canadaVillage.add(cafeLamp);
+  // v144: use untouched GLB material colors / maps and original PBR parameters.
+  // v141's white emissive overlay and 22-intensity point light washed out the cafe.
+  spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(gltf.scene,x,z,spec.height,yaw,scale));
   return;
  }
  if(spec.file==='cartoon_wood_fence.glb'){
@@ -3171,42 +3163,46 @@ function createAuroraRibbon(i){
 }
 for(let i=0;i<10;i++)createAuroraRibbon(i);
 fixedAurora.scale.set(1,1,1);
-// v143 CANADA concept 2: DISTINCT overlapping crown-shaped arches, not seven concentric copies.
-// The approved sketch has multiple overlapping arch openings across the whole sky.
-// These are separate curved curtains, with differently located apexes, spans and depths.
-// Iceland's aurora geometry and opacity stay unchanged.
+// v144 CANADA — trace the player's yellow marker sketch, not nine concentric arches.
+// Four broad upper wings split around a shared valley; overlapping middle crowns and
+// smaller lower paired branches fan outward. Independent curved light curtains,
+// no yellow outline geometry. The red/lime palette and star field stay unchanged.
 const canadaAuroraArches=new THREE.Group();scene.add(canadaAuroraArches);
 const canadaAuroraMaterials=[];
-const canadaAuroraShapes=[
- // Three sweeping distant crowns stretch across the top of the Canadian village.
- {cx:-121,z:-242,w:307,base:105,rise:139,drop:74,phase:.1},
- {cx:  96,z:-237,w:319,base:113,rise:148,drop:77,phase:.6},
- {cx: -10,z:-228,w:287,base: 91,rise:125,drop:69,phase:1.3},
- // Midfield arches overlap sideways; each has its own arch opening and crest.
- {cx:-155,z:-177,w:214,base: 89,rise: 95,drop:66,phase:2.0},
- {cx: -19,z:-184,w:222,base: 88,rise:112,drop:73,phase:2.7},
- {cx: 131,z:-176,w:221,base: 85,rise:109,drop:71,phase:3.5},
- // Foreground arcs and small lower crowns fill the space near the mountains.
- {cx: -95,z:-141,w:161,base: 75,rise: 85,drop:61,phase:4.1},
- {cx:  70,z:-138,w:170,base: 78,rise: 86,drop:64,phase:4.8},
- {cx: -10,z:-116,w:159,base: 69,rise: 69,drop:56,phase:5.4}
+// Each set of 4 [X,Y] points is a cubic Bezier centreline of ONE arch branch.
+// From the center of the village, the arcing wings merge into Y-like valleys.
+const canadaAuroraPaths=[
+ {pts:[[-252,119],[-204,280],[-94,279],[-3,140]],z:-265,drop:94,phase:.0},
+ {pts:[[  -3,140],[ 76,291],[198,274],[255,116]],z:-265,drop:94,phase:.5},
+ {pts:[[-245, 95],[-210,215],[-104,214],[-12, 98]],z:-238,drop:78,phase:1.0},
+ {pts:[[ -12, 98],[ 82,227],[197,217],[247, 89]],z:-238,drop:78,phase:1.5},
+ {pts:[[-209, 73],[-175,191],[ -83,194],[  0, 83]],z:-213,drop:73,phase:2.0},
+ {pts:[[   0, 83],[ 83,198],[183,180],[220, 75]],z:-213,drop:73,phase:2.5},
+ {pts:[[-170, 59],[-132,151],[ -53,149],[ -3, 65]],z:-184,drop:60,phase:3.0},
+ {pts:[[  -3, 65],[ 49,160],[142,146],[176, 56]],z:-184,drop:60,phase:3.5},
+ {pts:[[-125, 51],[ -88,121],[ -36,121],[  0, 56]],z:-159,drop:49,phase:4.0},
+ {pts:[[   0, 56],[ 42,122],[101,117],[131, 48]],z:-159,drop:49,phase:4.5}
 ];
-function createCanadaAuroraArch(layer){
- const cfg=canadaAuroraShapes[layer];
- const cols=112,rows=24,positions=[],uvs=[],indices=[];
+function createCanadaAuroraArch(i){
+ const cfg=canadaAuroraPaths[i];
+ const pts=cfg.pts;
+ const curve=new THREE.CubicBezierCurve3(
+  new THREE.Vector3(pts[0][0],pts[0][1],cfg.z),
+  new THREE.Vector3(pts[1][0],pts[1][1],cfg.z-5),
+  new THREE.Vector3(pts[2][0],pts[2][1],cfg.z+3),
+  new THREE.Vector3(pts[3][0],pts[3][1],cfg.z)
+ );
+ const cols=104,rows=22,positions=[],uvs=[],indices=[];
  for(let j=0;j<=rows;j++)for(let k=0;k<=cols;k++){
   const u=k/cols,v=j/rows;
-  const q=u*2-1;
-  // Semi-elliptic rainbow arches. Each curtain descends to a different horizon point.
-  const crown=Math.pow(Math.max(0,1-q*q),.61);
-  const crest=cfg.base+cfg.rise*crown;
-  const edgeMotion=2.8*Math.sin(u*14.8+cfg.phase)+1.5*Math.sin(u*33+cfg.phase*2);
-  const x=cfg.cx+cfg.w*(u-.5)+5.2*Math.sin(u*6.28+cfg.phase)*v;
-  const z=cfg.z+8*Math.sin(u*6.2+cfg.phase)+v*7;
-  // Both the front and the back of each streamer have curved, visibly separate silhouettes.
-  const y=crest+edgeMotion+v*cfg.drop-11*v*v
-    +3.3*Math.sin(u*20+cfg.phase*1.4)*(v-.5);
-  positions.push(x,y,z);uvs.push(u,v);
+  const point=curve.getPoint(u);
+  // Light rises naturally off the scalloped lower edge, soft and semi-transparent.
+  const vertical=cfg.drop*v;
+  const breeze=2.6*Math.sin(u*17+cfg.phase)*(v-.35);
+  const depth=7.5*Math.sin(u*6.28+cfg.phase)*v;
+  positions.push(point.x+2.8*Math.sin(u*5+cfg.phase)*v,
+   point.y+vertical+breeze,point.z+depth);
+  uvs.push(u,v);
  }
  for(let j=0;j<rows;j++)for(let k=0;k<cols;k++){
   const a=j*(cols+1)+k,b=a+cols+1;
@@ -3217,16 +3213,15 @@ function createCanadaAuroraArch(layer){
  geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
  geo.setIndex(indices);geo.computeVertexNormals();
  const mat=new THREE.ShaderMaterial({
-  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:layer*.79},uCanada:{value:1}},
+  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:cfg.phase},uCanada:{value:1}},
   vertexShader:fixedAuroraVertex,fragmentShader:fixedAuroraFragment,
   transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,
   blending:THREE.NormalBlending,fog:false,toneMapped:false
  });
- const mesh=new THREE.Mesh(geo,mat);
- mesh.frustumCulled=false;mesh.renderOrder=12+layer;
- canadaAuroraArches.add(mesh);canadaAuroraMaterials.push(mat);
+ const sheet=new THREE.Mesh(geo,mat);sheet.frustumCulled=false;
+ sheet.renderOrder=12+i;canadaAuroraArches.add(sheet);canadaAuroraMaterials.push(mat);
 }
-for(let layer=0;layer<canadaAuroraShapes.length;layer++)createCanadaAuroraArch(layer);
+for(let i=0;i<canadaAuroraPaths.length;i++)createCanadaAuroraArch(i);
 
 // Kept as empty compatibility handles: this release does not create old aurora planes.
 const aurora=[];
@@ -3618,7 +3613,7 @@ function updateAuroraVisibility(t){
   const u=canadaAuroraMaterials[i].uniforms;
   u.uTime.value=t+i*.85;
   // Slightly more translucent than v141; nine independently positioned arches form the illustrated overlapping crowns.
-  u.uOpacity.value=canadaAuroraArches.visible?[.207,.199,.200,.197,.205,.194,.191,.188,.183][i]*pulse:0;
+  u.uOpacity.value=canadaAuroraArches.visible?[.176,.170,.174,.168,.175,.170,.178,.167,.166,.165][i]*pulse:0;
  }
  canadaStarSky.position.copy(camera.position);
  auroraSkyDome.position.copy(camera.position);
@@ -3804,18 +3799,34 @@ document.getElementById('map').onclick=openNavigationMap;
 // v119: one-button quick travel to safe approach points, not to the mountain summit.
 // Iceland: the northern mountain range lies at z≈-290 and the south mountain at z≈+292.
 const quickTravelChoices={
- home:{name:'🏡 집',x:0,z:-3,yaw:0},
- north:{name:'🏔️ 북쪽 설산',x:-88,z:-132,yaw:Math.PI},
- south:{name:'🏔️ 남쪽 설산',x:92,z:137,yaw:0}
+ iceland:{
+  home:{name:'🏡 아이슬란드 산장',x:0,z:-3,yaw:0},
+  north:{name:'🏔️ 북쪽 설산',x:-88,z:-132,yaw:Math.PI},
+  south:{name:'🏔️ 남쪽 설산',x:92,z:137,yaw:0},
+  fox:{name:'🦊 서쪽 동물 가족',x:-116,z:72,yaw:0},
+  rabbit:{name:'🐰 동쪽 동물 가족',x:82,z:-74,yaw:0},
+  family:{name:'🐾 산장·온천 동물들',x:17,z:-53,yaw:0}
+ },
+ canada:{
+  entrance:{name:'🍁 마을 입구',x:-124,z:95,yaw:Math.PI/2},
+  welcome:{name:'🏡 웰컴센터',x:-62,z:82,yaw:0},
+  plaza:{name:'🎄 크리스마스 광장',x:0,z:-20,yaw:0},
+  cafe:{name:'☕ 카페',x:-42,z:2,yaw:0},
+  chalet:{name:'🏘️ 샬레 숙소',x:-79,z:-35,yaw:0},
+  domes:{name:'⛺ 돔 캠핑장',x:58,z:91,yaw:0},
+  campfire:{name:'🔥 공용 화로',x:-28,z:-14,yaw:0},
+  lake:{name:'🌈 오색 호숫가',x:87,z:-121,yaw:0},
+  observatory:{name:'🔭 오로라 관측대',x:99,z:-105,yaw:0}
+ }
 };
-function quickTravelTo(destination){
- const spot=quickTravelChoices[destination];
+function quickTravelTo(region,destination){
+ const spot=quickTravelChoices[region]?.[destination];
  if(!spot)return;
- movePlayerToCoordinate(spot.x,spot.z,0,spot.name,spot.yaw);
+ movePlayerToCoordinate(spot.x,spot.z,region==='iceland'?0:2,spot.name,spot.yaw);
 }
 function movePlayerToCoordinate(x,z,region=current,label='선택한 좌표',yaw=orbitYaw){
  if(!Number.isFinite(x)||!Number.isFinite(z)){notice('좌표 숫자를 확인해 줘!');return;}
- const bound=region===0?385:125;
+ const bound=region===0?385:region===2?180:125;
  if(Math.abs(x)>bound||Math.abs(z)>bound){notice('이 지역의 좌표 범위를 벗어났어!');return;}
  if(current!==region){
   current=region;
@@ -3823,19 +3834,12 @@ function movePlayerToCoordinate(x,z,region=current,label='선택한 좌표',yaw=
   build(region);
   for(const entry of others.values())entry.group.visible=entry.region===region;
  }
- setAutoWalking(false);
- resetJoystick();
+ setAutoWalking(false);resetJoystick();
  for(const key of Object.keys(keys))keys[key]=false;
- velocity.set(0,0);
- player.position.set(x,0,z);
- player.rotation.set(0,yaw,0);
- orbitYaw=yaw;
- orbitPitch=-.05;
- cameraReady=false;
- explorationTrail.length=0;
- recordExplorationTrail();
+ velocity.set(0,0);player.position.set(x,0,z);
+ player.rotation.set(0,yaw,0);orbitYaw=yaw;orbitPitch=-.05;cameraReady=false;
+ explorationTrail.length=0;recordExplorationTrail();
  if(region===0)updateIcelandSnowTiles(x,z);
- // Let the normal per-frame terrain resolver put the avatar on the snow or mountain mesh.
  const surface=region===0?icelandSnowHeight(x,z):null;
  const mountain=(region===0||region===2)?climbableMountainHeight(x,z):null;
  const plain=plainGroundHeight(x,z);
@@ -3843,16 +3847,20 @@ function movePlayerToCoordinate(x,z,region=current,label='선택한 좌표',yaw=
  player.position.y=Math.max(0,surface??0,mountain??0,plain??0,reference??0)+.12;
  document.getElementById('dialog').classList.remove('show');
  if(document.body.classList.contains('tools-expanded'))setToolsExpanded(false);
- sendPosition(true);
- notice(label+' 이동 완료! (X '+Math.round(x)+' / Z '+Math.round(z)+')');
+ sendPosition(true);notice(label+' 이동 완료! (X '+Math.round(x)+' / Z '+Math.round(z)+')');
 }
-document.getElementById('teleport').onclick=()=>modal('🚀 어디로 갈까?',
- '<p style="font-size:12px;opacity:.85">설산은 등반하기 좋은 눈밭에서 시작해.</p>'+
- Object.entries(quickTravelChoices).map(([id,spot])=>
- '<button type="button" data-quicktravel="'+id+'" style="display:block;width:100%;text-align:left;margin:8px 0;padding:13px 15px">'+spot.name+'</button>').join(''));
+function openRegionTravel(region){
+ const names=region==='iceland'?'🇮🇸 아이슬란드 순간이동':'🇨🇦 캐나다 순간이동';
+ const choices=quickTravelChoices[region];
+ modal(names,'<p style="font-size:12px;opacity:.8">방문할 장소를 선택해 줘.</p>'+
+  Object.entries(choices).map(([id,spot])=>
+   '<button type="button" data-quickregion="'+region+'" data-quicktravel="'+id+'" style="display:block;width:100%;text-align:left;margin:7px 0;padding:12px 15px">'+spot.name+'</button>').join(''));
+}
+document.getElementById('teleport').onclick=()=>openRegionTravel('iceland');
+document.getElementById('teleportCanada').onclick=()=>openRegionTravel('canada');
 document.getElementById('content').addEventListener('click',event=>{
  const button=event.target.closest('[data-quicktravel]');
- if(button)quickTravelTo(button.dataset.quicktravel);
+ if(button)quickTravelTo(button.dataset.quickregion,button.dataset.quicktravel);
 });
 // v125: coordinate travel test lives in More, with handy animal-coordinate presets.
 document.getElementById('coordinateTravel').onclick=()=>{
