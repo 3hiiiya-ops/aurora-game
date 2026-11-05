@@ -1356,6 +1356,68 @@ for(const spec of landscapeSpecs){
   console.info('Real Iceland GLB loaded:',spec.file,'dimensions:',dim.toArray());
  },undefined,()=>console.info('Optional Iceland GLB not uploaded yet:',spec.file));
 }
+// v127: Player-supplied Iceland landscaping props; never alter existing built structures.
+// Source filenames must be uploaded beside index.html on GitHub Pages.
+const icelandPropGroup=new THREE.Group();scene.add(icelandPropGroup);
+const icelandPropClearings=[
+ [-153,68,10], // short footbridge across the lake's narrow outlet
+ [-30,35,5],[-102,43,5],[-137,93,5], // wayfinding signs beside the trail
+ [-82,13,5],[-117,105,4],[-173,158,5],[-58,93,4], // fallen trunks
+ [-89,-67,5],[-132,109,5],[-176,162,5],[-65,102,5],[-108,126,5],[-180,-48,5], // snowy rocks
+];
+const icelandPropLayout=[
+ {file:'bridge_woodenlow-poly.glb',height:4.5,items:[[-153,68,1.55,-.25]]},
+ {file:'snowy_wooden_sign.glb',height:3.55,items:[[-30,35,.85,1.0],[-102,43,.82,-.5],[-137,93,.78,1.3]]},
+ {file:'fallen_log.glb',height:1.25,items:[[-82,13,1.0,.25],[-117,105,1.25,-.7],[-173,158,1.15,.85],[-58,93,1.2,1.6]]},
+ {file:'w041_snowy_rock_-_free_version.glb',height:1.65,items:[[-89,-67,1.15,.2],[-132,109,.85,.7],[-176,162,1.3,1.1],[-65,102,.95,1.8],[-108,126,1.1,2.2],[-180,-48,.8,.4]]},
+];
+function createIcelandPropInstances(spec,source){
+ source.updateWorldMatrix(true,true);
+ const bounds=new THREE.Box3().setFromObject(source);
+ if(bounds.isEmpty())return;
+ const center=bounds.getCenter(new THREE.Vector3()),dims=bounds.getSize(new THREE.Vector3());
+ const base=spec.height/Math.max(.1,dims.y);
+ for(const [x,z,scale,yaw] of spec.items){
+  const root=new THREE.Group(),obj=source.clone(true);
+  const ratio=base*scale;
+  obj.position.set(-center.x*ratio,-bounds.min.y*ratio,-center.z*ratio);
+  obj.scale.setScalar(ratio);
+  root.position.set(x,0,z);root.rotation.y=yaw;
+  root.add(obj);root.traverse(part=>{if(part.isMesh){part.castShadow=false;part.receiveShadow=true;}});
+  // Fixed terrain sampling for each prop, not a per-frame GPU/raycast cost.
+  const snow=(typeof icelandSnowHeight==='function')?icelandSnowHeight(x,z):null;
+  const plain=plainGroundHeight(x,z);
+  root.position.y=Math.max(0,snow??0,plain??0)+.04;
+  // The bridge spans the water at a raised approach; avoid submerging wooden planks.
+  if(spec.file==='bridge_woodenlow-poly.glb')root.position.y=Math.max(root.position.y,.68);
+  icelandPropGroup.add(root);
+ }
+ console.info('v127 Iceland prop loaded:',spec.file,spec.items.length);
+}
+for(const spec of icelandPropLayout){
+ new GLTFLoader().load('./'+spec.file,gltf=>createIcelandPropInstances(spec,gltf.scene),undefined,
+  err=>console.warn('v127 optional prop not found:',spec.file,err));
+}
+// This asset is a packed atlas of billboard trees, not a single tree.
+// Isolate a pair of lightweight snow bushes, away from structures and travel lanes.
+new GLTFLoader().load('./snow_trees_pack_lowpoly.glb',gltf=>{
+ let count=0;
+ gltf.scene.updateWorldMatrix(true,true);
+ gltf.scene.traverse(o=>{
+  if(!o.isMesh||!/^snowbush/i.test(o.name)||count>=2)return;
+  const m=o.clone();m.position.set(0,0,0);m.rotation.set(0,0,0);m.scale.set(1,1,1);
+  const geoBounds=m.geometry.boundingBox||((m.geometry.computeBoundingBox()),m.geometry.boundingBox);
+  m.geometry=m.geometry.clone();
+  m.geometry.translate(-(geoBounds.min.x+geoBounds.max.x)/2,-geoBounds.min.y,-(geoBounds.min.z+geoBounds.max.z)/2);
+  for(const [x,z,yaw,size] of [[-64,15,.4,2.1],[-92,81,-.7,1.7],[-176,135,1.2,2.0]]){
+   const root=new THREE.Group();const b=m.clone();b.scale.setScalar(size);root.add(b);
+   root.position.set(x,Math.max(0,plainGroundHeight(x,z)??0)+.07,z);root.rotation.y=yaw;
+   icelandPropGroup.add(root);
+  }
+  count++;
+ });
+ console.info('v127 lightweight snow foliage loaded:',count);
+},undefined,err=>console.warn('v127 optional snowy tree pack missing',err));
 // Waiting for a user-approved realistic snow-covered evergreen GLB.
 // Do not display the rejected multi-object biome pack or primitive stand-ins.
 const importedSnowForest=new THREE.Group();scene.add(importedSnowForest);
@@ -1390,6 +1452,7 @@ function forestDistanceToSegment(x,z,a,b){
  return Math.hypot(x-a[0]-t*vx,z-a[1]-t*vz);
 }
 function isIcelandForestSafe(x,z){
+ for(const [cx,cz,r] of icelandPropClearings){if(Math.hypot(x-cx,z-cz)<r)return false;}
  // Keep building pads, approach to the cabin and the new campfire completely clear.
  if(Math.hypot(x,z+17)<24)return false;
  if(Math.abs(x)<12&&z>-14&&z<24)return false;
@@ -1748,7 +1811,7 @@ icelandSnowLoader.load('./snow-field.glb',g=>{
 
 function build(i){
  setRegionAtmosphere(i);
- icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;basecampForestGroup.visible=(i===0||i===2);importedGreatMountainGroup.visible=(i===0||i===2);observationDeckGroup.visible=i===0;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
+ icelandSnowCellX=NaN;icelandSnowCellZ=NaN;importedSnowForest.visible=i===0;basecampForestGroup.visible=(i===0||i===2);importedGreatMountainGroup.visible=(i===0||i===2);observationDeckGroup.visible=i===0;icelandSnowTiles.visible=i===0;icelandMountainGroup.visible=false;icelandLandmarkGroup.visible=i===0;icelandIceLakeGroup.visible=i===0;lakeLightOverlay.visible=i===0;referenceLandscapeGroup.visible=i===0;icelandPropGroup.visible=i===0;mountainLoadIndicator.style.display='none';ground.position.y=(i===0&&icelandSnowReady)?-1.1:0;
  trackPool.forEach(mark=>mark.visible=false);
  disposeRegion();const rnd=random(29+i*93);
  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:[0xe0e5f3,0xe2e3f3,0xf1f5fc,0xe4eff9][i],roughness:.94});
@@ -3529,8 +3592,8 @@ let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;f
  const len=Math.hypot(dx,dz);if(len>1){dx/=len;dz/=len}
  const moving=len>.05;
  // Camera-relative movement: forward is where the camera is facing on the ground plane.
- const targetVX=(dx*Math.cos(orbitYaw)+dz*Math.sin(orbitYaw))*(moving?9:0);
- const targetVZ=(-dx*Math.sin(orbitYaw)+dz*Math.cos(orbitYaw))*(moving?9:0);
+ const targetVX=(dx*Math.cos(orbitYaw)+dz*Math.sin(orbitYaw))*(moving?10.8:0);
+ const targetVZ=(-dx*Math.sin(orbitYaw)+dz*Math.cos(orbitYaw))*(moving?10.8:0);
  const responsiveness=1-Math.exp(-(moving?11:15)*dt);
  velocity.x+=(targetVX-velocity.x)*responsiveness;
  velocity.y+=(targetVZ-velocity.y)*responsiveness;
