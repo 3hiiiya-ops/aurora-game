@@ -2158,7 +2158,7 @@ function build(i){
   snowfall.visible=true;
   placeImportedMountainRing(2); // clears the obsolete Canada mountain meshes
   buildCanadaVillage();
-  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v142';
+  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v143';
   return;
  }
  snowfall.visible=true;
@@ -3171,27 +3171,41 @@ function createAuroraRibbon(i){
 }
 for(let i=0;i<10;i++)createAuroraRibbon(i);
 fixedAurora.scale.set(1,1,1);
-// v142 CANADA concept 2: SEVEN separately folded, nested, semi-transparent aurora crowns.
-// Iceland's 360-degree curtain is untouched. Each crown contains many vertical folds.
+// v143 CANADA concept 2: DISTINCT overlapping crown-shaped arches, not seven concentric copies.
+// The approved sketch has multiple overlapping arch openings across the whole sky.
+// These are separate curved curtains, with differently located apexes, spans and depths.
+// Iceland's aurora geometry and opacity stay unchanged.
 const canadaAuroraArches=new THREE.Group();scene.add(canadaAuroraArches);
 const canadaAuroraMaterials=[];
+const canadaAuroraShapes=[
+ // Three sweeping distant crowns stretch across the top of the Canadian village.
+ {cx:-121,z:-242,w:307,base:105,rise:139,drop:74,phase:.1},
+ {cx:  96,z:-237,w:319,base:113,rise:148,drop:77,phase:.6},
+ {cx: -10,z:-228,w:287,base: 91,rise:125,drop:69,phase:1.3},
+ // Midfield arches overlap sideways; each has its own arch opening and crest.
+ {cx:-155,z:-177,w:214,base: 89,rise: 95,drop:66,phase:2.0},
+ {cx: -19,z:-184,w:222,base: 88,rise:112,drop:73,phase:2.7},
+ {cx: 131,z:-176,w:221,base: 85,rise:109,drop:71,phase:3.5},
+ // Foreground arcs and small lower crowns fill the space near the mountains.
+ {cx: -95,z:-141,w:161,base: 75,rise: 85,drop:61,phase:4.1},
+ {cx:  70,z:-138,w:170,base: 78,rise: 86,drop:64,phase:4.8},
+ {cx: -10,z:-116,w:159,base: 69,rise: 69,drop:56,phase:5.4}
+];
 function createCanadaAuroraArch(layer){
- const cols=144,rows=26,positions=[],uvs=[],indices=[];
- const widths=[430,398,368,339,310,283,258];
- const baseHeight=[90,99,107,117,125,135,144][layer];
- const rises=[108,111,113,111,106,98,90][layer];
- const depths=[-175,-161,-150,-142,-135,-128,-122][layer];
- const width=widths[layer];
+ const cfg=canadaAuroraShapes[layer];
+ const cols=112,rows=24,positions=[],uvs=[],indices=[];
  for(let j=0;j<=rows;j++)for(let k=0;k<=cols;k++){
   const u=k/cols,v=j/rows;
-  const sweep=2*u-1;
-  // Smooth, naturally imperfect double-wing crown rather than one straight strip.
-  const crown=Math.pow(Math.max(0,1-sweep*sweep),.70);
-  const ripples=7*Math.sin(u*11.8+layer*.72)+3*Math.sin(u*26.0-layer*.64);
-  const x=(u-.5)*width+12*Math.sin(u*Math.PI*2+layer*.46)*v;
-  const z=depths+13*Math.sin(u*Math.PI*2+layer*.58)+v*(5+layer*.70);
-  const y=baseHeight+rises*crown+ripples+(v-.5)*(54+layer*3.5)
-   +5*Math.sin(u*18.0+layer*.88)*v;
+  const q=u*2-1;
+  // Semi-elliptic rainbow arches. Each curtain descends to a different horizon point.
+  const crown=Math.pow(Math.max(0,1-q*q),.61);
+  const crest=cfg.base+cfg.rise*crown;
+  const edgeMotion=2.8*Math.sin(u*14.8+cfg.phase)+1.5*Math.sin(u*33+cfg.phase*2);
+  const x=cfg.cx+cfg.w*(u-.5)+5.2*Math.sin(u*6.28+cfg.phase)*v;
+  const z=cfg.z+8*Math.sin(u*6.2+cfg.phase)+v*7;
+  // Both the front and the back of each streamer have curved, visibly separate silhouettes.
+  const y=crest+edgeMotion+v*cfg.drop-11*v*v
+    +3.3*Math.sin(u*20+cfg.phase*1.4)*(v-.5);
   positions.push(x,y,z);uvs.push(u,v);
  }
  for(let j=0;j<rows;j++)for(let k=0;k<cols;k++){
@@ -3203,15 +3217,16 @@ function createCanadaAuroraArch(layer){
  geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));
  geo.setIndex(indices);geo.computeVertexNormals();
  const mat=new THREE.ShaderMaterial({
-  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:layer*.91},uCanada:{value:1}},
+  uniforms:{uTime:{value:0},uOpacity:{value:0},uPhase:{value:layer*.79},uCanada:{value:1}},
   vertexShader:fixedAuroraVertex,fragmentShader:fixedAuroraFragment,
   transparent:true,side:THREE.DoubleSide,depthWrite:false,depthTest:true,
   blending:THREE.NormalBlending,fog:false,toneMapped:false
  });
- const mesh=new THREE.Mesh(geo,mat);mesh.frustumCulled=false;mesh.renderOrder=12+layer;
+ const mesh=new THREE.Mesh(geo,mat);
+ mesh.frustumCulled=false;mesh.renderOrder=12+layer;
  canadaAuroraArches.add(mesh);canadaAuroraMaterials.push(mat);
 }
-for(let layer=0;layer<7;layer++)createCanadaAuroraArch(layer);
+for(let layer=0;layer<canadaAuroraShapes.length;layer++)createCanadaAuroraArch(layer);
 
 // Kept as empty compatibility handles: this release does not create old aurora planes.
 const aurora=[];
@@ -3602,8 +3617,8 @@ function updateAuroraVisibility(t){
  for(let i=0;i<canadaAuroraMaterials.length;i++){
   const u=canadaAuroraMaterials[i].uniforms;
   u.uTime.value=t+i*.85;
-  // Slightly more translucent than v141; seven overlapping rows give depth without a solid neon wall.
-  u.uOpacity.value=canadaAuroraArches.visible?[.226,.216,.208,.202,.195,.188,.181][i]*pulse:0;
+  // Slightly more translucent than v141; nine independently positioned arches form the illustrated overlapping crowns.
+  u.uOpacity.value=canadaAuroraArches.visible?[.207,.199,.200,.197,.205,.194,.191,.188,.183][i]*pulse:0;
  }
  canadaStarSky.position.copy(camera.position);
  auroraSkyDome.position.copy(camera.position);
