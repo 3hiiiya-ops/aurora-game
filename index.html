@@ -121,7 +121,14 @@ button{min-height:42px;-webkit-tap-highlight-color:transparent}
 #autoWalk[aria-pressed="true"]{background:#477e78ee;border-color:#b0f5e1;color:#fff;box-shadow:0 0 12px #79f3cf88}
 /* v114: hide both informational HUD panels while the More menu is open. */
 body.tools-expanded #region,body.tools-expanded #status{display:none!important}
-</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🚀 순간이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass">🧭 단서</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="help">⚙️ 안내</button></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
+/* v125: unobtrusive true north compass with world X/Z readout. */
+#liveCompass{position:fixed;top:176px;right:10px;z-index:8;padding:7px 10px;border:1px solid #bfe7ff88;border-radius:13px;background:#142448b9;color:#eaf7ff;backdrop-filter:blur(7px);text-align:center;font:600 11px/1.4 system-ui;pointer-events:none;box-shadow:0 3px 15px #02081655;min-width:98px}
+#liveCompass .compassRose{font-size:27px;line-height:29px;display:block;font-weight:bold;color:#f5c5b6;text-shadow:0 2px 8px #030d1f}
+#liveCompass .compassNumbers{color:#d6edfc;font-size:10px;white-space:nowrap}
+@media(max-width:700px){#liveCompass{top:174px;right:9px;padding:6px 8px;font-size:10px;min-width:88px}#liveCompass .compassRose{font-size:24px;line-height:25px}}
+@media(max-height:520px){#liveCompass{top:88px;right:8px}}
+body.tools-expanded #liveCompass{display:none!important}
+</style></head><body><div id="ui"><header><b>✦ aurora game</b><small>나만의 오로라 여행 · aurora game</small></header><div class="top" id="gameTools"><button id="avatarPreview" type="button" onclick="location.href='./character-viewer.html'">🧸 캐릭터 보기</button><button id="map">🗺️ 지도</button><button id="teleport" type="button">🚀 순간이동</button><button id="moreTools" aria-expanded="false" aria-controls="gameTools">☰ 더보기</button><button id="compass" type="button">🧭 나침반</button><button id="photo">📷 사진</button><button id="photoMode">🎞️ 촬영 모드</button><button id="album">🖼️ 앨범</button><button id="installHelp">📱 설치 안내</button><button id="account">🔐 계정</button><button id="online">👥 함께하기</button><button id="chatToggle">💬 채팅</button><button id="journal">📖 탐험 기록</button><button id="quality">📱 화질</button><button id="diagnostics">🧪 상태 점검</button><button id="testkit">🛠️ 테스트</button><button id="coordinateTravel" type="button">📍 좌표 이동 테스트</button><button id="help">⚙️ 안내</button></div><div id="liveCompass" aria-label="나침반"><span id="compassRose" class="compassRose">↑ N</span><span id="compassCoords" class="compassNumbers">X 0 · Z 0</span></div><div class="status" id="status"></div><div class="region" id="region"></div><div id="joystick" aria-label="손가락으로 이동하는 조이스틱"><div id="stick"></div></div><div id="viewHint">👆 화면을 밀어 360° 둘러보기</div><div class="pad"><button data-key="ArrowUp">▲</button><button data-key="ArrowLeft">◀</button><button data-key="ArrowDown">▼</button><button data-key="ArrowRight">▶</button></div><div class="actions"><button id="resetView" aria-label="시점 초기화">🎯 시점</button><button id="zoomIn" aria-label="카메라 확대">＋</button><button id="zoomOut" aria-label="카메라 축소">－</button><button id="look">👀 하늘</button><button id="wave">👋 인사</button><button id="autoWalk" type="button" aria-pressed="false">🚶 자동</button></div></div><div id="dialog"><div id="panel"><button id="close" style="float:right">✕</button><h2 id="heading"></h2><div id="content"></div></div></div><div id="message"></div><section id="chatPanel"><strong>💬 여행자 채팅</strong><small>같은 지역의 접속자에게만 표시 · 메시지는 저장되지 않아요</small><div id="chatLog" role="log" aria-live="polite"></div><form id="chatForm"><input id="chatInput" maxlength="120" placeholder="메시지 입력 (120자 이내)" autocomplete="off"><button id="chatSend" type="submit">전송</button></form></section><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script><script type="module">
 import * as THREE from 'three';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
 // v80: standalone authored GLB art asset, kept separate from movement/gameplay logic.
@@ -1523,6 +1530,22 @@ function placeIcelandWildlife(){
  const rabbit=buildRabbit();rabbit.position.set(82,.02,-74);rabbit.rotation.y=-2.2;icelandWildlifeGroup.add(rabbit);
 }
 placeIcelandWildlife();
+// v125: a small, time-sliced draw-distance budget for dense forests on mobile.
+// Preserves nearby density and never removes trees or changes their coordinates.
+let lastForestCull=0;
+function updateForestDrawDistance(now){
+ if(now-lastForestCull<850)return;
+ lastForestCull=now;
+ const px=player.position.x,pz=player.position.z;
+ const radius=current===0?215:175, radiusSquared=radius*radius;
+ for(const group of [basecampForestGroup,importedSnowForest]){
+  if(!group.visible)continue;
+  for(const pine of group.children){
+   const dx=pine.position.x-px,dz=pine.position.z-pz;
+   pine.visible=dx*dx+dz*dz<radiusSquared;
+  }
+ }
+}
 // v88: Load the user's actual snow-covered pine mesh. The background object
 // inside the Blender scene is excluded, leaving the tree and its snow.
 const importedPineLoader=new GLTFLoader();
@@ -2860,7 +2883,7 @@ function fieldGuide(){
  }).join('');
  modal('📚 탐험 도감 · '+completed+'/12','<p>각 지역의 숨겨진 장소에 가까이 다가가면 자동으로 기록돼요. 발견 기록은 이 브라우저에 저장돼요.</p>'+groups+'<p>📸 포토존 발견: '+unlockedPhotoZones.size+'/12 · 포토존은 랜드마크 발견과 관계없이 독립적으로 탐험할 수 있어요. 아치 근처에 가면 안내가 나타나요.</p>');
 }
-document.getElementById('compass').style.display='none';
+// v125: restore the compass button; its live needle is always available.
 const guideButton=document.createElement('button');guideButton.id='fieldGuide';guideButton.textContent='📚 탐험 도감';
 // Field-guide collectible UI removed.
 // v47: photo zones are independent destinations, not gated by landmark discovery.
@@ -3056,16 +3079,25 @@ function checkDiscovery(){
   // Observation notices removed by request.
  }
 }
+// North is negative Z. The compass needle rotates against the camera's horizontal angle.
+const liveCompass=document.getElementById('liveCompass');
+const compassRose=document.getElementById('compassRose');
+const compassCoords=document.getElementById('compassCoords');
+let compassVisible=true;
 document.getElementById('compass').onclick=()=>{
- if(!active()[current]){notice('🌙 지금 이 지역에는 오로라가 없어요. 다른 지역을 확인해 보세요.');return}
- if(isAtAurora()){notice('🌌 바로 여기예요! 하늘을 올려다보세요.');return}
- const spot=observationPoint(current,cycle());const dx=spot.x-player.position.x,dz=spot.z-player.position.z;
- const ns=dz<0?'북':'남',ew=dx<0?'서':'동';
- const direction=Math.abs(dx)>Math.abs(dz)*1.8?ew:Math.abs(dz)>Math.abs(dx)*1.8?ns:ns+ew;
- const distance=Math.hypot(dx,dz);
- const hint=distance>90?'아직 멀리 있어요':distance>45?'먼 하늘에 잔상이 보일 수도 있어요':'잔상이 점점 선명해져요';
- notice('🧭 '+direction+'쪽 하늘이 희미하게 빛나요. '+hint);
-};// v51: navigable local map. World coordinates are -130..130 on both axes.
+ compassVisible=!compassVisible;liveCompass.style.display=compassVisible?'':'none';
+ notice(compassVisible?'🧭 나침반 표시 켬':'🧭 나침반 숨김');
+};
+let lastCompassRender=0;
+function updateLiveCompass(now){
+ if(!compassVisible||now-lastCompassRender<150)return;
+ lastCompassRender=now;
+ // Needle rotates in screen space: North is straight ahead when the camera faces -Z.
+ const deg=(orbitYaw*180/Math.PI+360)%360;
+ compassRose.style.transform='rotate('+deg.toFixed(0)+'deg)';
+ compassCoords.textContent='X '+Math.round(player.position.x)+' · Z '+Math.round(player.position.z);
+}
+// v51: navigable local map. World coordinates are -130..130 on both axes.
 // The aurora position is intentionally never plotted: discovery remains exploratory.
 // v52: short-lived in-memory breadcrumb trail, reset on region travel.
 // No location data leaves the device or is written to persistent storage.
@@ -3200,33 +3232,40 @@ const quickTravelChoices={
 function quickTravelTo(destination){
  const spot=quickTravelChoices[destination];
  if(!spot)return;
- if(current!==0){
-  current=0;
-  try{localStorage.setItem('aurura-region-v1','0')}catch(_){ }
-  build(0);
-  for(const entry of others.values())entry.group.visible=entry.region===0;
+ movePlayerToCoordinate(spot.x,spot.z,0,spot.name,spot.yaw);
+}
+function movePlayerToCoordinate(x,z,region=current,label='선택한 좌표',yaw=orbitYaw){
+ if(!Number.isFinite(x)||!Number.isFinite(z)){notice('좌표 숫자를 확인해 줘!');return;}
+ const bound=region===0?385:125;
+ if(Math.abs(x)>bound||Math.abs(z)>bound){notice('이 지역의 좌표 범위를 벗어났어!');return;}
+ if(current!==region){
+  current=region;
+  try{localStorage.setItem('aurura-region-v1',String(region))}catch(_){ }
+  build(region);
+  for(const entry of others.values())entry.group.visible=entry.region===region;
  }
  setAutoWalking(false);
  resetJoystick();
  for(const key of Object.keys(keys))keys[key]=false;
  velocity.set(0,0);
- player.position.set(spot.x,0,spot.z);
- player.rotation.set(0,spot.yaw,0);
- orbitYaw=spot.yaw;
+ player.position.set(x,0,z);
+ player.rotation.set(0,yaw,0);
+ orbitYaw=yaw;
  orbitPitch=-.05;
  cameraReady=false;
  explorationTrail.length=0;
  recordExplorationTrail();
- updateIcelandSnowTiles(spot.x,spot.z);
+ if(region===0)updateIcelandSnowTiles(x,z);
  // Let the normal per-frame terrain resolver put the avatar on the snow or mountain mesh.
- const surface=icelandSnowHeight(spot.x,spot.z);
- const mountain=climbableMountainHeight(spot.x,spot.z);
- const plain=plainGroundHeight(spot.x,spot.z);
- player.position.y=Math.max(0,surface??0,mountain??0,plain??0)+.12;
+ const surface=region===0?icelandSnowHeight(x,z):null;
+ const mountain=(region===0||region===2)?climbableMountainHeight(x,z):null;
+ const plain=plainGroundHeight(x,z);
+ const reference=region===0?referenceWaterHeight(x,z):null;
+ player.position.y=Math.max(0,surface??0,mountain??0,plain??0,reference??0)+.12;
  document.getElementById('dialog').classList.remove('show');
  if(document.body.classList.contains('tools-expanded'))setToolsExpanded(false);
  sendPosition(true);
- notice(spot.name+' 근처로 이동했어!');
+ notice(label+' 이동 완료! (X '+Math.round(x)+' / Z '+Math.round(z)+')');
 }
 document.getElementById('teleport').onclick=()=>modal('🚀 어디로 갈까?',
  '<p style="font-size:12px;opacity:.85">설산은 등반하기 좋은 눈밭에서 시작해.</p>'+
@@ -3236,6 +3275,41 @@ document.getElementById('content').addEventListener('click',event=>{
  const button=event.target.closest('[data-quicktravel]');
  if(button)quickTravelTo(button.dataset.quicktravel);
 });
+// v125: coordinate travel test lives in More, with handy animal-coordinate presets.
+document.getElementById('coordinateTravel').onclick=()=>{
+ const x=Math.round(player.position.x),z=Math.round(player.position.z);
+ modal('📍 좌표 이동 테스트',
+  '<p style="font-size:12px;opacity:.86">현재 위치: <b>X '+x+' / Z '+z+'</b> · 아이슬란드 범위 -385 ~ 385</p>'+ 
+  '<p style="font-size:12px;opacity:.83">X는 동(+)/서(-), Z는 남(+)/북(-)이야. 숫자를 입력하고 이동 버튼을 눌러 봐.</p>'+ 
+  '<div style="display:flex;gap:10px;align-items:end;margin:12px 0">'+
+   '<label style="flex:1;min-width:0">X 좌표<input id="coordX" type="number" step="1" value="'+x+'" style="width:100%;min-width:0;box-sizing:border-box;padding:12px;background:#19264a;color:white;border:1px solid #ffffff88;border-radius:9px;font-size:18px"></label>'+ 
+   '<label style="flex:1;min-width:0">Z 좌표<input id="coordZ" type="number" step="1" value="'+z+'" style="width:100%;min-width:0;box-sizing:border-box;padding:12px;background:#19264a;color:white;border:1px solid #ffffff88;border-radius:9px;font-size:18px"></label></div>'+ 
+  '<button type="button" data-coordinate-go="1" style="width:100%;padding:13px">🚀 입력 좌표로 이동</button>'+ 
+  '<p style="margin:15px 0 8px;font-size:12px">🐾 동물 찾기 바로가기 (아이슬란드)</p>'+ 
+  '<div style="display:flex;gap:8px"><button data-coordinate-preset="fox" style="flex:1;padding:12px">🦊 여우 좌표</button><button data-coordinate-preset="rabbit" style="flex:1;padding:12px">🐰 토끼 좌표</button></div>'+ 
+  '<p style="font-size:11px;opacity:.75">동물 좌표 버튼은 값을 입력해 줘. 이동하려면 위의 🚀 버튼을 누르면 돼.</p>');
+};
+document.getElementById('content').addEventListener('input',event=>{
+ if(event.target.id==='coordX'||event.target.id==='coordZ'){const x=document.getElementById('coordX');if(x)delete x.dataset.animalTarget;}
+});
+document.getElementById('content').addEventListener('click',event=>{
+ const preset=event.target.closest('[data-coordinate-preset]');
+ if(preset){
+  const animal=preset.dataset.coordinatePreset;
+  document.getElementById('coordX').value=animal==='fox'?-116:82;
+  document.getElementById('coordZ').value=animal==='fox'?72:-74;
+  document.getElementById('coordX').dataset.animalTarget='iceland';
+  notice(animal==='fox'?'🦊 여우 좌표 입력 완료':'🐰 토끼 좌표 입력 완료');
+  return;
+ }
+ if(!event.target.closest('[data-coordinate-go]'))return;
+ const xInput=document.getElementById('coordX'),zInput=document.getElementById('coordZ');
+ if(!xInput||!zInput||xInput.value.trim()===''||zInput.value.trim()==='')return notice('X, Z 좌표를 둘 다 입력해 줘!');
+ const x=Number(xInput.value),z=Number(zInput.value);
+ const region=xInput.dataset.animalTarget==='iceland'?0:current;
+ movePlayerToCoordinate(x,z,region,'좌표 테스트');
+});
+
 
 setInterval(()=>{if(document.getElementById('dialog').classList.contains('show')&&document.getElementById('navigationCanvas'))renderNavigationMap()},300);
 document.getElementById('content').onclick=e=>{let b=e.target.closest('[data-region]');if(b){current=Number(b.dataset.region);if(current!==0&&current!==2)return;try{localStorage.setItem('aurura-region-v1',String(current))}catch(e){}build(current);spawnPlayerAtBasecamp(current);for(const k in keys)keys[k]=false;for(const entry of others.values())entry.group.visible=entry.region===current;sendPosition(true);document.getElementById('dialog').classList.remove('show')}};// Photo album is private to this browser and limited to 8 small thumbnails.
@@ -3333,7 +3407,7 @@ const dogTarget=new THREE.Vector3();
 const cameraCenter=new THREE.Vector3();
 const cameraDesired=new THREE.Vector3();
 let cameraReady=false;
-let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden||webglPaused){last=now;return;}let dt=Math.min((now-last)/1000,.04);last=now;time+=dt;frameCount++;frameElapsed+=dt;if(frameElapsed>=2){fpsEstimate=Math.round(frameCount/frameElapsed);frameCount=0;frameElapsed=0;}let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a))+joy.x;
+let lastAuroraGeometry=0;const velocity=new THREE.Vector2();let walkingPhase=0;function frame(now){requestAnimationFrame(frame);if(document.hidden||webglPaused){last=now;return;}let dt=Math.min((now-last)/1000,.07);last=now;time+=dt;updateLiveCompass(now);updateForestDrawDistance(now);frameCount++;frameElapsed+=dt;if(frameElapsed>=2){fpsEstimate=Math.round(frameCount/frameElapsed);frameCount=0;frameElapsed=0;}let dx=Number(!!(keys.ArrowRight||keys.d))-Number(!!(keys.ArrowLeft||keys.a))+joy.x;
  let dz=Number(!!(keys.ArrowDown||keys.s))-Number(!!(keys.ArrowUp||keys.w))+joy.y;
  if(autoWalking){dx=0;dz=-1;}
  const len=Math.hypot(dx,dz);if(len>1){dx/=len;dz/=len}
