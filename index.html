@@ -602,7 +602,7 @@ for(let n=0;n<snowPos.count;n++){
 }
 snowGeo.computeVertexNormals();ground.geometry.dispose();ground.geometry=snowGeo;
 const originalIcelandGroundGeometry=ground.geometry;
-const flatCanadaGroundGeometry=new THREE.PlaneGeometry(900,900);
+const flatCanadaGroundGeometry=new THREE.PlaneGeometry(900,900); // flat walkable Canadian snow beneath cleared paved zones
 const baseGroundRay=new THREE.Raycaster();
 function plainGroundHeight(x,z){
  baseGroundRay.set(new THREE.Vector3(x,120,z),new THREE.Vector3(0,-1,0));
@@ -850,7 +850,7 @@ document.body.appendChild(nightSkyIndicator);
 function setRegionAtmosphere(region){
  const a=regionAtmospheres[region];
  reconstructedSkySphere.visible=region!==2;
- scene.background=new THREE.Color(region===2?0x263c50:(region===0?0x030913:a.sky));
+ scene.background=new THREE.Color(region===2?0x000000:(region===0?0x030913:a.sky));
  scene.fog.color.setHex(a.fog);scene.fog.density=region===0?.0012:.0055;
  snowfallMaterial.opacity=region===2?0:a.snow;
 }
@@ -923,7 +923,7 @@ function disposeRegion(){
 const baseCampSpawnPoints=[
  {cabin:{x:0,z:-17,rot:0,scale:1.65},spawn:{x:0,z:-3,rot:Math.PI,camYaw:0}},
  null,
- {cabin:{x:0,z:-17,rot:0,scale:1.65},spawn:{x:0,z:105,rot:Math.PI,camYaw:0}},
+ {cabin:{x:0,z:-17,rot:0,scale:1.65},spawn:{x:-93,z:96,rot:Math.PI,camYaw:-Math.PI/2}},
  null
 ];
 let activeSnowyBasecamp=null;
@@ -1756,6 +1756,7 @@ importedPineLoader.load('./snowy-tree.glb',gltf=>{
  importedPineSource=source;
  importedPineCenterOffset=new THREE.Vector3(-center.x,-bounds.min.y,-center.z);
  importedPineBaseHeight=baseHeight;
+ if(typeof canadaAddIcelandTrees==='function'&&current===2)canadaAddIcelandTrees();
  const placements=[];
  const pineRand=random(18375);
  // Natural smaller copses along the walk toward the frozen lake, not at the cabin door.
@@ -1868,8 +1869,8 @@ const canadaMaterials={
  red:new THREE.MeshStandardMaterial({color:0xb94a57,roughness:.6})
 };
 const canadaProps=[
- {file:'canada_chalet.glb',height:12,positions:[[-54,-50,.12,1.25],[-87,-42,-.12,1.0],[-55,-91,.2,.95],[-91,-84,1.0,.82]]},
- {file:'glamping_30.glb',height:7.5,positions:[[47,48,-.1,1.0],[76,48,.25,1.0],[47,82,.05,1.0]]},
+ {file:'canada_chalet.glb',height:11.8,positions:[[-47,-57,.12,1.10],[-68,-53,-.12,1.0],[-89,-51,.2,1.02],[-48,-83,.07,.99],[-69,-80,.25,.96],[-90,-79,-.16,.94],[-77,-105,.15,.9],[-43,-105,-.1,.9],[-50,-10,.2,.85],[-77,-16,-.15,.88]]},
+ {file:'glamping_30.glb',height:7.5,positions:[[43,43,-.1,1.0],[65,44,.25,1.0],[44,69,.05,1.0],[68,70,-.15,.94]]},
  {file:'basic_observatorytelescope.glb',height:3.5,positions:[[98,-113,.0,1.0]]},
  {file:'wooden_walkway_lowpoly.glb',height:3.3,positions:[[79,-92,Math.PI/2,1.0]]},
  {file:'cartoon_boardwalk_ramp.glb',height:1.1,positions:[[72,-80,Math.PI/2,1.0]]},
@@ -1879,15 +1880,23 @@ const canadaProps=[
  {file:'canada_pines_selected.glb',kind:'pines',height:10}
 ];
 const canadaTreePositions=[
- [-113,115],[-95,115],[-77,115],[-59,113],[-39,115],[-21,115],[-6,117],
- [19,123],[40,123],[61,121],[82,118],[104,109],[120,92],[120,70],[120,48],[119,26],
- [-122,82],[-122,57],[-124,31],[-123,8],[-123,-16],[-123,-44],[-119,-68],
- [-119,-97],[-114,-121],[-100,-140],[-77,-143],[-52,-146],[-31,-150],[4,-148],
- [24,-146],[46,-143],[65,-144],[96,-140],[120,-131],
- [-33,102],[-23,89],[-103,14],[-100,-9],[-108,48],[-25,-115],
- [20,-113],[6,-126],[37,-127],[119,-15],[121,-40],[118,-64],
- [8,100],[-31,-73],[106,23],[103,94],[30,-39],[-31,27]
+ [-128,121],[-113,124],[-98,125],[-85,126],[-68,129],[-49,130],[-32,128],[-17,130],[7,132],[24,132],[42,130],[61,128],[83,128],[103,119],[117,108],[128,89],[130,69],[131,50],[131,29],[133,9],
+ [-136,91],[-135,72],[-136,49],[-136,30],[-133,9],[-135,-10],[-136,-31],[-137,-51],[-135,-74],[-135,-96],[-130,-116],[-120,-133],[-106,-146],[-90,-156],[-70,-157],[-48,-161],[-27,-160],[-7,-158],[13,-158],[34,-158],[55,-157],[77,-154],[99,-150],[120,-141],[132,-127],[138,-105],[138,-84],[139,-63],[138,-43],[139,-23],
+ [-108,107],[-94,102],[-81,104],[-66,104],[-52,103],[-40,101],[-25,105],[16,104],[30,111],[50,106],[71,103],[92,105],
+ [-115,-4],[-112,19],[-110,-105],[-111,-124],[-98,-125],[-81,-128],[-65,-130],[-47,-129],[-29,-134],[-12,-131],
+ [-106,70],[-110,52],[-112,-22],[-114,-66],[-115,-88],[-30,-121],[-26,-96],[-23,-61],[-24,-40],[-26,-7],
+ [19,-120],[33,-129],[57,-119],[69,-112],[87,-100],[118,-77],[119,-54],[125,-7],[126,15],[107,10],[103,83],[98,65],[99,46],[17,85],[28,98],[85,93],[-105,-37],[-36,12],[35,-44],[-29,38],[-36,60],[-96,38],[-16,-89]
 ];
+// Keep paths, the square, cabins, glass domes and the lake clear enough to walk around.
+function canadaCanPlant(x,z){
+ if(x>-14&&x<15&&z>-10&&z<126)return false;
+ if(Math.hypot(x,-20-z)<27)return false;
+ if(x>-105&&x<-29&&z>-118&&z<-40)return false;
+ if(x>31&&x<82&&z>30&&z<91)return false;
+ if(Math.hypot((x-103)/1.2,(z+130)/.85)<51)return false;
+ if(x>-89&&x<-36&&z>60&&z<103)return false;
+ return true;
+}
 function canadaAttach(source,x,z,desiredHeight,yaw=0,sizeMultiplier=1,originGround=true){
  source.updateMatrixWorld(true);
  const bound=new THREE.Box3().setFromObject(source);
@@ -1904,14 +1913,33 @@ function canadaAttach(source,x,z,desiredHeight,yaw=0,sizeMultiplier=1,originGrou
  canadaVillage.add(root);return root;
 }
 function canadaStageGround(){
- // Flat grey-taupe base floor, no imported snow surface and no Iceland snow textures.
- const road=new THREE.Mesh(new THREE.PlaneGeometry(20,175),canadaMaterials.path);road.rotation.x=-Math.PI/2;road.position.set(0,.021,15);canadaVillage.add(road);
- const plaza=new THREE.Mesh(new THREE.CylinderGeometry(24,24,.075,48),canadaMaterials.plaza);plaza.position.set(0,.07,-20);canadaVillage.add(plaza);
- const lake=new THREE.Mesh(new THREE.CircleGeometry(48,64),canadaMaterials.lake);lake.rotation.x=-Math.PI/2;lake.scale.set(1.2,.85,1);lake.position.set(103,.025,-130);canadaVillage.add(lake);
- const shore=new THREE.Mesh(new THREE.TorusGeometry(45,1.4,6,64),new THREE.MeshStandardMaterial({color:0xc7c4b5,roughness:1}));shore.rotation.x=Math.PI/2;shore.scale.set(1.2,.86,1);shore.position.set(103,.05,-130);canadaVillage.add(shore);
- // Keep a clear walkway from basecamp entrance to plaza and lodging areas.
- for(const [x,z,w,h] of [[-50,-65,65,9],[45,55,63,8],[65,-65,9,85]]){
-  const path=new THREE.Mesh(new THREE.PlaneGeometry(w,h),canadaMaterials.path);path.rotation.x=-Math.PI/2;path.position.set(x,.028,z);canadaVillage.add(path);
+ // Paved surfaces float just 2 cm over the level snow and have no underlying snowbanks.
+ const flatPath=(x,z,w,h,y=.035)=>{const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,h),canadaMaterials.path);mesh.rotation.x=-Math.PI/2;mesh.position.set(x,y,z);canadaVillage.add(mesh);return mesh;};
+ // Arrival from the LEFT, as in the approved illustrated village aerial view.
+ flatPath(-57,95,115,13);flatPath(-12,57,19,89);flatPath(0,-2,20,48);
+ flatPath(-62,-33,67,9);flatPath(-65,-92,11,49);flatPath(-57,-114,78,9);
+ flatPath(39,31,72,8);flatPath(67,60,9,65);flatPath(45,-64,80,8);
+ flatPath(72,-94,11,68);
+ const plaza=new THREE.Mesh(new THREE.CylinderGeometry(25,25,.045,52),canadaMaterials.plaza);plaza.position.set(0,.07,-20);canadaVillage.add(plaza);
+ // Iridescent lakeshore: soft five-colour luminous gradients instead of flat blue.
+ const c=document.createElement('canvas');c.width=512;c.height=512;const ctx=c.getContext('2d');
+ if(ctx){
+  const bg=ctx.createLinearGradient(0,0,512,512);
+  [[0,'#12b8bb'],[.23,'#7558c6'],[.45,'#3cc58c'],[.69,'#89eadd'],[.86,'#b54b74'],[1,'#0e858b']].forEach(([t,v])=>bg.addColorStop(t,v));
+  ctx.fillStyle=bg;ctx.fillRect(0,0,512,512);
+  [[110,105,'#7e6cdd'],[310,100,'#74f5d2'],[425,250,'#f15d80'],[230,350,'#29cba4'],[60,380,'#32d8de']].forEach(([x,y,color])=>{const g=ctx.createRadialGradient(x,y,0,x,y,160);g.addColorStop(0,color+'dd');g.addColorStop(1,color+'00');ctx.fillStyle=g;ctx.fillRect(0,0,512,512);});
+  for(let k=0;k<75;k++){const y=k*7+4;ctx.strokeStyle=`rgba(228,255,255,${.06+.08*Math.sin(k*3.2)**2})`;ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(8+(k*67)%180,y);ctx.lineTo(340+(k*29)%160,y+1);ctx.stroke();}
+ }
+ const lakeTex=new THREE.CanvasTexture(c);lakeTex.colorSpace=THREE.SRGBColorSpace;
+ const lakeMat=new THREE.MeshBasicMaterial({map:lakeTex,side:THREE.DoubleSide,transparent:true,opacity:.94,depthWrite:false});
+ const lake=new THREE.Mesh(new THREE.CircleGeometry(48,64),lakeMat);lake.rotation.x=-Math.PI/2;lake.scale.set(1.2,.85,1);lake.position.set(103,.045,-130);canadaVillage.add(lake);
+ const shore=new THREE.Mesh(new THREE.TorusGeometry(47.8,1.05,8,72),new THREE.MeshStandardMaterial({color:0xe2f3f5,roughness:.85}));shore.rotation.x=Math.PI/2;shore.scale.set(1.2,.86,1);shore.position.set(103,.055,-130);canadaVillage.add(shore);
+ // Shoreline coloured light spill: subtly illuminate the packed snow at the rim.
+ const glowColours=[0x29e8e4,0x9671ff,0x5ff8a3,0x9ffff0,0xff658e];
+ for(let j=0;j<5;j++){
+  const a=j*Math.PI*2/5-.4;
+  const lamp=new THREE.PointLight(glowColours[j],1.3,37,2);
+  lamp.position.set(103+Math.cos(a)*50,3,-130+Math.sin(a)*38);canadaVillage.add(lamp);
  }
 }
 function canadaChristmasTree(){
@@ -1940,7 +1968,46 @@ function canadaChristmasTree(){
   bench.position.set(Math.cos(a)*r,.52,Math.sin(a)*r);bench.rotation.y=-a;g.add(bench);
  }
 }
-function canadaVillageStatic(){canadaStageGround();canadaChristmasTree();}
+// v137 temporary placement markers. Delete just the canadaTestSigns group for final release.
+const canadaTestSigns=new THREE.Group();canadaVillage.add(canadaTestSigns);
+const canadaSites=[
+ ['⬅ 마을 입구',-101,96],['웰컴센터',-62,82],['샬레구역',-79,-35],
+ ['카페',-42,2],['기념품샵',-49,29],['마을광장',0,-20],
+ ['공용화로존',-28,-14],['산책길',44,-62],['호숫가',87,-121],
+ ['관측대',99,-105],['돔숙소',58,91]
+];
+function canadaPlaceTestSign(label,x,z){
+ const g=new THREE.Group();g.position.set(x,.06,z);canadaTestSigns.add(g);
+ const post=new THREE.Mesh(new THREE.CylinderGeometry(.14,.2,3.4,8),canadaMaterials.wood);post.position.y=1.7;g.add(post);
+ const cap=new THREE.Mesh(new THREE.SphereGeometry(.24,8,8),canadaMaterials.gold);cap.position.y=3.45;g.add(cap);
+ const cv=document.createElement('canvas');cv.width=512;cv.height=160;
+ const ctx=cv.getContext('2d');ctx.fillStyle='rgba(29,55,60,.96)';ctx.fillRect(7,7,498,146);
+ ctx.strokeStyle='#e1c98f';ctx.lineWidth=6;ctx.strokeRect(8,8,496,144);
+ ctx.fillStyle='#fff8eb';ctx.font='bold 47px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,256,82,472);
+ const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;
+ const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));sprite.position.y=4.25;sprite.scale.set(9.5,3,1);sprite.renderOrder=990;g.add(sprite);
+}
+function canadaEntrance(){
+ // Large, unmistakable gate on the left-hand arrival road.
+ const g=new THREE.Group();g.position.set(-102,.08,95);canadaVillage.add(g);
+ for(const x of [-8,8]){
+  const post=new THREE.Mesh(new THREE.CylinderGeometry(.56,.65,7.2,8),canadaMaterials.wood);post.position.set(x,3.6,0);g.add(post);
+  const glow=new THREE.Mesh(new THREE.SphereGeometry(.48,10,8),canadaMaterials.gold);glow.position.set(x,7.45,0);g.add(glow);
+ }
+ const beam=new THREE.Mesh(new THREE.BoxGeometry(18,1.4,1.4),canadaMaterials.wood);beam.position.y=7.2;g.add(beam);
+ const roof=new THREE.Mesh(new THREE.ConeGeometry(10.5,2.4,4),new THREE.MeshStandardMaterial({color:0xdde9f8,roughness:.9}));roof.rotation.y=Math.PI/4;roof.scale.z=.22;roof.position.y=8.8;g.add(roof);
+ canadaPlaceTestSign('캐나다 오로라 마을 입구',-104,87);
+}
+function canadaCommunalFire(){
+ const g=new THREE.Group();g.position.set(-28,.1,-14);canadaVillage.add(g);
+ const stone=new THREE.MeshStandardMaterial({color:0x7a848b,roughness:1});
+ for(let i=0;i<12;i++){const a=i*Math.PI/6;const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.68,0),stone);rock.position.set(Math.cos(a)*3,.45,Math.sin(a)*3);g.add(rock);}
+ for(let i=0;i<5;i++){const a=i*Math.PI*2/5;const log=new THREE.Mesh(new THREE.CylinderGeometry(.25,.33,3.4,8),canadaMaterials.wood);log.rotation.z=Math.PI/2;log.rotation.y=a;log.position.set(0,.65,0);g.add(log);}
+ const flame=new THREE.Mesh(new THREE.ConeGeometry(1.55,4.3,9),new THREE.MeshBasicMaterial({color:0xffb55b,transparent:true,opacity:.91}));flame.position.y=2.6;g.add(flame);
+ const ember=new THREE.PointLight(0xff9759,2.5,24);ember.position.y=3.2;g.add(ember);
+}
+function canadaVillageStatic(){canadaStageGround();canadaChristmasTree();canadaEntrance();canadaCommunalFire();canadaSites.forEach(([label,x,z])=>canadaPlaceTestSign(label,x,z));}
+
 function canadaPrepareAsset(spec,gltf){
  if(spec.kind==='pines'){
   // Four LOD2 varieties extracted from the user-supplied 31 MB tree pack.
@@ -1951,6 +2018,7 @@ function canadaPrepareAsset(spec,gltf){
    if(g.children.length)groups.push(g);
   }
   canadaTreePositions.forEach(([x,z],i)=>{
+   if(!canadaCanPlant(x,z))return;
    const source=groups[i%groups.length];if(!source)return;
    canadaAttach(source,x,z,8+(i%5)*1.1,i*2.39,.87+(i%4)*.09);
   });return;
@@ -1979,6 +2047,24 @@ function canadaPrepareAsset(spec,gltf){
  }
  spec.positions.forEach(([x,z,yaw,scale])=>canadaAttach(gltf.scene,x,z,spec.height,yaw,scale));
 }
+function canadaAddIcelandTrees(){
+ if(canadaVillage.userData.icelandTreesAdded||!importedPineSource)return;
+ canadaVillage.userData.icelandTreesAdded=true;
+ const rnd=random(1372026);
+ let count=0;
+ for(let tries=0;tries<900&&count<145;tries++){
+  const x=-150+rnd()*305,z=-175+rnd()*320;
+  if(!canadaCanPlant(x,z))continue;
+  // Dense forest in the outer neighbourhood, lighter within village pathways.
+  if(x>-104&&x<105&&z>-110&&z<105&&rnd()<.67)continue;
+  const t=importedPineSource.clone(true);
+  t.position.copy(importedPineCenterOffset);
+  const wrap=new THREE.Group();wrap.position.set(x,.025,z);
+  wrap.rotation.y=rnd()*Math.PI*2;wrap.scale.setScalar((5.1+rnd()*5.6)/importedPineBaseHeight);
+  t.traverse(o=>{if(o.isMesh)o.castShadow=false;});wrap.add(t);canadaVillage.add(wrap);count++;
+ }
+ console.info('Canada v137 Iceland snow-covered evergreen trees:',count);
+}
 function canadaLoadAssets(){
  for(const spec of canadaProps){
   if(canadaRequested.has(spec.file))continue;
@@ -1994,6 +2080,7 @@ function buildCanadaVillage(){
  canadaVillage.visible=true;
  if(!canadaVillage.userData.built){canadaVillageStatic();canadaVillage.userData.built=true;}
  canadaLoadAssets();
+ canadaAddIcelandTrees();
 }
 
 function build(i){
@@ -2004,11 +2091,11 @@ function build(i){
  canadaVillage.visible=i===2;
  ground.geometry=(i===2?flatCanadaGroundGeometry:originalIcelandGroundGeometry);
  if(i===2){
-  ground.material=new THREE.MeshStandardMaterial({color:0xb9c9cd,roughness:1});ground.position.y=0;
-  snowfall.visible=false;
+  ground.material=new THREE.MeshStandardMaterial({map:snowGrain,color:0xf2f7ff,roughness:.97});ground.position.y=0;
+  snowfall.visible=true;
   placeImportedMountainRing(2); // clears the obsolete Canada mountain meshes
   buildCanadaVillage();
-  document.getElementById('region').textContent='🏘️ 캐나다 오로라 빌리지';
+  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v137';
   return;
  }
  snowfall.visible=true;
@@ -3919,7 +4006,7 @@ const checks=['게임 화면이 정상적으로 나타남','왼쪽 조이스틱�
 const panel=document.getElementById('testkitPanel'),items=document.getElementById('testkitChecks'),count=document.getElementById('testkitCount'),info=document.getElementById('testkitInfo');
 let state={};try{state=JSON.parse(localStorage.getItem('aurura-testkit-v37')||'{}')||{}}catch{}
 function persist(){try{localStorage.setItem('aurura-testkit-v37',JSON.stringify(state))}catch{}}
-function deviceInfo(){return ['버전: v135','브라우저: '+navigator.userAgent,'화면: '+innerWidth+' × '+innerHeight,'배율: '+(devicePixelRatio||1),'온라인: '+(navigator.onLine?'예':'아니오'),'HTTPS: '+(location.protocol==='https:'?'예':'아니오'),'홈 화면 실행: '+((matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'예':'아니오'),'WebGL: '+(document.createElement('canvas').getContext('webgl2')?'WebGL2':document.createElement('canvas').getContext('webgl')?'WebGL1':'미지원')].join('\n')}
+function deviceInfo(){return ['버전: v137','브라우저: '+navigator.userAgent,'화면: '+innerWidth+' × '+innerHeight,'배율: '+(devicePixelRatio||1),'온라인: '+(navigator.onLine?'예':'아니오'),'HTTPS: '+(location.protocol==='https:'?'예':'아니오'),'홈 화면 실행: '+((matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'예':'아니오'),'WebGL: '+(document.createElement('canvas').getContext('webgl2')?'WebGL2':document.createElement('canvas').getContext('webgl')?'WebGL1':'미지원')].join('\n')}
 function render(){items.replaceChildren();checks.forEach((name,i)=>{const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=!!state[i];input.addEventListener('change',()=>{state[i]=input.checked;persist();renderCount()});label.append(input,document.createTextNode(' '+name));items.append(label)});renderCount();info.textContent=deviceInfo()}
 function renderCount(){count.textContent='확인한 항목: '+checks.filter((_,i)=>state[i]).length+' / '+checks.length}
 function report(){return 'aurura game v130 중간 테스트\n'+deviceInfo()+'\n\n'+checks.map((c,i)=>(state[i]?'[확인] ':'[미확인] ')+c).join('\n')}
