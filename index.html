@@ -1626,8 +1626,7 @@ function buildRabbit(){
 // Shared low-detail models remain the same; pathing stays out of open water.
 const wildlifeColonies=[
  {name:'서쪽 숲 가족',x:-116,z:72,roam:170},
- {name:'동쪽 숲 가족',x:82,z:-74,roam:175},
- {name:'산장·온천 가족',x:17,z:-46,roam:160}
+ {name:'동쪽 숲 가족',x:82,z:-74,roam:175}
 ];
 const WILDLIFE_TEST_POINT={x:17,z:-53};
 const wildlifeWaypoints=[
@@ -1669,13 +1668,13 @@ function placeIcelandWildlife(){
  let id=0;
  for(let colony=0;colony<wildlifeColonies.length;colony++){
   const home=wildlifeColonies[colony];
-  for(const kind of ['fox','rabbit'])for(let j=0;j<4;j++){
+  for(const kind of ['fox','rabbit'])for(let j=0;j<3;j++){
    const angle=j*1.55+colony*.63+(kind==='rabbit'?.67:0);
    const radius=4.6+(j%2)*3.9+(kind==='rabbit'?2.1:0);
    let x=home.x+Math.cos(angle)*radius,z=home.z+Math.sin(angle)*radius;
    if(!wildlifeCanRoam(x,z)){x=home.x+(j-1.5)*2.2;z=home.z+(kind==='rabbit'?7:-7);}
    const parts=kind==='fox'?buildFox():buildRabbit();
-   const scale=(kind==='fox'?[1.75,1.38,1.3,1.06]:[1.8,1.5,1.32,1.12])[j];
+   const scale=(kind==='fox'?[1.75,1.38,1.1]:[1.8,1.5,1.18])[j];
    const yaw=(id*.89+.4)%(Math.PI*2);
    parts.g.scale.setScalar(scale);parts.g.position.set(x,0,z);parts.g.rotation.y=yaw;
    const height=wildlifeGroundHeight(x,z,false);parts.g.position.y=height;
@@ -1700,9 +1699,11 @@ function animateIcelandWildlife(dt,t){
   const toX=a.targetX-a.x,toZ=a.targetZ-a.z;
   if(a.targetTimer<=0||Math.hypot(toX,toZ)<9)wildlifePickDestination(a,t);
   const wanted=Math.atan2(a.targetX-a.x,a.targetZ-a.z);
-  a.targetYaw=wanted+.14*Math.sin(t*.49+a.id);
+  a.targetYaw=wanted;
+  // No oscillating heading: apply a strictly limited yaw change per frame.
   const turn=Math.atan2(Math.sin(a.targetYaw-a.yaw),Math.cos(a.targetYaw-a.yaw));
-  a.yaw+=turn*Math.min(1,dt*2.3);
+  const maxTurn=1.25*Math.min(dt,.05);
+  a.yaw+=THREE.MathUtils.clamp(turn,-maxTurn,maxTurn);
   a.parts.g.rotation.y=a.yaw;
   // Bound foxes and rabbits run, with natural varied strides and occasional sprints.
   const sprint=.80+.26*Math.pow(Math.sin(t*.48+a.id*.93),2);
@@ -1710,19 +1711,27 @@ function animateIcelandWildlife(dt,t){
   const nx=a.x+Math.sin(a.yaw)*speed*dt,nz=a.z+Math.cos(a.yaw)*speed*dt;
   if(wildlifeCanRoam(nx,nz)){a.x=nx;a.z=nz;}
   else{
+   // Never instantly rotate when meeting water or bounds. Choose a safe goal.
    a.targetTimer=0;
-   a.yaw+=Math.PI*.62;
+   a.targetX=a.homeX;a.targetZ=a.homeZ;
   }
   a.parts.g.position.x=a.x;a.parts.g.position.z=a.z;
   if(checkHeight){
    const h=wildlifeGroundHeight(a.x,a.z,playerDistance<160);
    a.lastHeight=THREE.MathUtils.lerp(a.lastHeight,h,.48);
   }
-  const rhythm=t*(a.kind==='rabbit'?11.6:13.8)+a.phase;
-  const bounce=a.kind==='rabbit'?Math.pow(Math.max(0,Math.sin(rhythm)),1.2)*.40:Math.abs(Math.sin(rhythm))*.13;
+  const rhythm=t*(a.kind==='rabbit'?8.6:9.8)+a.phase;
+  const bounce=a.kind==='rabbit'?Math.abs(Math.sin(rhythm))*.09:Math.abs(Math.sin(rhythm))*.075;
   a.parts.g.position.y=a.lastHeight+bounce;
   if(!a.parts.g.visible)continue;
-  for(let i=0;i<a.parts.legs.length;i++)a.parts.legs[i].rotation.z=Math.sin(rhythm+(i<2?0:Math.PI))*(a.kind==='rabbit'?.22:.37);
+  // Leg index is [rear-left, rear-right, front-left, front-right].
+  // Diagonal pairs step together, opposite pairs alternate. No spinning feet.
+  for(let i=0;i<a.parts.legs.length;i++){
+   const diagonal=(i===0||i===3)?0:Math.PI;
+   const stride=Math.sin(rhythm+diagonal);
+   a.parts.legs[i].rotation.z=stride*(a.kind==='rabbit'?.31:.42);
+   a.parts.legs[i].rotation.x=.07*Math.cos(rhythm+diagonal);
+  }
   if(a.parts.ears)for(let i=0;i<a.parts.ears.length;i++)a.parts.ears[i].rotation.x=Math.sin(rhythm*.48+i)*.12;
   if(a.parts.tail)a.parts.tail.rotation.y=Math.sin(rhythm*.38)*.24;
  }
@@ -1892,7 +1901,6 @@ const canadaProps=[
  {file:'basic_observatorytelescope.glb',height:3.5,positions:[[98,-113,.0,1.0]]},
  {file:'wooden_walkway_lowpoly.glb',height:3.3,positions:[[79,-92,Math.PI/2,1.0]]},
  {file:'cartoon_boardwalk_ramp.glb',height:1.1,positions:[[72,-80,Math.PI/2,1.0]]},
- {file:'canada_snow_road_light.glb',kind:'snowroad',height:1.20,positions:[[-123,95,Math.PI/2,1],[-108,95,Math.PI/2,1],[-93,95,Math.PI/2,1],[-78,95,Math.PI/2,1]]},
  {file:'various_low-poly_street_lights.glb',kind:'lamp',height:5.2,positions:[[-14,62,0,1],[-14,26,0,1],[-14,-23,0,1],[14,62,0,1],[14,26,0,1],[14,-23,0,1],[34,41,0,1],[89,-82,0,1],[-73,88,0,1],[-96,94,0,1]]},
  {file:'cartoon_wood_fence.glb',height:1.6,positions:[[27,33,0,1],[27,47,0,1],[27,61,0,1],[27,75,0,1],[92,31,0,1],[92,47,0,1],[92,63,0,1],[-29,-117,Math.PI/2,1],[-49,-117,Math.PI/2,1],[48,84,0,1],[62,84,0,1],[76,84,0,1],[90,84,0,1]]},
  {file:'low_poly_stylized_trees_pack_free.glb',kind:'stylizedTrees',height:8},
@@ -1935,7 +1943,8 @@ function canadaStageGround(){
  // Paved surfaces float just above the level snow and guide the player from the left entrance.
  const flatPath=(x,z,w,h,y=.035)=>{const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,h),canadaMaterials.path);mesh.rotation.x=-Math.PI/2;mesh.position.set(x,y,z);canadaVillage.add(mesh);return mesh;};
  // Arrival from the LEFT, then down through the village centre toward the lakeside district.
- flatPath(-66,95,132,13);flatPath(-12,57,19,89);flatPath(0,-2,20,48);
+ // No paved snow strip along the entrance; retain village interior pathways.
+ flatPath(-12,57,19,89);flatPath(0,-2,20,48);
  flatPath(-62,-33,67,9);flatPath(-65,-92,11,49);flatPath(-57,-114,78,9);
  flatPath(39,31,72,8);flatPath(67,60,9,65);flatPath(45,-64,80,8);
  flatPath(72,-94,11,68);
@@ -1944,17 +1953,27 @@ function canadaStageGround(){
  const c=document.createElement('canvas');c.width=512;c.height=512;const ctx=c.getContext('2d');
  if(ctx){
   const bg=ctx.createLinearGradient(0,0,512,512);
-  [[0,'#12b8bb'],[.23,'#7558c6'],[.45,'#3cc58c'],[.69,'#89eadd'],[.86,'#b54b74'],[1,'#0e858b']].forEach(([t,v])=>bg.addColorStop(t,v));
+  [[0,'#155b99'],[.23,'#167eaf'],[.45,'#2779ba'],[.69,'#51b4d2'],[.86,'#266c9f'],[1,'#124c80']].forEach(([t,v])=>bg.addColorStop(t,v));
   ctx.fillStyle=bg;ctx.fillRect(0,0,512,512);
-  [[110,105,'#7e6cdd'],[310,100,'#74f5d2'],[425,250,'#f15d80'],[230,350,'#29cba4'],[60,380,'#32d8de']].forEach(([x,y,color])=>{const g=ctx.createRadialGradient(x,y,0,x,y,160);g.addColorStop(0,color+'dd');g.addColorStop(1,color+'00');ctx.fillStyle=g;ctx.fillRect(0,0,512,512);});
+  [[110,105,'#469ed7'],[310,100,'#76c9e5'],[425,250,'#278bbf'],[230,350,'#3c9bc6'],[60,380,'#77c3e0']].forEach(([x,y,color])=>{const g=ctx.createRadialGradient(x,y,0,x,y,160);g.addColorStop(0,color+'dd');g.addColorStop(1,color+'00');ctx.fillStyle=g;ctx.fillRect(0,0,512,512);});
   for(let k=0;k<75;k++){const y=k*7+4;ctx.strokeStyle=`rgba(228,255,255,${.06+.08*Math.sin(k*3.2)**2})`;ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(8+(k*67)%180,y);ctx.lineTo(340+(k*29)%160,y+1);ctx.stroke();}
  }
  const lakeTex=new THREE.CanvasTexture(c);lakeTex.colorSpace=THREE.SRGBColorSpace;
  const lakeMat=new THREE.MeshBasicMaterial({map:lakeTex,side:THREE.DoubleSide,transparent:true,opacity:.94,depthWrite:false});
  const lake=new THREE.Mesh(new THREE.CircleGeometry(48,64),lakeMat);lake.rotation.x=-Math.PI/2;lake.scale.set(1.2,.85,1);lake.position.set(103,.045,-130);canadaVillage.add(lake);
- const shore=new THREE.Mesh(new THREE.TorusGeometry(47.8,1.05,8,72),new THREE.MeshStandardMaterial({color:0xe2f3f5,roughness:.85}));shore.rotation.x=Math.PI/2;shore.scale.set(1.2,.86,1);shore.position.set(103,.055,-130);canadaVillage.add(shore);
+ // Only scattered shoreline ice, leaving the blue middle clear.
+ const rimIceMaterial=new THREE.MeshStandardMaterial({color:0xccebf2,transparent:true,opacity:.67,roughness:.71,side:THREE.DoubleSide,depthWrite:false});
+ const frostMaterial=new THREE.MeshStandardMaterial({color:0xf0fbff,transparent:true,opacity:.38,roughness:.88,side:THREE.DoubleSide,depthWrite:false});
+ for(let k=0;k<9;k++){
+  const start=k*.71+.17,arc=.22+(k%3)*.09;
+  const geom=new THREE.RingGeometry(43.5+(k%3)*.7,47.4,12,1,start,arc);
+  const ice=new THREE.Mesh(geom,k%3===0?frostMaterial:rimIceMaterial);
+  ice.rotation.x=-Math.PI/2;ice.scale.set(1.2,.85,1);
+  ice.position.set(103,.064,-130);canadaVillage.add(ice);
+ }
+ const shore=new THREE.Mesh(new THREE.TorusGeometry(47.8,.68,6,72),new THREE.MeshStandardMaterial({color:0xd9eaf3,roughness:.87,transparent:true,opacity:.74}));shore.rotation.x=Math.PI/2;shore.scale.set(1.2,.86,1);shore.position.set(103,.055,-130);canadaVillage.add(shore);
  // Shoreline coloured light spill: subtly illuminate the packed snow at the rim.
- const glowColours=[0x29e8e4,0x9671ff,0x5ff8a3,0x9ffff0,0xff658e];
+ const glowColours=[0x5ab9df,0x7bbedb,0x51a6d7,0xa2d6e7,0x3b9ecb];
  for(let j=0;j<5;j++){
   const a=j*Math.PI*2/5-.4;
   const lamp=new THREE.PointLight(glowColours[j],1.3,37,2);
@@ -2150,7 +2169,7 @@ function build(i){
   snowfall.visible=true;
   placeImportedMountainRing(2); // clears the obsolete Canada mountain meshes
   buildCanadaVillage();
-  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v143';
+  document.getElementById('region').textContent='🎄 캐나다 오로라 마을 v145';
   return;
  }
  snowfall.visible=true;
